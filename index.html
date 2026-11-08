@@ -493,10 +493,56 @@ button .ic{margin-right:.15em}
 /* Auf Akzent-Flächen (aktive Buttons) sind Icon-Details "ausgestanzt": Akzent = Hintergrund */
 .lang-grid button.active .ic,button.primary .ic,.story-cta .ic,.solve-btn:not(.solved) .ic,.color-popup-actions .primary .ic,.nav-home .ic,.nav-home .nav-ic{--ac:var(--brand-ui)}
 .lang-grid button.active .lang-badge,button.primary .lang-badge{background:var(--brand-button-text);color:var(--brand-ui)}
+
+/* Sterne im "Aufgabe geschafft"-Fenster: gleiche Optik wie überall (Stab-1-Farbe + Kontur) */
+.star-burst span.on{color:inherit}
+.star-burst span .ic{--sf:var(--line);--ss:var(--ol,#1c2230);--sh:transparent;opacity:1}
+.star-burst span:not(.on){opacity:.85}
+.star-burst span:not(.on) .ic{--sf:var(--panel2,#f6f1e6);--ss:color-mix(in srgb,var(--ol,#1c2230) 35%,transparent)}
+.star-burst span.on .ic{--sf:var(--brand-ui,#f5c82e);--ss:var(--ol,#1c2230);--sh:rgba(255,255,255,.55)}
+.star-burst span.on{text-shadow:none;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--brand-ui,#f5c82e) 55%,transparent))}
+
+/* Balken auch in nachgeordneten (zuvor verborgenen/freigespielten) Abschnitten */
+.story-chapter.lead::before,.story-chapter.lead.l::before,.story-chapter.lead.r::before{display:block;content:'';position:absolute;left:5px;right:auto;top:18px;bottom:18px;height:auto;width:7px;border-radius:6px;background:var(--chc,var(--line));border:1.5px solid var(--ol);box-sizing:border-box;pointer-events:none;z-index:0}
+.story-chapter.locked-chapter::before{opacity:.6}
+
+/* Sterne im Story-Bereich: Farbe des jeweiligen Bereichs (Kontur zur Lesbarkeit) */
+.story-chapter .ic-star:not(.x) .ic{--sf:var(--chc);--ss:var(--ol);--sh:rgba(255,255,255,.5)}
+.story-chapter .story-node:not(.done) .ic-star-o .ic path{fill:color-mix(in srgb,var(--chc) 55%,transparent);stroke:color-mix(in srgb,var(--chc) 70%,var(--ol));stroke-width:1.8}
+.story-chapter .story-node.done .ic-star .ic{--sf:currentColor;--ss:currentColor;--sh:transparent}
+
+/* "Aufgabe geschafft": Sterne in der Farbe des Bereichs der gelösten Aufgabe */
+.star-burst[style*="--chc"] span.on .ic{--sf:var(--chc);--ss:var(--ol,#1c2230)}
+.star-burst[style*="--chc"] span.on{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--chc) 55%,transparent))}
+.star-burst[style*="--chc"]>span:not(.on) .ic path:first-child{fill:color-mix(in srgb,var(--chc) 18%,var(--panel2,#f6f1e6))}
+
+/* ===== Kindermodus: Stickerheft ===== */
+body.kid #btnStory{display:none!important}
+.stamp-home{display:none!important}
+#btnStampHero{justify-content:center;gap:8px}
+.stamp{position:relative}
+.stamp-note{margin:0 0 10px;font-size:.92rem;font-weight:700;opacity:.8}
+.stamp-note.ok{color:#15803D;opacity:1}
+.stamp-ghost{position:absolute;inset:4%;display:block}
+.stamp-ghost svg{filter:brightness(0) opacity(.13)}
+.stamp-empty{position:absolute!important;left:0;right:0;bottom:2px;width:auto!important;aspect-ratio:auto!important;border:0!important;opacity:.6!important;font-size:.78rem!important;font-weight:800;display:block!important;text-align:center}
+.stamp.got svg{filter:none}
+.stamp-grid{gap:6px}
+.star-burst.stk-pop{flex-direction:column;align-items:center;gap:2px;font-size:inherit;margin-bottom:8px}
+.stk-big{width:150px;height:150px;margin:0 auto}
+.stk-big svg{width:100%;height:100%;overflow:visible}
+.stk-pop .stk-big{animation:stkPop .7s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stkPop{0%{transform:scale(.2) rotate(-25deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(0)}}
+.stk-new{font-weight:900;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.stk-name{font-weight:900;font-size:1.35rem;margin:0;text-align:center}
+.stk-card{text-align:center}
+.stk-card .stk-big{width:190px;height:190px;margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.stk-pop .stk-big{animation:none}}
+body.kid .stamp-home,body.kid #btnStamps{display:none!important}
 </style>
 <meta property="og:type" content="website"><meta property="og:title" content="AlignStix – The Logic Stick Puzzle"><meta property="og:description" content="Begleit-App zum 3D-gedruckten Logik-Stäbchenspiel AlignStix."><meta name="description" content="Begleit-App zum 3D-gedruckten Logik-Stäbchenspiel AlignStix."></head><body><div class="app">
 <header class="header" id="appHeader"><div class="brand-lockup" id="brandLockup" onclick="goHome()" role="button" tabindex="0"><div class="brand-mark" role="img" aria-label="AlignStix"><span class="align-word">ALIGN</span><span class="stix-word">STI</span><svg class="wm-x" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="wmGapHead" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><line x1="20" y1="80" x2="80" y2="20" stroke="#000" stroke-width="31" stroke-linecap="round"/></mask></defs><line class="wm-back" x1="20" y1="20" x2="80" y2="80" mask="url(#wmGapHead)"/><line class="wm-front" x1="20" y1="80" x2="80" y2="20"/></svg></div><div class="tag" id="appTag"></div></div><nav aria-label="Navigation" class="game-nav"><span class="header-stars" id="headerStars">⭐ <b>0</b></span><span class="header-stars" id="headerHelps">💡 <b>0</b></span><button class="nav-home" id="navHomeBtn" onclick="goHome()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 11.6 12 4.2l8.4 7.4V19a1.6 1.6 0 0 1-1.6 1.6h-3.9v-5.1H9.1v5.1H5.2A1.6 1.6 0 0 1 3.6 19z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navHomeText">Startseite</span></button><button class="nav-level" id="navLevelBtn" onclick="navBack()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 5 3.8 12l7 7v-4h9.4V9h-9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navLevelText">Zurück</span></button><button class="nav-back" id="navBackBtn" onclick="navBack()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 5 3.8 12l7 7v-4h9.4V9h-9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navBackText">Zurück</span></button><button class="nav-main" id="navRulesBtn" onclick="openGuide()"><span class="book-icon">📖</span><span id="navRulesText">Spielregeln</span></button></nav></header>
-<section class="screen" id="home"><div class="card hero hero-brand"><div class="hero-logo"><div class="logo-word" role="img" aria-label="AlignStix"><span class="align-word">ALIGN</span><span class="stix-word">STI</span><svg class="wm-x" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="wmGapHero" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><line x1="20" y1="80" x2="80" y2="20" stroke="#000" stroke-width="31" stroke-linecap="round"/></mask></defs><line class="wm-back" x1="20" y1="20" x2="80" y2="80" mask="url(#wmGapHero)"/><line class="wm-front" x1="20" y1="80" x2="80" y2="20"/></svg></div><div class="logo-tagline" id="homeLogoTagline">THE LOGIC STICK PUZZLE</div></div><p id="homeIntro"></p><div id="heroCta"><button class="primary story-cta" id="btnContinue" hidden></button><button class="primary story-cta" id="btnStory" onclick="openStory()"></button></div></div>
+<section class="screen" id="home"><div class="card hero hero-brand"><div class="hero-logo"><div class="logo-word" role="img" aria-label="AlignStix"><span class="align-word">ALIGN</span><span class="stix-word">STI</span><svg class="wm-x" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="wmGapHero" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><line x1="20" y1="80" x2="80" y2="20" stroke="#000" stroke-width="31" stroke-linecap="round"/></mask></defs><line class="wm-back" x1="20" y1="20" x2="80" y2="80" mask="url(#wmGapHero)"/><line class="wm-front" x1="20" y1="80" x2="80" y2="20"/></svg></div><div class="logo-tagline" id="homeLogoTagline">THE LOGIC STICK PUZZLE</div></div><p id="homeIntro"></p><div id="heroCta"><button class="primary story-cta" id="btnContinue" hidden></button><button class="primary story-cta kid-only" id="btnStampHero" onclick="openStamps()" type="button"></button><button class="primary story-cta" id="btnStory" onclick="openStory()"></button></div></div>
 <div class="card progress-card"><div class="section-head"><h3 id="progressTitle"></h3><span class="muted" id="homeStats"></span></div><div class="progress"><i id="homeBar"></i></div><p class="muted" id="homeText" style="margin:8px 0 0"></p></div><button class="kid-only stamp-home" id="btnStamps" onclick="openStamps()" type="button"></button><div class="tile-row"><div class="tile"><button class="tile-btn" id="btnBook" onclick="openBook()" type="button"></button><p class="muted" id="bookHomeText"></p></div><div class="tile"><button class="tile-btn" id="btnGuide" onclick="openGuide()"></button></div></div><div class="mini-row"><button id="btnDone" onclick="openLists('done')"></button><button id="btnFav" onclick="openLists('fav')"></button><button id="btnSettings" onclick="openSettings()" type="button"></button><button id="btnRods" onclick="openRods()" hidden></button></div></section>
 <section class="hidden screen" id="menu"><div class="card"><div class="top"><h2 id="menuTitle"></h2><button class="help-q hidden" id="menuHelp" onclick="showIntro()" aria-label="?" type="button">?</button></div><div class="list" id="menuBody" style="margin-top:12px"></div></div></section>
 <section class="hidden screen" id="guide"><div class="card"><div class="top"><h2 id="guideTitle"></h2></div><div id="guideBody"></div></div></section>
@@ -506,7 +552,7 @@ button .ic{margin-right:.15em}
 <div aria-modal="true" class="modal-backdrop hidden" id="colorSetupModal" role="dialog"><div class="modal-card"><h3 id="csTitle"></h3><p id="csText"></p><div class="cs-grid" id="csGrid"></div><div class="modal-actions"><button class="success" id="csNext" onclick="csNext()"></button><button id="csReset" onclick="csReset()"></button></div></div></div><div aria-modal="true" class="modal-backdrop hidden" id="resetColorsModal" role="dialog"><div class="modal-card"><h3 id="resetColorsTitle"></h3><p id="resetColorsText"></p><div class="modal-actions"><button class="success" id="resetColorsYes" onclick="confirmResetRodColors()"></button><button id="resetColorsCancel" onclick="closeResetRodColors()"></button></div></div></div><div class="modal-backdrop hidden" id="colorPopup" onclick="if(event.target===this)closeColorPopup()"><div class="modal-card color-popup-card"><div class="top"><h3 id="colorPopupTitle"></h3><button aria-label="Close" onclick="closeColorPopup()" type="button">✕</button></div><p class="section-note" id="colorPopupText"></p><div id="colorPopupBody"></div></div></div><input aria-hidden="true" id="customColorPicker" style="position:fixed;left:-9999px;width:1px;height:1px;opacity:0" type="color"/><div class="modal-backdrop hidden" id="colorWheelModal" onclick="if(event.target===this)closeColorWheel()"><div class="modal-card"><div class="top"><h3 id="colorWheelTitle"></h3><button aria-label="Close" onclick="closeColorWheel()" type="button">✕</button></div><p class="color-popup-note" id="colorWheelText"></p><div class="color-wheel-wrap"><div class="color-wheel" id="colorWheel"><span class="wheel-cursor" id="colorWheelCursor"></span></div><div class="color-value-row"><div class="color-preview" id="colorPreview"></div><div class="color-hex-wrap"><label for="colorHexInput" id="colorHexLabel">HEX</label><input autocomplete="off" class="color-hex-input" id="colorHexInput" inputmode="text" maxlength="7" spellcheck="false" type="text" value="#000000"/></div></div><div class="color-wheel-error" id="colorWheelError" role="alert" aria-live="polite"></div><details class="cw-more" id="cwMore"><summary id="cwMoreSum">Feinabstimmung</summary><div class="color-sliders"><label><span id="colorBrightnessLabel">Helligkeit</span><input id="colorValueSlider" max="100" min="0" type="range" value="100"/></label><label><span id="colorSaturationLabel">Sättigung</span><input id="colorSaturationSlider" max="100" min="0" type="range" value="100"/></label></div></details></div><div class="cw-btns"><button class="cam-open" id="camOpenBtn" onclick="openCam()" type="button"></button><button class="color-wheel-reset" id="colorWheelReset" onclick="resetColorWheelToStandard()" type="button"></button></div><div class="color-popup-actions"><button onclick="closeColorWheel()" type="button">Abbrechen</button><button class="primary" id="colorWheelConfirm" onclick="confirmColorWheel()" type="button">Bestätigen</button></div></div></div><div class="modal-backdrop hidden" id="camModal" role="dialog" aria-modal="true"><div class="modal-card"><h3 id="camTitle"></h3><p class="color-popup-note" id="camHint"></p><div class="cam-box" id="camBox" onpointerdown="camDown(event)" onpointermove="camMove(event)" onpointerup="camUp(event)" onpointercancel="camUp(event)" onwheel="camWheel(event)"><video id="camVideo" playsinline muted autoplay></video><img id="camStill" alt="" style="display:none"><span class="cam-ring" id="camRing"></span><div class="cam-zoom"><button type="button" onclick="camZoomBtn(1.5)" aria-label="Zoom in">+</button><button type="button" onclick="camZoomBtn(1/1.5)" aria-label="Zoom out">−</button><span id="camZoomLbl"></span></div></div><p class="cam-err" id="camErr"></p><div class="cam-row"><canvas id="camCanvas" class="cam-prev" width="64" height="64"></canvas><span class="cam-arrow">→</span><span class="cam-swatch" id="camSwatch"></span><span class="cam-hex" id="camHex">#888888</span></div><p class="color-popup-note" id="camLegend"></p><input type="file" accept="image/*" id="camFileGal" style="display:none" onchange="camShowStill(this.files[0]);this.value=''"><div class="modal-actions"><button class="success" id="camUse" onclick="camUse()" type="button"></button><button id="camGalBtn" onclick="document.getElementById('camFileGal').click()" type="button"></button><button id="camCancel" onclick="camCancel()" type="button"></button></div></div></div><div class="toast" id="toast"></div></div>
 <script>
 /* AlignStix – Update-Check (Version muss mit version.json und sw.js übereinstimmen) */
-const FLIP_APP_VERSION='123';
+const FLIP_APP_VERSION='132';
 (function(){
   if(location.protocol==='file:')return;
   var busy=false;
@@ -913,29 +959,452 @@ function hurdleHtml(gate){
 }
 
 /* ===== Stempelheft (nur Kindermodus) ===== */
-const STAMP_T={de:{title:'Stempelheft',home:'📒 Mein Stempelheft',sub:'{n} von {m} Stempeln',honor:'Ehrenstab',hint:'Löse eine Aufgabe und hol dir den Stempel!',full:'Geschafft! Du hast den Ehrenstab.'},
- en:{title:'Stamp book',home:'📒 My stamp book',sub:'{n} of {m} stamps',honor:'Honour stick',hint:'Solve a task to earn its stamp!',full:'Done! You earned the honour stick.'},
- fr:{title:'Carnet de tampons',home:'📒 Mon carnet de tampons',sub:'{n} sur {m} tampons',honor:'Bâton d’honneur',hint:'Résous un défi pour gagner son tampon !',full:'Bravo ! Tu as le bâton d’honneur.'},
- es:{title:'Álbum de sellos',home:'📒 Mi álbum de sellos',sub:'{n} de {m} sellos',honor:'Palito de honor',hint:'¡Resuelve un reto y gana su sello!',full:'¡Listo! Tienes el palito de honor.'}};
+/* ===== Sticker-Bibliothek: 105 Tiere (Kindermodus) ===== */
+const STK_K='#2b2433';
+function _o(x){return `stroke="${STK_K}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" ${x||''}`}
+function sEl(cx,cy,rx,ry,f,x){return `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${f}" ${_o(x)}/>`}
+function sCi(cx,cy,r,f,x){return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}" ${_o(x)}/>`}
+function sPa(d,f,x){return `<path d="${d}" fill="${f}" ${_o(x)}/>`}
+function sLn(d,x){return `<path d="${d}" fill="none" ${_o(x)}/>`}
+function sNo(d,f){return `<path d="${d}" fill="${f}"/>`}   /* ohne Kontur */
+function sEye(x,y,r,m){r=r||4.4;const a=m==='mad'?`<path d="M${x-r-1.5} ${y-r-1.2} L${x+r+1.5} ${y-r+1.6}" stroke="${STK_K}" stroke-width="2.4" stroke-linecap="round"/>`:'';
+ return `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${_o('stroke-width="1.8"')}/><circle cx="${x+.6}" cy="${y+.5}" r="${r*.6}" fill="${STK_K}"/><circle cx="${x-.7}" cy="${y-1}" r="${r*.22}" fill="#fff"/>`+a}
+function sEyes(x1,x2,y,r,m){return sEye(x1,y,r,m)+(m==='mad'?mirrorBrow(x2,y,r):'')+sEye(x2,y,r,m==='mad'?'':m)}
+function mirrorBrow(x,y,r){return `<path d="M${x+r+1.5} ${y-r-1.2} L${x-r-1.5} ${y-r+1.6}" stroke="${STK_K}" stroke-width="2.4" stroke-linecap="round"/>`}
+function sBlush(x,y,r){return `<ellipse cx="${x}" cy="${y}" rx="${r||4.6}" ry="${(r||4.6)*.66}" fill="#ff7a8a" opacity=".55"/>`}
+function sSmile(x,y,w,m){w=w||6;return m==='mad'?`<path d="M${x-w} ${y+1} Q${x} ${y-4} ${x+w} ${y+1}" fill="none" stroke="${STK_K}" stroke-width="2.2" stroke-linecap="round"/>`:`<path d="M${x-w} ${y} Q${x} ${y+w*.9} ${x+w} ${y}" fill="none" stroke="${STK_K}" stroke-width="2.2" stroke-linecap="round"/>`}
+function sFang(x,y){return `<path d="M${x-1.6} ${y} L${x} ${y+4.6} L${x+1.6} ${y} Z" fill="#fff" ${_o('stroke-width="1.2"')}/>`}
+function sTeeth(x,y,w,n){let s='';const k=w*2/n;for(let i=0;i<n;i++){const a=x-w+i*k;s+=`<path d="M${a} ${y} l${k/2} 4.4 l${k/2} -4.4 z" fill="#fff" ${_o('stroke-width="1"')}/>`}return s}
+function sMir(inner){return `<g transform="translate(100 0) scale(-1 1)">${inner}</g>`}
+function sRot(inner,a,cx,cy){return `<g transform="rotate(${a} ${cx||50} ${cy||50})">${inner}</g>`}
+function sSpots(list,f){return list.map(p=>`<ellipse cx="${p[0]}" cy="${p[1]}" rx="${p[2]}" ry="${p[3]||p[2]}" fill="${f}"/>`).join('')}
+/* Aufkleber-Rahmen: weisser Stanzrand per Filter */
+const STK_FILTER='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="stkF" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"/><feGaussianBlur in="d" stdDeviation="1.3" result="b"/><feComponentTransfer in="b" result="t"><feFuncA type="linear" slope="14" intercept="-4"/></feComponentTransfer><feFlood flood-color="#ffffff"/><feComposite in2="t" operator="in" result="w"/><feGaussianBlur in="t" stdDeviation="1.4" result="sh"/><feOffset in="sh" dy="1.6" result="sho"/><feFlood flood-color="#2b2433" flood-opacity=".28"/><feComposite in2="sho" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="w"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>';
+function stkEnsure(){if(!document.getElementById('stkDefs')){const d=document.createElement('div');d.id='stkDefs';d.setAttribute('aria-hidden','true');d.innerHTML=STK_FILTER;document.body.appendChild(d)}}
+function stkWrap(inner){return `<svg viewBox="-4 -4 108 108" aria-hidden="true"><g filter="url(#stkF)">${inner}</g></svg>`}
+
+/* Säugetier-Gesicht (frontal) */
+function sFace(o){o=Object.assign({c:'#c98a4b',c2:'#f1d3a8',ears:'round',earIn:'#f4a9a0',nose:'#3b2b2b',m:'',blush:true,w:31,h:28,my:67,mw:15,mh:11,ey:50},o);
+ let s='';const c=o.c;
+ if(o.mane)s+=sCi(50,52,41,o.mane)+(o.mane2?sCi(50,52,33,o.mane2,'stroke="none"'):'');
+ if(o.horns==='cow')s+=sPa('M24 38 Q8 36 10 22 Q22 24 30 34 Z','#f3ecd8')+sPa('M76 38 Q92 36 90 22 Q78 24 70 34 Z','#f3ecd8');
+ if(o.horns==='buffalo')s+=sPa('M22 40 Q2 40 4 14 Q10 30 30 32 Z','#e9e1cd')+sPa('M78 40 Q98 40 96 14 Q90 30 70 32 Z','#e9e1cd');
+ if(o.ears==='round')s+=sCi(23,28,11,c)+sCi(77,28,11,c)+sCi(23,28,6,o.earIn,'stroke="none"')+sCi(77,28,6,o.earIn,'stroke="none"');
+ if(o.ears==='small')s+=sCi(26,26,8,c)+sCi(74,26,8,c)+sCi(26,26,4,o.earIn,'stroke="none"')+sCi(74,26,4,o.earIn,'stroke="none"');
+ if(o.ears==='point')s+=sPa('M18 42 L20 10 L44 26 Z',c)+sPa('M82 42 L80 10 L56 26 Z',c)+sNo('M24 36 L25 18 L38 28 Z',o.earIn)+sNo('M76 36 L75 18 L62 28 Z',o.earIn);
+ if(o.ears==='floppy')s+=sRot(sEl(17,46,10,19,c),18,17,46)+sRot(sEl(83,46,10,19,c),-18,83,46);
+ if(o.ears==='big')s+=sEl(12,48,14,22,c)+sEl(88,48,14,22,c)+sEl(13,49,8,15,o.earIn,'stroke="none"')+sEl(87,49,8,15,o.earIn,'stroke="none"');
+ if(o.ears==='hippo')s+=sCi(22,24,8,c)+sCi(78,24,8,c);
+ s+=sEl(50,54,o.w,o.h,c);
+ if(o.horn==='rhino')s+=sPa('M43 36 Q50 2 57 36 Z','#e4ddcc');
+ if(o.m)s+=o.m;
+ 
+ if(o.snout==='long')s+=sEl(50,68,17,13,o.c2);else if(o.snout==='pig')s+=sEl(50,66,15,11,o.c2)+sEl(44.5,66,2.4,3.6,'#7a3b3b','stroke="none"')+sEl(55.5,66,2.4,3.6,'#7a3b3b','stroke="none"');
+ else if(o.snout==='hippo')s+=sEl(50,64,28,18,o.c2)+sEl(40,60,3,3.6,'#5a4a50','stroke="none"')+sEl(60,60,3,3.6,'#5a4a50','stroke="none"');
+ else s+=sEl(50,o.my,o.mw,o.mh,o.c2);
+ if(o.snout!=='pig'&&o.snout!=='hippo')s+=sEl(50,o.my-5,5,3.6,o.nose);
+ if(o.trunk)s+=sPa('M43 56 Q40 84 52 90 Q60 92 60 82 Q54 84 54 72 L57 56 Z',o.c,'')+sLn('M44 66 L55 66 M44 73 L54 73','stroke-width="1.4" opacity=".5"');
+ if(o.tusks)s+=sPa('M38 74 Q30 90 40 94 Q38 84 44 76 Z','#fff6dc')+sPa('M62 74 Q70 90 60 94 Q62 84 56 76 Z','#fff6dc');
+ if(o.snout!=='pig'&&o.snout!=='hippo'&&!o.trunk)s+=(o.mad?sSmile(50,o.my+2,6,'mad')+sFang(46,o.my+3)+sFang(54,o.my+3):sSmile(50,o.my+1,5.5));
+ if(o.snout==='pig'||o.snout==='hippo')s+=o.mad?sTeeth(50,o.snout==='hippo'?74:71,8,4):'';
+ s+=sEyes(o.ex1||38,o.ex2||62,o.ey,o.er||4.4,o.mad?'mad':'');
+ if(o.blush)s+=sBlush(27,o.my-2,4.2)+sBlush(73,o.my-2,4.2);
+ if(o.after)s+=o.after;
+ return s}
+const ST_FACE={
+ pig:()=>sFace({c:'#f7a8b8',c2:'#f48aa3',ears:'point',earIn:'#f48aa3',snout:'pig',my:66}),
+ cow:()=>sFace({c:'#fbf7ec',c2:'#f3a9b4',ears:'floppy',horns:'cow',m:sNo('M24 40 Q34 34 40 44 Q34 56 24 52 Z','#2b2433')+sNo('M66 34 Q80 32 82 46 Q74 56 62 46 Z','#2b2433'),my:68}),
+ bear:()=>sFace({c:'#8a5a3c',c2:'#d9b48c',ears:'round',earIn:'#d9b48c',mad:true}),
+ polar:()=>sFace({c:'#f6f8fb',c2:'#e2e8f0',ears:'round',earIn:'#cfd8e6',nose:'#2b2433',mad:true}),
+ lion:()=>sFace({c:'#e7a94a',c2:'#f6dca8',ears:'round',earIn:'#f6dca8',mane:'#a8641e',mane2:'#c47a28',mad:true,w:26,h:24,ey:50}),
+ tiger:()=>sFace({c:'#f0922e',c2:'#fff1d8',ears:'round',earIn:'#fff1d8',mad:true,m:'<path d="M38 27 l5 11 M50 24 v12 M62 27 l-5 11 M21 50 l9 2 M20 60 l10 0 M79 50 l-9 2 M80 60 l-10 0" stroke="#2b2433" stroke-width="3.4" stroke-linecap="round" fill="none"/>'}),
+ wolf:()=>sFace({c:'#8c97a6',c2:'#e3e8ee',ears:'point',earIn:'#cfd6df',snout:'long',my:68,mad:true,nose:'#2b2433'}),
+ hyena:()=>sFace({c:'#c9a35c',c2:'#efe0b8',ears:'round',earIn:'#8a6a34',mad:true,m:sSpots([[34,36,3.2],[64,34,3.6],[50,33,2.6],[28,52,2.8],[72,50,3]],'#6b4a1e')}),
+ leopard:()=>sFace({c:'#f1c15a',c2:'#fff0cc',ears:'round',earIn:'#fff0cc',mad:true,m:sSpots([[34,36,3.2],[64,34,3.6],[50,32,2.6],[26,52,3],[74,50,3.2],[30,62,2.4],[70,62,2.4]],'#4a3216')}),
+ panther:()=>sFace({c:'#4b4658',c2:'#6a6478',ears:'round',earIn:'#8a8398',mad:true,nose:'#f3a0b4'}),
+ gorilla:()=>sFace({c:'#4a4a55',c2:'#8a8a96',ears:'small',earIn:'#8a8a96',mad:true,w:30,h:28,m:sPa('M32 40 Q50 24 68 40 Q62 48 50 44 Q38 48 32 40Z','#34343d','stroke="none"'),blush:false}),
+ hippo:()=>sFace({c:'#8f8aa8',c2:'#b5b0c9',ears:'hippo',snout:'hippo',mad:true,ey:42,ex1:34,ex2:66,er:4.4,earIn:'#6f6a88',blush:false,h:30}),
+ rhino:()=>sFace({c:'#9aa0ad',c2:'#c3c8d2',ears:'point',earIn:'#7d838f',horn:'rhino',my:70,mad:true,blush:false,ey:54,mw:17}),
+ elephant:()=>sFace({c:'#9cb0c8',c2:'#9cb0c8',ears:'big',earIn:'#e9b5be',trunk:true,tusks:true,w:28,h:27,mad:false}),
+ buffalo:()=>sFace({c:'#5a3d2e',c2:'#8a6a52',ears:'floppy',horns:'buffalo',mad:true,blush:false,nose:'#2b2433'}),
+};
+
+let _stkId=0;
+function sClip(shape){const id='sc'+(++_stkId);return [id,`<clipPath id="${id}">${shape}</clipPath>`]}
+function sThick(d,w,f){return `<path d="${d}" fill="none" stroke="${STK_K}" stroke-width="${w+4.4}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${f}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`}
+function sFish(o){o=Object.assign({c:'#4aa3e0',c2:'#cfeeff',fin:'#2f7fc0',rx:31,ry:21,cx:52,cy:52,m:'',mad:false,tail:'fork'},o);let s='';
+ const cx=o.cx,cy=o.cy,rx=o.rx,ry=o.ry,l=cx-rx;
+ s+=sPa(`M${l+5} ${cy} L${l-14} ${cy-ry*.85} Q${l-8} ${cy} ${l-14} ${cy+ry*.85} Z`,o.fin);
+ if(!o.nodorsal)s+=sPa(`M${cx-12} ${cy-ry+3} Q${cx-2} ${cy-ry-15} ${cx+14} ${cy-ry+4} Z`,o.fin);
+ s+=sPa(`M${cx-6} ${cy+ry-3} Q${cx-4} ${cy+ry+10} ${cx+8} ${cy+ry-2} Z`,o.fin);
+ s+=sEl(cx,cy,rx,ry,o.c);
+ const [id,cp]=sClip(`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/>`);
+ s+=cp+`<g clip-path="url(#${id})">`+(o.c2?sEl(cx+3,cy+ry*.95,rx*.9,ry*.6,o.c2,'stroke="none"'):'')+(o.m||'')+`</g>`;
+ s+=sEl(cx,cy,rx,ry,'none');
+ s+=sEl(cx-6,cy+5,7,4,o.fin,'transform="rotate(-20 '+(cx-6)+' '+(cy+5)+')"');
+ s+=sLn(`M${cx+rx*.38} ${cy-ry*.55} Q${cx+rx*.28} ${cy} ${cx+rx*.38} ${cy+ry*.55}`,'stroke-width="1.6" opacity=".5"');
+ s+=sEye(cx+rx*.55,cy-ry*.2,4.6,o.mad?'mad':'');
+ s+=o.mad?sSmile(cx+rx-6,cy+9,5,'mad')+(o.teeth?sTeeth(cx+rx-12,cy+9,6,3):''):sSmile(cx+rx-5,cy+6,3.4);
+ return s+(o.after||'')}
+function sWhale(o){o=Object.assign({c:'#5b8fd0',c2:'#e4f0ff',fin:'#46739f'},o);let s='';
+ s+=sPa('M20 58 Q6 54 4 38 Q16 40 26 50 Z',o.fin)+sPa('M20 62 Q6 68 6 82 Q18 76 28 66 Z',o.fin);
+ s+=sPa('M44 30 Q52 12 62 31 Z',o.fin);
+ s+=sPa('M12 58 Q14 28 52 28 Q82 28 92 52 Q92 66 68 70 Q38 84 12 58Z',o.c);
+ s+=o.m||'';
+ s+=sPa('M14 60 Q38 82 68 70 Q50 68 14 60Z',o.c2,'stroke="none"');
+ s+=sPa('M12 58 Q14 28 52 28 Q82 28 92 52 Q92 66 68 70 Q38 84 12 58Z','none');
+ s+=sPa('M46 62 Q42 74 54 74 Q56 66 54 62 Z',o.fin);
+ s+=sEye(72,50,4.4)+sSmile(84,60,4,'');
+ return s+(o.after||'')}
+const ST_SEA={
+ tang:()=>sFish({c:'#2f6fe0',c2:null,fin:'#ffd23a',m:sNo('M30 46 Q50 28 70 52 Q52 46 36 66 Z','#1b2a6b'),after:''}),
+ clown:()=>{const m='<path d="M36 20 V86 M60 20 V86" stroke="#2b2433" stroke-width="11"/><path d="M36 20 V86 M60 20 V86" stroke="#fff" stroke-width="7.4"/>';return sFish({c:'#ff8a1f',c2:'#ffb35a',fin:'#ff8a1f',m,rx:30,ry:23})},
+ puffer:()=>{let sp='';for(let i=0;i<14;i++){const a=i/14*Math.PI*2,x=50+Math.cos(a)*27,y=52+Math.sin(a)*27;sp+=sPa(`M${x+Math.cos(a-.18)*3} ${y+Math.sin(a-.18)*3} L${50+Math.cos(a)*35} ${52+Math.sin(a)*35} L${x+Math.cos(a+.18)*3} ${y+Math.sin(a+.18)*3} Z`,'#f2c94c','stroke-width="1.6"')}
+  return sPa('M20 52 L6 40 L8 52 L6 64 Z','#e0a82e')+sp+sEl(50,52,28,26,'#f7d96a')+sEl(52,66,20,11,'#fff4c4','stroke="none"')+sSpots([[38,40,2],[48,34,2],[60,40,2],[34,52,2],[64,52,2]],'#c9902a')+sEl(76,58,6,5,'#ffe9a0')+sEl(77,58,2.6,2.2,'#2b2433','stroke="none"')+sEye(60,44,5.4)+sEl(38,60,6,4,'#e0a82e','transform="rotate(-25 38 60)"')},
+ seahorse:()=>sThick('M50 24 Q68 34 60 54 Q52 70 58 82 Q66 94 78 84 Q82 76 72 74',13,'#ffb02e')+sPa('M62 34 Q74 34 74 50 Q66 46 62 44 Z','#ff7a59')+sPa('M42 18 Q36 8 44 6 Q44 12 50 12 Q50 6 58 8 Q54 16 56 22 Z','#ff7a59')+sEl(46,24,12,10,'#ffb02e')+sPa('M36 22 L20 24 L20 30 L37 30 Z','#ffb02e')+sLn('M48 44 Q56 46 60 44 M50 54 Q58 56 62 54 M52 64 Q60 66 62 64','stroke-width="1.6" opacity=".55"')+sEye(46,22,3.8)+sBlush(48,30,3),
+ jelly:()=>{let t='';[[30,'#f8b4dc'],[42,'#f4a0d0'],[54,'#f8b4dc'],[66,'#f4a0d0']].forEach((p,i)=>{t+=sThick(`M${p[0]+(i%2?2:-2)} 56 q${i%2?-6:6} 10 0 18 t0 18`,4.4,p[1])});
+  return t+sPa('M18 56 Q16 12 50 12 Q84 12 82 56 Q66 62 50 56 Q34 62 18 56Z','#f8a6d6')+sNo('M28 40 Q32 22 46 20','none')+sEl(36,30,7,4,'#fff','stroke="none" opacity=".5" transform="rotate(-25 36 30)"')+sSpots([[62,26,2.6],[70,38,2.2],[54,22,2]],'#fff')+sEyes(40,60,42,4.4)+sSmile(50,50,4)+sBlush(32,48,4)+sBlush(68,48,4)},
+ octopus:()=>{let t='';const L=[['M28 56 Q10 66 18 82 Q26 92 34 82',9],['M40 62 Q30 84 40 92',9],['M60 62 Q70 84 60 92',9],['M72 56 Q90 66 82 82 Q74 92 66 82',9],['M50 64 Q50 86 50 92',9]];L.forEach(l=>t+=sThick(l[0],l[1],'#c06ee0'));
+  return t+sEl(50,38,28,26,'#c06ee0')+sSpots([[36,24,3],[58,22,3.4],[66,34,2.6],[30,38,2.4]],'#a050c8')+sEyes(40,60,40,5.4)+sSmile(50,52,5)+sBlush(32,48,4.2)+sBlush(68,48,4.2)},
+ squid:()=>{let t='';['M40 66 Q34 82 42 92','M50 68 Q50 84 50 94','M60 66 Q66 82 58 92','M34 62 Q24 74 28 86','M66 62 Q76 74 72 86'].forEach(d=>t+=sThick(d,5,'#f08a8a'));
+  return t+sPa('M50 4 Q28 24 32 56 Q50 64 68 56 Q72 24 50 4Z','#f27a7a')+sPa('M50 4 L30 24 L36 30 L50 20 L64 30 L70 24 Z','#e05a5a')+sEl(50,60,20,12,'#f59a9a')+sEyes(42,58,58,4.4)+sSmile(50,66,3.4)+sSpots([[50,28,2.4],[44,40,2],[56,38,2]],'#fff')},
+ crab:()=>{let t='';[[1,0],[-1,0]].forEach(([d])=>{for(let i=0;i<3;i++){const y=60+i*7,x=d>0?74:26,e=d>0?96:4;t+=sThick(`M${x} ${y} Q${(x+e)/2} ${y+4-i} ${e} ${y+12}`,4,'#ee5a4a')}});
+  const claw=(x,d)=>sThick(`M${50+d*22} 52 Q${50+d*38} 44 ${x} 30`,6,'#ee5a4a')+sPa(`M${x-d*10} 28 Q${x} 6 ${x+d*10} 22 Q${x+d*2} 24 ${x+d*6} 34 Q${x-d*2} 36 ${x-d*10} 28Z`,'#ee5a4a');
+  return t+claw(18,-1)+claw(82,1)+sEl(50,60,29,19,'#f06a58')+sSpots([[38,56,2.6],[62,54,2.6],[50,50,2.2]],'#ff9a8a')+sLn('M42 40 L42 48 M58 40 L58 48','stroke-width="3"')+sEye(42,38,5)+sEye(58,38,5)+sSmile(50,64,6)+sBlush(34,64,4)+sBlush(66,64,4)},
+ lobster:()=>{const claw=(d)=>{const x=50+d*30;return sThick(`M${50+d*10} 56 Q${50+d*24} 50 ${x} 36`,6,'#e8463c')+sPa(`M${x-d*9} 36 Q${x-d*2} 10 ${x+d*10} 26 Q${x+d*3} 28 ${x+d*5} 38 Q${x-d*3} 42 ${x-d*9} 36Z`,'#e8463c')};
+  let t=sLn('M44 30 Q30 14 12 14 M56 30 Q70 14 88 14','stroke-width="1.8"');
+  t+=sPa('M36 74 L28 94 L50 86 L72 94 L64 74 Z','#d63a30')+sPa('M42 78 L50 92 L58 78Z','#ee6a5c');
+  t+=claw(-1)+claw(1);
+  for(let i=0;i<3;i++)t+=sEl(50,58+i*7,15-i*1.5,6.6,i%2?'#e8463c':'#ee5a4a');
+  return t+sEl(50,38,15,16,'#ee5a4a')+sEyes(43,57,36,4)+sSmile(50,46,4)+sBlush(38,44,3)+sBlush(62,44,3)},
+ shrimp:()=>sThick('M70 30 Q88 44 72 64 Q58 82 34 76 Q22 72 20 62',16,'#ff9a7a')+sPa('M20 62 L8 54 L12 68 L6 78 L22 74 Z','#ff7a5a')+sLn('M58 56 Q64 66 74 62 M64 44 Q72 52 80 48 M46 68 Q50 78 58 74','stroke-width="1.8" opacity=".55"')+sEl(62,26,13,12,'#ff9a7a')+sLn('M54 18 Q40 6 26 10 M60 16 Q58 4 48 2','stroke-width="2"')+sPa('M70 26 L84 26 L74 36 Z','#ff7a5a')+sEye(63,25,4.2)+sBlush(68,33,3),
+ starfish:()=>{const pts=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?19:45;pts.push((50+Math.cos(a)*r).toFixed(1)+' '+(54+Math.sin(a)*r).toFixed(1))}
+  return sPa('M'+pts.join(' L')+' Z','#ff9a3c','stroke-width="2.6"')+sSpots([[50,22,2.4],[24,44,2.4],[76,44,2.4],[34,76,2.4],[66,76,2.4],[50,36,2],[38,50,2],[62,50,2]],'#ffd27a')+sEyes(42,58,52,4.4)+sSmile(50,62,4)+sBlush(35,60,3.6)+sBlush(65,60,3.6)},
+ shell:()=>{let t='';t+=sPa('M50 88 L8 50 Q8 14 50 12 Q92 14 92 50 Z','#ffb3c6');for(let i=-3;i<=3;i++)t+=sLn(`M50 88 L${50+i*14} ${i===0?14:22-Math.abs(i)*-1}`,'stroke-width="1.8" opacity=".5"');
+  t+=sPa('M36 88 L50 74 L64 88 Z','#ff8fab')+sLn('M10 46 Q50 40 90 46','stroke-width="1.6" opacity=".4"');
+  return t+sEyes(40,60,56,4.4)+sSmile(50,66,4.6)+sBlush(32,64,3.8)+sBlush(68,64,3.8)+sCi(50,26,5,'#fff','')+sNo('M48 24 a2 2 0 1 1 1 0','#fff')},
+ snail:()=>sPa('M8 78 Q6 66 22 64 L70 64 Q88 66 90 78 Q70 86 8 78Z','#c9d98a')+sThick('M12 66 Q4 50 8 40',4,'#c9d98a')+sEye(8,38,3.6)+sLn('M82 64 L88 46 M90 66 L98 52','stroke-width="2.4"')+sCi(88,45,3.2,'#2b2433','')+sCi(98,51,3.2,'#2b2433','')+sCi(56,46,26,'#f0a86a')+sLn('M56 46 m0 0 q-4 -6 -10 -2 q-4 6 4 12 q10 4 16 -4 q4 -12 -8 -16 q-14 -2 -18 12 q-2 14 12 20 q16 4 24 -10','stroke-width="2.4"')+sBlush(14,50,3)+sSmile(10,46,2.4),
+ turtle:()=>{let t='';t+=sEl(18,42,10,8,'#7fcf6a')+sEl(82,42,10,8,'#7fcf6a')+sEl(20,76,10,8,'#7fcf6a')+sEl(80,76,10,8,'#7fcf6a')+sPa('M50 82 L42 94 L58 94 Z','#7fcf6a');
+  t+=sEl(50,18,13,12,'#7fcf6a')+sEl(50,58,33,30,'#5faa4a')+sEl(50,58,26,23,'#8bd070','stroke="none"');
+  t+=sLn('M50 38 L64 48 L60 66 L40 66 L36 48 Z M50 38 L50 30 M64 48 L76 44 M60 66 L68 80 M40 66 L32 80 M36 48 L24 44','stroke-width="2.2"');
+  return t+sEye(45,16,3.6)+sEye(55,16,3.6)+sSmile(50,24,3)},
+ urchin:()=>{let sp='';for(let i=0;i<20;i++){const a=i/20*Math.PI*2;sp+=`<path d="M${50+Math.cos(a)*18} ${58+Math.sin(a)*18} L${50+Math.cos(a)*44} ${58+Math.sin(a)*44}" stroke="${STK_K}" stroke-width="5.4" stroke-linecap="round"/><path d="M${50+Math.cos(a)*18} ${58+Math.sin(a)*18} L${50+Math.cos(a)*42} ${58+Math.sin(a)*42}" stroke="#7a4fc0" stroke-width="2.6" stroke-linecap="round"/>`}
+  return sp+sCi(50,58,24,'#8a5fd0')+sEyes(41,59,54,4.8)+sSmile(50,65,5)+sBlush(34,64,3.6)+sBlush(66,64,3.6)},
+ dolphin:()=>sWhale({c:'#7fa8d8',c2:'#f0f6ff',fin:'#5d86bb',m:sPa('M80 54 Q96 52 98 58 Q90 64 78 62Z','#7fa8d8')}),
+ blue:()=>sWhale({c:'#4f86d4',c2:'#dbe9ff',fin:'#3a69ae',after:'<path d="M52 28 Q52 14 44 8 M52 28 Q52 14 60 8" stroke="#8cc8ff" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="44" cy="6" r="2.4" fill="#8cc8ff"/><circle cx="60" cy="6" r="2.4" fill="#8cc8ff"/>'}),
+ narwhal:()=>'<g transform="translate(-6 8) scale(.94)">'+sWhale({c:'#9db4cf',c2:'#f2f6fb',fin:'#7d96b4',m:sPa('M88 46 L112 24 L98 52 Z','#fff0c8')+sLn('M96 40 L100 44 M101 34 L105 38','stroke-width="1.6"')})+'</g>',
+ seal:()=>sFace({c:'#9fb0c4',c2:'#dde6f0',ears:'none',nose:'#2b2433',my:66,mw:17,mh:12,ey:46,er:5.2,after:'<path d="M26 66 L8 62 M26 70 L8 72 M74 66 L92 62 M74 70 L92 72" stroke="#2b2433" stroke-width="1.8" stroke-linecap="round"/>'}),
+ walrus:()=>sFace({c:'#b98a68',c2:'#d9b99b',ears:'none',snout:'pig',my:66,tusks:true,after:'<path d="M30 64 L12 60 M30 69 L12 72 M70 64 L88 60 M70 69 L88 72" stroke="#2b2433" stroke-width="1.8" stroke-linecap="round"/>',ey:44}),
+ otter:()=>sFace({c:'#8a5a3c',c2:'#ecd5b4',ears:'small',earIn:'#ecd5b4',my:64,mw:20,mh:14,ey:46,w:30,h:27,after:'<path d="M30 66 L14 62 M30 70 L14 72 M70 66 L86 62 M70 70 L86 72" stroke="#2b2433" stroke-width="1.8" stroke-linecap="round"/>'}),
+ manta:()=>sPa('M50 94 Q50 74 50 66',STK_K,'')+sThick('M50 70 Q48 88 58 94',3,'#4a5a8a')+sPa('M50 24 Q86 14 96 44 Q74 40 62 60 Q50 72 38 60 Q26 40 4 44 Q14 14 50 24Z','#5a7ac0')+sPa('M50 30 Q70 28 84 42 Q62 44 50 62 Q38 44 16 42 Q30 28 50 30Z','#e4ecff','stroke="none"')+sEyes(41,59,40,4.2)+sSmile(50,50,4)+sPa('M36 24 Q30 12 22 14 Q26 22 32 28Z','#5a7ac0')+sPa('M64 24 Q70 12 78 14 Q74 22 68 28Z','#5a7ac0'),
+ angler:()=>sThick('M62 30 Q64 8 84 12',2.4,'#2b2433')+sCi(84,12,6.6,'#fff2a0','stroke-width="2"')+sCi(84,12,12,'#ffe45a','stroke="none" opacity=".28"')+sPa('M12 56 L2 42 L6 56 L2 70 Z','#3a3a5c')+sEl(50,56,36,28,'#4a4a78')+sEl(58,60,26,18,'#5a5a90','stroke="none"')+sEye(64,48,6.2,'mad')+sPa('M34 62 Q60 82 86 60 Q70 66 62 62 Q50 70 34 62Z','#2b2433')+sTeeth(40,66,6,4)+sTeeth(70,62,8,4)+sSpots([[28,48,2.4],[36,40,2.4]],'#8a8ac0'),
+ moon:()=>sPa('M34 14 L46 28 L58 14 L60 34 Z','#a6b4c8')+sPa('M34 94 L46 80 L58 94 L60 74 Z','#a6b4c8')+sEl(50,54,36,34,'#b8c4d6')+sPa('M16 44 Q4 54 16 64 Q22 54 16 44Z','#a6b4c8')+sEl(56,56,22,22,'#d4dce8','stroke="none"')+sEye(62,48,5)+sSmile(76,60,3.6)+sBlush(68,62,4)+sLn('M20 40 Q16 54 20 68','stroke-width="1.6" opacity=".4"'),
+ sword:()=>sFish({c:'#5a78b8',c2:'#dbe4f4',fin:'#3c5594',rx:30,ry:17,cx:46,after:sPa('M76 48 L100 46 L76 56Z','#e8eef6')}),
+};
+
+function sBird(o){o=Object.assign({c:'#e8a838',c2:'#fff1c8',wing:'#c98a1e',beak:'short',bc:'#ff9a2e',hx:70,hy:40,hr:13,neck:null,legs:15,lc:'#ff9a2e',tail:'short',tc:'#c98a1e',bx:44,by:62,brx:25,bry:20,mad:false,eye:null},o);let s='';
+ const hx=o.hx,hy=o.hy,hr=o.hr,bx=o.bx,by=o.by,brx=o.brx,bry=o.bry;
+ if(o.tail==='short')s+=sPa(`M${bx-18} ${by-6} L${bx-40} ${by-18} L${bx-36} ${by} L${bx-40} ${by+10} L${bx-18} ${by+6} Z`,o.tc);
+ if(o.tail==='long')s+=sPa(`M${bx-18} ${by-4} Q${bx-40} ${by-8} ${bx-44} ${by+14} Q${bx-30} ${by+8} ${bx-16} ${by+6} Z`,o.tc);
+ if(o.tail==='fan'){for(let i=-3;i<=3;i++){const a=(-90+i*22-90)*Math.PI/180;}s+=o.fan||''}
+ if(o.tail==='plume')s+=sThick(`M${bx-18} ${by-4} Q${bx-44} ${by-6} ${bx-40} ${by-34}`,9,o.tc);
+ if(o.legs){const lx=[bx-4,bx+8];lx.forEach(x=>{s+=sLn(`M${x} ${by+bry-3} L${x} ${by+bry+o.legs} l-5 3 M${x} ${by+bry+o.legs} l5 3`,`stroke="${o.lc}" stroke-width="3.2"`)+sLn(`M${x} ${by+bry-3} L${x} ${by+bry+o.legs}`,`stroke-width="0"`)})}
+ if(o.neck)s+=sThick(o.neck,o.nw||11,o.c);
+ s+=sEl(bx,by,o.brx,o.bry,o.c);
+ if(o.c2)s+=sPa(`M${bx-o.brx+6} ${by+6} Q${bx} ${by+o.bry+4} ${bx+o.brx-3} ${by+4} Q${bx+4} ${by+o.bry-8} ${bx-o.brx+6} ${by+6}Z`,o.c2,'stroke="none"');
+ s+=sEl(bx,by,o.brx,o.bry,'none');
+ if(o.wing)s+=sPa(`M${bx-14} ${by-4} Q${bx-4} ${by-14} ${bx+12} ${by-2} Q${bx+8} ${by+14} ${bx-12} ${by+10} Q${bx-20} ${by+4} ${bx-14} ${by-4}Z`,o.wing);
+ s+=sCi(hx,hy,hr,o.headc||o.c);
+ if(o.crest)s+=o.crest;
+ const bxx=hx+hr;
+ const B={short:`M${bxx-1} ${hy-2} L${bxx+9} ${hy+2} L${bxx-1} ${hy+5} Z`,long:`M${bxx-1} ${hy-2} L${bxx+24} ${hy+1} L${bxx-1} ${hy+4} Z`,hook:`M${bxx-2} ${hy-5} Q${bxx+12} ${hy-4} ${bxx+9} ${hy+8} Q${bxx+5} ${hy+2} ${bxx-2} ${hy+4} Z`,big:`M${bxx-4} ${hy-7} Q${bxx+22} ${hy-8} ${bxx+24} ${hy+4} Q${bxx+10} ${hy+10} ${bxx-4} ${hy+7} Z`,pouch:`M${bxx-2} ${hy-3} L${bxx+26} ${hy-1} Q${bxx+22} ${hy+16} ${bxx-2} ${hy+8} Z`,tiny:`M${bxx-1} ${hy-1} L${bxx+6} ${hy+2} L${bxx-1} ${hy+4} Z`,probe:`M${bxx-1} ${hy-1} L${bxx+30} ${hy+3} L${bxx-1} ${hy+3} Z`};
+ s+=sPa(B[o.beak],o.bc);
+ if(o.beak==='big')s+=sPa(`M${bxx-4} ${hy-7} Q${bxx+10} ${hy-7} ${bxx+12} ${hy+3} L${bxx-4} ${hy+6}Z`,o.bc2||'#ffd23a','stroke-width="0"')+sPa(B.big,'none');
+ if(o.beak==='pouch')s+=sLn(`M${bxx-2} ${hy+1} L${bxx+26} ${hy+1}`,'stroke-width="1.6"');
+ s+=o.eyeAfter?'':'';
+ s+=sEye(hx+1,hy-2,o.er||4.2,o.mad?'mad':'');
+ if(!o.noblush)s+=sBlush(hx-3,hy+6,3);
+ return s+(o.after||'')}
+function sFan(cols,cx,cy,n,len,wid){let s='';for(let i=0;i<n;i++){const a=(180-(n-1)*9+i*18)*Math.PI/180+0,ex=cx+Math.cos(a)*len,ey=cy-Math.sin(a)*len;s+=sThick(`M${cx} ${cy} L${ex.toFixed(1)} ${ey.toFixed(1)}`,wid,cols[i%cols.length])}return s}
+const ST_BIRD={
+ duck:()=>sBird({c:'#ffd84a',c2:null,wing:'#f2b81c',beak:'short',bc:'#ff9a2e',hx:70,hy:42,hr:13,legs:8,tail:'short',tc:'#f2b81c'}),
+ parrot:()=>sBird({c:'#e8322e',c2:null,wing:'#2f6fe0',beak:'hook',bc:'#f5f0dc',hx:66,hy:34,hr:14,legs:10,lc:'#8a6a50',tail:'long',tc:'#2f6fe0',wing2:1,mad:false,after:'<path d="M60 22 Q64 14 72 18" stroke="#2b2433" stroke-width="0"/>',crest:sPa('M56 24 Q52 8 64 12 Q66 18 66 22 Z','#ffd23a')}),
+ flamingo:()=>sBird({c:'#ff8fa8',c2:'#ffb3c4',wing:'#ff6f90',beak:'hook',bc:'#2b2433',hx:70,hy:14,hr:10,legs:30,lc:'#ff6f90',by:56,bx:40,neck:'M52 50 Q80 46 66 28 Q60 20 68 16',nw:8,tail:'short',tc:'#ff8fa8',er:3.4}),
+ peacock:()=>sBird({c:'#1f8fb5',c2:'#4cc0d8',wing:'#146a8a',beak:'short',bc:'#e8b84a',hx:68,hy:36,hr:11,legs:12,lc:'#8a6a50',tail:'fan',bx:44,by:66,brx:22,bry:17,fan:sEl(26,50,30,36,'#1f9f78')+sEl(26,50,22,28,'#35c08e','stroke="none"')+sEl(26,38,7,9,'#f2c94c')+sEl(26,38,3,4,'#2b6fd0','stroke="none"')+sEl(14,52,6,8,'#f2c94c','stroke="none"')+sEl(14,52,3,4,'#2b6fd0','stroke="none"')+sEl(38,50,6,8,'#f2c94c','stroke="none"')+sEl(38,50,3,4,'#2b6fd0','stroke="none"'),crest:sThick('M64 26 L62 14 M68 26 L70 12',2,'#2b2433')+sCi(62,12,2.6,'#2f6fe0')+sCi(70,10,2.6,'#2f6fe0'),neck:'M54 56 Q66 52 68 38',nw:9}),
+ toucan:()=>sBird({c:'#2b2b3a',c2:'#fff4d0',wing:'#1c1c28',beak:'big',bc:'#ff8a1f',bc2:'#ffd23a',hx:60,hy:38,hr:14,legs:12,lc:'#5a9bd8',headc:'#2b2b3a',tail:'short',tc:'#1c1c28',c2:null,after:sEl(48,70,14,8,'#fff0c0','stroke="none"')}),
+ eagle:()=>sBird({c:'#7a5230',c2:'#a87444',wing:'#5a3a1e',beak:'hook',bc:'#ffcf3a',hx:68,hy:34,hr:14,headc:'#fdfbf6',legs:10,lc:'#ffcf3a',tail:'short',tc:'#fdfbf6',mad:true}),
+ woodpecker:()=>sBird({c:'#2b2b3a',c2:'#f4f0e4',wing:'#f4f0e4',beak:'long',bc:'#8a8a96',hx:66,hy:34,hr:13,legs:10,lc:'#8a8a96',headc:'#2b2b3a',tail:'short',tc:'#2b2b3a',crest:sPa('M54 28 Q52 12 70 16 Q76 20 74 26 Z','#e8322e'),after:sSpots([[36,56,2.2],[44,50,2.2],[52,58,2.2]],'#2b2b3a')}),
+ robin:()=>sBird({c:'#9a6a46',c2:'#ff8a3a',wing:'#7a4e30',beak:'short',bc:'#2b2433',hx:66,hy:40,hr:13,legs:10,lc:'#7a5a44',tail:'short',tc:'#7a4e30',after:sPa('M64 46 Q74 52 70 62 Q58 62 56 54 Z','#ff8a3a','stroke="none"')}),
+ swan:()=>sBird({c:'#fbfbff',c2:null,wing:'#e4e8f4',beak:'short',bc:'#ff8a3a',hx:78,hy:22,hr:10,legs:0,neck:'M58 56 Q86 50 72 30 Q66 20 76 20',nw:10,bx:42,by:66,brx:30,bry:20,tail:'short',tc:'#fbfbff',er:3.4,after:sPa('M82 18 L88 20 L82 24Z','#2b2433','stroke-width="0"')}),
+ hummer:()=>sBird({c:'#2fb5a0',c2:'#d8f4e8',wing:'#7ad8c8',beak:'probe',bc:'#2b2433',hx:62,hy:44,hr:11,legs:6,bx:42,by:58,brx:19,bry:14,tail:'short',tc:'#1f8f80',lc:'#2b2433',crest:'',after:sPa('M36 48 Q20 20 8 28 Q18 38 34 56Z','#a8ece0')+sPa('M30 50 Q22 28 36 12 Q44 30 40 50Z','#7ad8c8'),er:3.6}),
+ ostrich:()=>sBird({c:'#3b3b4a',c2:null,wing:'#f4f0e4',beak:'short',bc:'#ff9a8a',hx:72,hy:12,hr:8,legs:26,lc:'#ffb3a0',neck:'M56 50 Q74 46 70 28 Q66 22 72 14',nw:7,bx:40,by:50,brx:26,bry:20,headc:'#ffd5c8',tail:'short',tc:'#f4f0e4',er:3,noblush:true}),
+ pelican:()=>sBird({c:'#f4f1ec',c2:null,wing:'#c9ced8',beak:'pouch',bc:'#ffb43a',hx:60,hy:34,hr:13,legs:8,lc:'#ff9a3a',tail:'short',tc:'#c9ced8'}),
+ stork:()=>sBird({c:'#fbfbff',c2:null,wing:'#2b2b3a',beak:'long',bc:'#e8322e',hx:70,hy:22,hr:10,legs:28,lc:'#e8322e',neck:'M56 52 Q74 48 70 34 Q68 26 70 22',nw:7,by:54,bx:40,tail:'short',tc:'#2b2b3a',er:3.4}),
+ kiwi:()=>sBird({c:'#8a6a46',c2:null,wing:null,beak:'probe',bc:'#e8d8a8',hx:70,hy:56,hr:11,legs:9,lc:'#c9a05a',bx:44,by:62,brx:26,bry:24,tail:'short',tc:'#8a6a46',tail:'none',er:3.4,after:sLn('M26 56 Q36 50 46 56 M30 66 Q40 60 52 66','stroke-width="1.6" opacity=".4"')}),
+ sparrow:()=>sBird({c:'#a8794a',c2:'#e8d8bc',wing:'#7a4e2e',beak:'short',bc:'#e8c040',hx:68,hy:42,hr:13,legs:10,lc:'#a8794a',tail:'short',tc:'#7a4e2e',after:sPa('M60 40 Q66 36 72 40 Q66 38 60 40Z','#4a3a2a')}),
+ gull:()=>sBird({c:'#fbfbff',c2:null,wing:'#9aa8bc',beak:'short',bc:'#ffcf3a',hx:68,hy:38,hr:13,legs:12,lc:'#ff9a3a',tail:'short',tc:'#9aa8bc'}),
+ raven:()=>sBird({c:'#3a3a4c',c2:null,wing:'#2b2b3a',beak:'hook',bc:'#6a6a78',hx:68,hy:38,hr:13,legs:12,lc:'#6a6a78',tail:'long',tc:'#2b2b3a',mad:true}),
+ dove:()=>sBird({c:'#fbfbff',c2:null,wing:'#dde6f4',beak:'short',bc:'#ff9a8a',hx:68,hy:40,hr:12,legs:8,lc:'#ff9a8a',tail:'long',tc:'#dde6f4',after:sPa('M30 56 Q16 40 4 44 Q14 54 28 66Z','#dde6f4')}),
+ goose:()=>sBird({c:'#f4f1ec',c2:null,wing:'#cdd2da',beak:'short',bc:'#ff9a3a',hx:74,hy:28,hr:11,legs:10,lc:'#ff9a3a',neck:'M56 58 Q76 54 74 36',nw:10,tail:'short',tc:'#cdd2da',bx:42,by:64,brx:28,bry:19,er:3.8}),
+ turkey:()=>sBird({c:'#8a5a38',c2:null,wing:'#6a4020',beak:'short',bc:'#ffcf3a',hx:70,hy:38,hr:11,legs:12,lc:'#c98a5a',tail:'fan',fan:sFan(['#c0392b','#e8a838','#2f8f5a','#e8a838'],26,56,7,32,9),bx:46,by:64,brx:22,bry:18,after:sPa('M72 48 Q80 54 74 62 Q70 56 70 50Z','#e8322e'),crest:sEl(70,28,5,7,'#e8322e'),headc:'#c9d6e8',er:3.4}),
+ budgie:()=>sBird({c:'#6fd04a',c2:'#ffe45a',wing:'#2b2433',beak:'short',bc:'#ffcf3a',hx:66,hy:36,hr:13,headc:'#ffe45a',legs:10,lc:'#a8a8b8',tail:'long',tc:'#2f9fe0',after:sSpots([[56,32,1.6],[62,28,1.6],[70,28,1.6]],'#2b2433')+sPa('M62 44 L70 44 L66 50Z','#4a7be0','stroke-width="0"'),wing:'#4ab0e8'}),
+ kingfisher:()=>sBird({c:'#ff9a3a',c2:'#fff4e0',wing:'#2f9fe0',beak:'long',bc:'#2b2433',hx:66,hy:38,hr:13,headc:'#2fbfc8',legs:8,lc:'#e8322e',tail:'short',tc:'#2f9fe0',after:sEl(70,50,5,3.4,'#fff','stroke="none"')}),
+ puffin:()=>sBird({c:'#2b2b3a',c2:'#fbfbff',wing:'#1c1c28',beak:'short',bc:'#ff7a2e',hx:62,hy:38,hr:14,headc:'#2b2b3a',legs:9,lc:'#ff7a2e',tail:'short',tc:'#2b2b3a',after:sEl(64,42,9,8,'#fbfbff','stroke="none"')+sPa('M70 36 L90 38 L90 48 L72 50Z','#ffb43a')+sPa('M70 36 L80 37 L80 49 L72 50Z','#e8322e')+sEye(64,38,3.6)}),
+ rooster:()=>sBird({c:'#ffb43a',c2:null,wing:'#e8742a',beak:'short',bc:'#ffcf3a',hx:70,hy:34,hr:12,headc:'#fbf2e0',legs:12,lc:'#ffcf3a',tail:'plume',tc:'#2f8f5a',crest:sPa('M62 24 Q60 10 66 16 Q68 6 74 14 Q80 8 78 24 Z','#e8322e'),after:sPa('M76 46 Q82 52 76 58 Q72 52 74 46Z','#e8322e','stroke-width="1.6"'),by:64,bx:44}),
+};
+
+function sTher(o){o=Object.assign({c:'#58b04e',c2:'#d7efb0',hs:1,mad:true,tailW:1,legs:1},o);let s='';
+ s+=sPa('M30 50 Q12 52 3 72 Q22 70 36 66 Z',o.c);
+ if(o.back)s+=o.back;
+ s+=sEl(40,80,9,15,o.c,'transform="rotate(8 40 80)"')+sEl(40,92,12,4.4,o.c2||o.c);
+ s+=sThick('M60 52 Q72 46 76 38',16*o.hs,o.c);
+ s+=sEl(48,60,28,19,o.c);
+ s+=sPa('M30 66 Q48 82 70 66 Q52 72 30 66Z',o.c2,'stroke="none"');
+ s+=sEl(48,60,28,19,'none');
+ s+=sEl(56,80,9,14,o.c,'transform="rotate(-6 56 80)"')+sEl(58,92,12,4.4,o.c2||o.c);
+ s+=sLn('M66 66 L74 70 M66 70 L73 74','stroke-width="2.6"');
+ s+=o.head||sEl(80,36,16*o.hs,11.5*o.hs,o.c);
+ s+=sLn('M70 41 Q84 46 95 41','stroke-width="1.8"')+(o.mad?sTeeth(76,41,10,4):'');
+ s+=sEye(80,31,4.2,o.mad?'mad':'')+sBlush(72,38,2.6);
+ return s+(o.after||'')}
+function sQuad(o){o=Object.assign({c:'#78b05a',c2:'#e4f0b8',hx:84,hy:58,tail:'#78b05a'},o);let s='';
+ s+=sPa('M24 52 Q8 56 2 74 Q20 68 32 66 Z',o.tail);
+ if(o.tailX)s+=o.tailX;
+ [26,38].forEach(x=>s+=sEl(x,80,8,12,o.c)+sEl(x,92,9.5,4,o.c2));
+ s+=o.back||'';
+ s+=sEl(46,58,28,20,o.c);
+ s+=sPa('M24 64 Q46 82 70 66 Q48 72 24 64Z',o.c2,'stroke="none"')+sEl(46,58,28,20,'none');
+ [58,70].forEach(x=>s+=sEl(x,80,8,12,o.c)+sEl(x,92,9.5,4,o.c2));
+ s+=o.front||'';
+ s+=o.head||sEl(o.hx,o.hy,12,10,o.c);
+ s+=sEye(o.hx+2,o.hy-3,3.8,o.mad?'mad':'')+sSmile(o.hx+3,o.hy+4,4)+sBlush(o.hx-4,o.hy+3,2.6);
+ return s+(o.after||'')}
+function sSauro(o){o=Object.assign({c:'#6fb4a0',c2:'#d4efe4',neck:'M62 50 Q80 40 78 14',tail:'M30 56 Q10 52 4 70',hx:78,hy:12,tw:12,nw:13},o);let s='';
+ s+=sThick(o.tail,o.tw,o.c);
+ [28,40].forEach(x=>s+=sEl(x,82,8,11,o.c)+sEl(x,92,9.5,4,o.c2));
+ s+=sThick(o.neck,o.nw,o.c);
+ s+=sEl(48,62,28,18,o.c);
+ s+=sPa('M24 68 Q46 82 72 68 Q48 72 24 68Z',o.c2,'stroke="none"')+sEl(48,62,28,18,'none');
+ [60,70].forEach(x=>s+=sEl(x,82,8,11,o.c)+sEl(x,92,9.5,4,o.c2));
+ s+=sEl(o.hx,o.hy,10,8,o.c);
+ s+=sEye(o.hx+1,o.hy-2,3.4)+sSmile(o.hx+4,o.hy+3,3)+sBlush(o.hx-3,o.hy+3,2.4)+sCi(o.hx+7,o.hy-3,1,STK_K);
+ return s+(o.after||'')}
+const ST_DINO={
+ trex:()=>sTher({c:'#58b04e',c2:'#d7efb0',after:sSpots([[30,52,2.6],[42,46,2.6],[54,48,2.6]],'#3a8a36')}),
+ tric:()=>sQuad({c:'#7aa6d8',c2:'#e4eefc',tail:'#7aa6d8',hx:80,hy:64,head:sEl(68,50,22,24,'#e0709a')+sSpots([[56,36,2.4],[66,28,2.4],[78,34,2.4],[52,50,2.4],[82,50,2.4]],'#fff')+sPa('M82 54 L98 40 L90 60Z','#fff4d8')+sPa('M70 54 L74 36 L82 58Z','#fff4d8')+sEl(82,64,14,11,'#7aa6d8')+sPa('M90 62 L100 58 L92 68Z','#fff4d8'),mad:false}),
+ stego:()=>sQuad({c:'#9bc45a',c2:'#eef6c8',tail:'#9bc45a',hx:84,hy:66,back:[[30,36],[42,28],[54,30],[66,38]].map(p=>sPa(`M${p[0]-9} ${p[1]+16} L${p[0]} ${p[1]-4} L${p[0]+9} ${p[1]+16}Z`,'#ff8a3c')).join(''),tailX:sPa('M8 62 L-2 52 L10 58Z','#ff8a3c')+sPa('M14 66 L4 60 L16 64Z','#ff8a3c')}),
+ brachio:()=>sSauro({c:'#e8b04a',c2:'#fff0c8',neck:'M62 52 Q86 44 78 8',tail:'M30 60 Q14 60 6 72',tw:9,nw:14,hy:8,after:sSpots([[36,56,2.6],[48,50,2.6],[58,56,2.6]],'#c98a1e')}),
+ raptor:()=>sTher({c:'#e0703a',c2:'#ffe2c0',hs:.8,back:'<path d="M28 44 l-4 -8 l10 4 l-2 -9 l10 7 l2 -9 l8 9" fill="#2b2433" stroke="none" opacity=".0"/>',after:sPa('M44 42 L40 30 L50 40 L52 28 L58 40 Z','#2b2433','stroke-width="1"')+sLn('M70 74 L82 78 M70 78 L82 84','stroke-width="2.4"')}),
+ ankylo:()=>sQuad({c:'#a88a6a',c2:'#e8d8bc',tail:'#a88a6a',hx:82,hy:66,back:sEl(46,48,28,16,'#8a6a4a')+[26,36,46,56,66].map(x=>sPa(`M${x-5} ${48} L${x} ${34} L${x+5} ${48}Z`,'#d8c098')).join(''),tailX:sCi(6,70,9,'#8a6a4a')+sPa('M-2 64 L6 54 L12 64Z','#d8c098'),mad:false}),
+ ptero:()=>sPa('M50 50 L4 18 Q10 40 22 56 Q36 54 50 58Z','#c0707a')+sPa('M50 50 L96 18 Q90 40 78 56 Q64 54 50 58Z','#c0707a')+sLn('M50 52 L14 28 M50 52 L24 44 M50 52 L86 28 M50 52 L76 44','stroke-width="1.6" opacity=".55"')+sEl(50,60,12,16,'#d88a92')+sThick('M52 48 Q66 40 70 30',8,'#d88a92')+sEl(72,28,9,7,'#d88a92')+sPa('M78 26 L98 28 L78 34Z','#e8c0a0')+sPa('M66 22 L50 12 L68 28Z','#c0707a')+sEye(73,26,3.4)+sLn('M46 74 L42 86 M54 74 L58 86','stroke-width="3"'),
+ spino:()=>sTher({c:'#3fa8a0',c2:'#d4f2ea',back:sPa('M26 46 Q34 6 48 34 Q58 8 70 46Z','#ff8a3c')+sLn('M34 44 L34 24 M46 44 L48 28 M58 44 L60 28','stroke-width="1.8" opacity=".6"')}),
+ diplo:()=>sSauro({c:'#9a8ad0',c2:'#e8e2fa',neck:'M62 54 Q82 54 82 30 Q82 22 86 20',tail:'M30 56 Q8 58 4 78',tw:12,nw:12,hx:90,hy:20,after:''}),
+ para:()=>sQuad({c:'#e0793a',c2:'#ffe4c8',tail:'#e0793a',hx:82,hy:64,head:sEl(82,64,13,9.5,'#e0793a')+sThick('M80 58 Q64 34 40 40',5,'#f5c04a'),mad:false}),
+ pachy:()=>sQuad({c:'#c98a9a',c2:'#f7dde4',tail:'#c98a9a',hx:80,hy:62,head:sEl(82,62,12,10,'#c98a9a')+sPa('M70 58 Q72 42 86 44 Q96 50 92 60Z','#a86a7a')+sSpots([[78,48,1.6],[84,46,1.6],[90,52,1.6]],'#7a4a5a')}),
+ allo:()=>sTher({c:'#e8883a',c2:'#ffe0b8',after:sPa('M72 28 L68 20 L76 26 L80 18 L82 28Z','#a8501c','stroke-width="1.4"')+sSpots([[30,52,2.6],[42,46,2.6],[54,48,2.6]],'#a8501c')}),
+ igua:()=>sTher({c:'#8a9ee0',c2:'#e4eafc',mad:false,hs:.85,after:sPa('M66 64 L76 56 L72 68Z','#fff4d8')+sLn('M70 74 L82 78','stroke-width="2.4"')}),
+ plesio:()=>'<path d="M0 78 Q12 72 24 78 T48 78 T72 78 T100 78 V100 H0Z" fill="#6db8e8" opacity=".55"/>'+sThick('M62 62 Q80 56 76 32 Q74 22 82 20',11,'#58b0a0')+sEl(46,66,28,16,'#58b0a0')+sPa('M30 76 L14 90 L36 84Z','#3f9488')+sPa('M62 76 L82 90 L56 82Z','#3f9488')+sPa('M20 64 L2 60 L12 72Z','#58b0a0')+sEl(84,19,9,7,'#58b0a0')+sEye(86,17,3.2)+sSmile(88,22,2.4)+sPa('M0 80 Q12 74 24 80 T48 80 T72 80 T100 80 V100 H0Z','#6db8e8','stroke="none" opacity=".6"'),
+ ichthy:()=>sFish({c:'#5a9aa8',c2:'#cfe6e8',fin:'#3e7684',rx:30,ry:19,cx:46,after:sPa('M74 48 L96 50 L74 56Z','#5a9aa8')+sPa('M42 33 Q48 14 62 32Z','#3e7684')}),
+ dilo:()=>sTher({c:'#9a62d0',c2:'#eadcfa',head:sEl(80,36,15,11,'#9a62d0')+sPa('M70 26 Q72 10 80 22 Q84 8 90 26Z','#ff8a3c'),after:sPa('M62 44 Q72 34 78 46 Q70 52 62 50Z','#ff8a3c','stroke-width="1.6"')}),
+ gally:()=>sTher({c:'#ee9ab4',c2:'#ffe4ee',hs:.7,mad:false,after:sLn('M58 40 Q74 38 82 28','stroke-width="0"')}),
+ compy:()=>'<g transform="translate(12 18) scale(.78)">'+sTher({c:'#a8d468',c2:'#f0fadc',hs:.9,mad:false})+'</g>',
+ carno:()=>sTher({c:'#d6453a',c2:'#ffd8c8',head:sEl(80,36,15,11,'#d6453a')+sPa('M72 28 L68 14 L78 26Z','#fff4d8')+sPa('M84 26 L86 12 L90 28Z','#fff4d8'),after:sSpots([[30,52,2.6],[42,46,2.6],[54,48,2.6]],'#a82a22')}),
+ egg:()=>sPa('M20 52 Q20 14 50 14 Q80 14 80 52 Q80 90 50 90 Q20 90 20 52Z','#fff6e0')+sSpots([[34,66,5],[62,72,4.4],[46,80,3.4],[68,58,3.2]],'#8ec86a')+sEl(50,36,20,19,'#7ccf58')+sEyes(42,58,34,6)+sSmile(50,46,5)+sBlush(35,42,4)+sBlush(65,42,4)+sPa('M18 50 L28 40 L36 52 L46 40 L56 54 L66 40 L74 52 L82 42 L82 52 Q82 94 50 94 Q18 94 18 52Z','#fff6e0')+sPa('M18 50 L28 40 L36 52 L46 40 L56 54 L66 40 L74 52 L82 42','none')+sSpots([[34,70,5],[62,76,4.4],[46,84,3.4],[68,62,3.2]],'#8ec86a')+sPa('M34 38 L42 44 M60 44 L66 38','none'),
+ archae:()=>sBird({c:'#5a8aa0',c2:'#e4f0f4',wing:'#e8a838',beak:'short',bc:'#e8d8a8',hx:68,hy:38,hr:12,legs:10,lc:'#c98a1e',tail:'plume',tc:'#e8a838',crest:'',after:sPa('M34 52 Q20 36 8 40 Q16 50 30 62Z','#e8a838')+sTeeth(80,42,4,3)}),
+ thera:()=>sTher({c:'#c0a070',c2:'#f4ead0',mad:false,hs:.8,after:sLn('M66 72 L82 78 M66 76 L80 86 M66 68 L84 70','stroke-width="3.4"')+sPa('M36 52 Q48 40 62 50 Q54 58 40 60Z','#e8d8b8','stroke-width="1.4"')}),
+ kentro:()=>sQuad({c:'#c0793a',c2:'#f7e0c0',tail:'#c0793a',hx:84,hy:68,back:[[26,38],[38,32],[50,32],[62,38]].map(p=>sPa(`M${p[0]-6} ${p[1]+14} L${p[0]} ${p[1]-8} L${p[0]+6} ${p[1]+14}Z`,'#f3e8c8')).join(''),tailX:sPa('M10 64 L-2 52 L12 60Z','#f3e8c8')+sPa('M16 68 L4 62 L18 64Z','#f3e8c8')}),
+ styraco:()=>sQuad({c:'#6bbd8a',c2:'#e0f6e8',tail:'#6bbd8a',hx:80,hy:64,head:sPa('M52 30 L58 12 L62 28 L72 8 L74 28 L86 12 L84 32 L96 34 L84 42 Q92 54 84 62 L58 58Z','#f0805a')+sPa('M66 52 Q88 46 92 62 Q88 74 66 72Z','#6bbd8a')+sPa('M90 60 L98 48 L94 62Z','#fff4d8')}),
+ apato:()=>sSauro({c:'#d6906a',c2:'#fbe4d4',neck:'M62 52 Q82 48 82 26',tail:'M30 58 Q10 54 4 74',nw:14,hx:84,hy:22,tw:12,after:sSpots([[36,56,2.6],[48,52,2.6],[58,58,2.6]],'#b86a3a')}),
+};
+
+function sSnakeBody(d,w,c,pat){return sThick(d,w,c)}
+const ST_MISC={
+ chick:()=>sLn('M44 86 L42 96 M56 86 L58 96 M38 96 H46 M54 96 H62','stroke="#ff9a2e" stroke-width="3.4"')+sEl(50,56,32,30,'#ffd84a')+sPa('M40 28 Q36 14 44 18 Q46 10 50 18 Q56 10 58 20 Q64 16 60 28Z','#ffd84a')+sPa('M20 56 Q12 70 28 74Z','#f2b81c')+sPa('M80 56 Q88 70 72 74Z','#f2b81c')+sPa('M44 56 L56 56 L50 64Z','#ff9a2e')+sEyes(38,62,48,4.8)+sBlush(30,58,4.4)+sBlush(70,58,4.4),
+ sheep:()=>sLn('M36 80 V94 M64 80 V94','stroke="#3a3a48" stroke-width="6"')+[[28,56,15],[40,44,16],[58,44,16],[72,56,15],[34,70,15],[66,70,15],[50,62,20]].map(p=>sCi(p[0],p[1],p[2],'#fbfbff')).join('')+sEl(50,52,19,20,'#4a4a58')+sEl(31,48,6,9,'#4a4a58','transform="rotate(30 31 48)"')+sEl(69,48,6,9,'#4a4a58','transform="rotate(-30 69 48)"')+sCi(50,36,12,'#fbfbff','stroke="none"')+sEyes(43,57,52,3.8)+sSmile(50,62,3)+sBlush(37,58,3)+sBlush(63,58,3),
+ owl:()=>sPa('M30 30 L24 12 L42 22 Z','#8a6a46')+sPa('M70 30 L76 12 L58 22 Z','#8a6a46')+sEl(50,56,31,34,'#a07850')+sEl(50,66,20,22,'#f0dcb4','stroke="none"')+sLn('M40 62 Q44 66 48 62 M52 62 Q56 66 60 62 M42 72 Q46 76 50 72 M50 72 Q54 76 58 72 M44 82 Q50 86 56 82','stroke-width="1.6" opacity=".55"')+sPa('M20 50 Q10 70 22 84 Q30 70 30 56Z','#8a6a46')+sPa('M80 50 Q90 70 78 84 Q70 70 70 56Z','#8a6a46')+sCi(38,44,13,'#fff4d8')+sCi(62,44,13,'#fff4d8')+sEye(38,44,6.6)+sEye(62,44,6.6)+sPa('M50 48 L44 56 L50 64 L56 56Z','#ff9a2e')+sLn('M40 94 l-3 4 M44 94 l0 4 M56 94 l0 4 M60 94 l3 4','stroke="#ff9a2e" stroke-width="3"'),
+ penguin:()=>sPa('M24 52 Q8 62 14 82 Q26 74 30 62Z','#2b2b3a')+sPa('M76 52 Q92 62 86 82 Q74 74 70 62Z','#2b2b3a')+sEl(50,56,28,36,'#2b2b3a')+sEl(50,64,18,26,'#fbfbff','stroke="none"')+sPa('M36 94 L50 90 L64 94 L62 99 L38 99Z','#ff9a2e')+sPa('M50 44 L42 52 L50 56 L58 52Z','#ff9a2e')+sEyes(40,60,40,4.6)+sBlush(32,50,3.6)+sBlush(68,50,3.6),
+ croc:()=>sPa('M14 66 L0 78 L16 74Z','#4fa84a')+sEl(40,66,32,14,'#4fa84a')+sPa('M40 66 Q62 76 86 64 L40 60Z','#c8e8a0','stroke="none"')+sEl(40,66,32,14,'none')+[22,32,42,52].map(x=>sPa(`M${x-4} 54 L${x} 48 L${x+4} 54Z`,'#3a8a3a','stroke-width="1.6"')).join('')+sEl(30,82,7,6,'#4fa84a')+sEl(52,82,7,6,'#4fa84a')+sPa('M58 44 L98 48 L98 56 L60 58Z','#4fa84a')+sPa('M60 60 L98 60 L96 68 Q76 74 60 68Z','#6fc060')+sTeeth(68,57,16,6)+sCi(66,42,6.4,'#4fa84a')+sEye(66,41,4,'mad')+sCi(94,48,1.2,STK_K),
+ komodo:()=>sThick('M26 62 Q8 60 2 76',10,'#a8885a')+sEl(48,62,26,13,'#a8885a')+[[30,66],[42,66],[56,66],[68,66]].map(p=>sEl(p[0]-2,p[1]+12,6,6,'#a8885a')).join('')+sSpots([[34,58,2.4],[46,56,2.4],[58,58,2.4]],'#6f5a3a')+sEl(78,56,16,10,'#a8885a')+sPa('M92 56 L98 54 L98 60 L92 60Z','#a8885a','stroke-width="1.4"')+sLn('M94 60 L100 66 L96 68 M94 60 L100 54','stroke="#e8322e" stroke-width="2"')+sEye(80,52,3.8,'mad')+sSmile(86,60,4,'mad'),
+ cobra:()=>sEl(50,86,34,10,'#8aa04a')+sThick('M50 82 Q18 80 24 66 Q30 60 44 60',10,'#9ab456')+sPa('M50 82 Q82 80 76 66 Q70 60 56 60','none')+sThick('M50 82 Q58 60 50 46',16,'#9ab456')+sPa('M50 56 Q18 44 24 24 Q30 10 50 12 Q70 10 76 24 Q82 44 50 56Z','#9ab456')+sEl(50,34,14,16,'#e8e2a8','stroke="none"')+sLn('M42 44 Q50 50 58 44','stroke-width="1.6" opacity=".5"')+sPa('M50 8 Q60 18 50 30 Q40 18 50 8','none')+sEyes(43,57,26,3.8,'mad')+sFang(46,34)+sFang(54,34)+sLn('M50 38 L50 46 M50 46 L46 49 M50 46 L54 49','stroke="#e8322e" stroke-width="2"'),
+ rattle:()=>sThick('M10 74 Q18 54 36 66 Q54 80 66 60 Q74 46 86 56',14,'#c8a050')+[[22,62],[40,70],[56,72],[68,60]].map(p=>sPa(`M${p[0]-4} ${p[1]} L${p[0]} ${p[1]-5} L${p[0]+4} ${p[1]} L${p[0]} ${p[1]+5}Z`,'#7a5a2a','stroke-width="1.4"')).join('')+sPa('M2 76 L12 68 L16 80Z','#f0e0a8')+sPa('M6 80 L16 72 L18 84Z','#e6d090','')+sEl(84,50,13,10,'#c8a050')+sEye(86,46,3.6,'mad')+sLn('M94 52 L100 56 L96 58 M94 52 L100 50','stroke="#e8322e" stroke-width="2"')+sFang(80,54),
+ scorpion:()=>{let l='';[[-1,0],[1,0]].forEach(([d])=>{for(let i=0;i<4;i++)l+=sLn(`M${50+d*10} ${56+i*6} Q${50+d*28} ${52+i*8} ${50+d*36} ${64+i*8}`,'stroke-width="3"')});
+  const claw=d=>sThick(`M${50+d*8} 44 Q${50+d*26} 38 ${50+d*28} 22`,5,'#c8783a')+sPa(`M${50+d*18} 24 Q${50+d*28} 2 ${50+d*38} 20 Q${50+d*30} 20 ${50+d*28} 30Z`,'#c8783a');
+  return sThick('M50 74 Q50 92 74 88 Q92 80 80 58 Q76 50 68 56',8,'#c8783a')+sPa('M64 54 L70 44 L74 56Z','#2b2433')+l+claw(-1)+claw(1)+sEl(50,60,16,22,'#d8884a')+[54,62,70].map(y=>sLn(`M36 ${y} Q50 ${y+4} 64 ${y}`,'stroke-width="1.6" opacity=".5"')).join('')+sEyes(44,56,46,3.6,'mad')},
+ widow:()=>{let l='';for(let i=0;i<4;i++){l+=sLn(`M44 ${52+i*5} Q20 ${40+i*8} 8 ${50+i*12}`,'stroke-width="3.4"')+sLn(`M56 ${52+i*5} Q80 ${40+i*8} 92 ${50+i*12}`,'stroke-width="3.4"')}
+  return l+sEl(50,68,22,24,'#34343f')+sEl(50,36,13,12,'#34343f')+sEl(42,62,4,5,'#fff','stroke="none" opacity=".25"')+sPa('M44 60 L56 60 L50 68 L56 76 L44 76 L50 68Z','#e8322e','stroke-width="1.4"')+sEyes(45,55,34,3.4,'mad')+sFang(47,44)+sFang(53,44)},
+ frog:()=>sEl(22,80,13,8,'#3a8fe0')+sEl(78,80,13,8,'#3a8fe0')+sEl(50,60,32,28,'#2f7fe0')+sSpots([[30,52,4],[66,44,3.6],[72,64,4.4],[34,70,3.6],[50,50,3]],'#1b2a6b')+sEl(50,70,22,12,'#7ac0ff','stroke="none"')+sCi(34,36,11,'#2f7fe0')+sCi(66,36,11,'#2f7fe0')+sEye(34,35,6.4,'mad')+sEye(66,35,6.4,'mad')+sSmile(50,66,12,'mad')+sBlush(26,62,4.2)+sBlush(74,62,4.2),
+ shark:()=>sFish({c:'#7a8aa0',c2:'#f0f4fa',fin:'#5a6a80',rx:38,ry:19,cx:50,cy:56,mad:true,teeth:false,nodorsal:true,after:sPa('M40 40 Q46 10 64 38Z','#5a6a80')+sPa('M70 62 Q86 70 92 60 Q80 56 70 56Z','#2b2433')+sTeeth(72,60,8,4)}),
+ orca:()=>sWhale({c:'#2b2b3a',c2:'#fbfbff',fin:'#1f1f2c',m:sEl(66,42,10,5,'#fbfbff','transform="rotate(-20 66 42)"')+sPa('M46 66 Q60 74 74 68 Q56 66 46 66Z','#fbfbff','stroke="none"')}),
+ piranha:()=>sFish({c:'#c0483a',c2:'#ffb09a',fin:'#8a2a22',rx:27,ry:23,cx:50,mad:true,teeth:true,after:sTeeth(70,59,8,4)+sTeeth(70,54,8,4)}),
+ sting:()=>sThick('M50 70 Q44 86 60 96',3.2,'#6a5a48')+sPa('M62 98 L58 92 L66 94Z','#2b2433')+sEl(50,50,40,28,'#8a7358')+sSpots([[32,44,3],[40,36,2.6],[60,36,3],[68,46,2.6],[44,56,2.4],[58,58,3]],'#6a5a42')+sPa('M12 50 Q6 44 2 50 Q8 58 14 56Z','#8a7358')+sEyes(40,60,44,4.6,'mad')+sSmile(50,56,4)+sEl(50,62,12,4,'#c8b090','stroke="none"'),
+ box:()=>{let t='';[[24,'#9ad8f0'],[38,'#7ac8e8'],[62,'#7ac8e8'],[76,'#9ad8f0']].forEach((p,i)=>t+=sThick(`M${p[0]} 62 q${i%2?5:-5} 14 0 24 t0 14`,3.6,p[1]));
+  return t+sPa('M16 62 L16 26 Q16 12 32 12 L68 12 Q84 12 84 26 L84 62 Q50 70 16 62Z','#8cd8f0')+sEl(34,24,8,4,'#fff','stroke="none" opacity=".55" transform="rotate(-20 34 24)"')+sPa('M16 54 Q50 62 84 54','none')+sEyes(38,62,38,4.4,'mad')+sSmile(50,50,4,'mad')+sLn('M30 62 L30 54 M70 62 L70 54','stroke-width="1.6" opacity=".4"')},
+ hornet:()=>{let w=sEl(26,34,18,9,'#cfeaff','transform="rotate(-24 26 34)" stroke-width="1.8" opacity=".85"')+sEl(74,34,18,9,'#cfeaff','transform="rotate(24 74 34)" stroke-width="1.8" opacity=".85"');
+  const [id,cp]=sClip('<ellipse cx="50" cy="70" rx="20" ry="25"/>');
+  return w+sPa('M46 92 L50 100 L54 92Z','#2b2433')+sEl(50,70,20,25,'#ffcf2e')+cp+`<g clip-path="url(#${id})"><path d="M26 64 H74 V72 H26Z M26 80 H74 V88 H26Z" fill="#2b2433"/></g>`+sEl(50,70,20,25,'none')+sEl(50,44,17,14,'#ff9a2e')+sLn('M42 32 Q36 18 28 16 M58 32 Q64 18 72 16','stroke-width="2.2"')+sEyes(43,57,42,4.4,'mad')+sSmile(50,52,3.4,'mad')+sFang(47,53)+sFang(53,53)},
+};
+
+const STK_NAMES=`chick|Küken|Chick|Poussin|Pollito
+pig|Ferkel|Piglet|Porcelet|Cerdito
+cow|Kuh|Cow|Vache|Vaca
+sheep|Schaf|Sheep|Mouton|Oveja
+duck|Ente|Duck|Canard|Pato
+tang|Doktorfisch|Blue tang|Chirurgien bleu|Pez cirujano
+clown|Clownfisch|Clownfish|Poisson-clown|Pez payaso
+puffer|Kugelfisch|Pufferfish|Poisson-globe|Pez globo
+seahorse|Seepferdchen|Seahorse|Hippocampe|Caballito de mar
+jelly|Qualle|Jellyfish|Méduse|Medusa
+octopus|Krake|Octopus|Pieuvre|Pulpo
+squid|Tintenfisch|Squid|Calmar|Calamar
+crab|Krabbe|Crab|Crabe|Cangrejo
+lobster|Hummer|Lobster|Homard|Langosta
+shrimp|Garnele|Shrimp|Crevette|Gamba
+starfish|Seestern|Starfish|Étoile de mer|Estrella de mar
+shell|Muschel|Scallop|Coquille|Concha
+snail|Meeresschnecke|Sea snail|Escargot de mer|Caracol marino
+turtle|Meeresschildkröte|Sea turtle|Tortue marine|Tortuga marina
+urchin|Seeigel|Sea urchin|Oursin|Erizo de mar
+dolphin|Delfin|Dolphin|Dauphin|Delfín
+blue|Blauwal|Blue whale|Baleine bleue|Ballena azul
+narwhal|Narwal|Narwhal|Narval|Narval
+seal|Robbe|Seal|Phoque|Foca
+walrus|Walross|Walrus|Morse|Morsa
+otter|Seeotter|Sea otter|Loutre de mer|Nutria marina
+manta|Mantarochen|Manta ray|Raie manta|Manta raya
+angler|Anglerfisch|Anglerfish|Baudroie|Rape
+moon|Mondfisch|Sunfish|Poisson-lune|Pez luna
+sword|Schwertfisch|Swordfish|Espadon|Pez espada
+parrot|Papagei|Parrot|Perroquet|Loro
+penguin|Pinguin|Penguin|Manchot|Pingüino
+flamingo|Flamingo|Flamingo|Flamant rose|Flamenco
+peacock|Pfau|Peacock|Paon|Pavo real
+toucan|Tukan|Toucan|Toucan|Tucán
+eagle|Adler|Eagle|Aigle|Águila
+woodpecker|Specht|Woodpecker|Pic|Pájaro carpintero
+robin|Rotkehlchen|Robin|Rouge-gorge|Petirrojo
+swan|Schwan|Swan|Cygne|Cisne
+hummer|Kolibri|Hummingbird|Colibri|Colibrí
+ostrich|Strauß|Ostrich|Autruche|Avestruz
+pelican|Pelikan|Pelican|Pélican|Pelícano
+stork|Storch|Stork|Cigogne|Cigüeña
+kiwi|Kiwi|Kiwi|Kiwi|Kiwi
+sparrow|Spatz|Sparrow|Moineau|Gorrión
+gull|Möwe|Seagull|Mouette|Gaviota
+raven|Rabe|Raven|Corbeau|Cuervo
+dove|Taube|Dove|Colombe|Paloma
+goose|Gans|Goose|Oie|Ganso
+turkey|Truthahn|Turkey|Dinde|Pavo
+budgie|Wellensittich|Budgie|Perruche|Periquito
+kingfisher|Eisvogel|Kingfisher|Martin-pêcheur|Martín pescador
+puffin|Papageitaucher|Puffin|Macareux|Frailecillo
+rooster|Hahn|Rooster|Coq|Gallo
+owl|Eule|Owl|Hibou|Búho
+trex|T-Rex|T. rex|T-Rex|T-Rex
+tric|Triceratops|Triceratops|Tricératops|Triceratops
+stego|Stegosaurus|Stegosaurus|Stégosaure|Estegosaurio
+brachio|Brachiosaurus|Brachiosaurus|Brachiosaure|Braquiosaurio
+raptor|Velociraptor|Velociraptor|Vélociraptor|Velociraptor
+ankylo|Ankylosaurus|Ankylosaurus|Ankylosaure|Anquilosaurio
+ptero|Pterodactylus|Pterodactylus|Ptérodactyle|Pterodáctilo
+spino|Spinosaurus|Spinosaurus|Spinosaure|Espinosaurio
+diplo|Diplodocus|Diplodocus|Diplodocus|Diplodocus
+para|Parasaurolophus|Parasaurolophus|Parasaurolophus|Parasaurolophus
+pachy|Pachycephalosaurus|Pachycephalosaurus|Pachycéphalosaure|Paquicefalosaurio
+allo|Allosaurus|Allosaurus|Allosaure|Alosaurio
+igua|Iguanodon|Iguanodon|Iguanodon|Iguanodón
+plesio|Plesiosaurus|Plesiosaurus|Plésiosaure|Plesiosaurio
+ichthy|Ichthyosaurus|Ichthyosaurus|Ichtyosaure|Ictiosaurio
+dilo|Dilophosaurus|Dilophosaurus|Dilophosaure|Dilofosaurio
+gally|Gallimimus|Gallimimus|Gallimimus|Gallimimus
+compy|Compsognathus|Compsognathus|Compsognathus|Compsognathus
+carno|Carnotaurus|Carnotaurus|Carnotaure|Carnotauro
+egg|Dino-Baby|Baby dino|Bébé dino|Dino bebé
+archae|Archaeopteryx|Archaeopteryx|Archéoptéryx|Archaeopteryx
+thera|Therizinosaurus|Therizinosaurus|Thérizinosaure|Therizinosaurio
+kentro|Kentrosaurus|Kentrosaurus|Kentrosaure|Kentrosaurio
+styraco|Styracosaurus|Styracosaurus|Styracosaure|Estiracosaurio
+apato|Apatosaurus|Apatosaurus|Apatosaure|Apatosaurio
+lion|Löwe|Lion|Lion|León
+tiger|Tiger|Tiger|Tigre|Tigre
+bear|Grizzlybär|Grizzly bear|Grizzli|Oso pardo
+polar|Eisbär|Polar bear|Ours polaire|Oso polar
+wolf|Wolf|Wolf|Loup|Lobo
+gorilla|Gorilla|Gorilla|Gorille|Gorila
+hippo|Nilpferd|Hippo|Hippopotame|Hipopótamo
+rhino|Nashorn|Rhino|Rhinocéros|Rinoceronte
+elephant|Elefant|Elephant|Éléphant|Elefante
+buffalo|Büffel|Buffalo|Buffle|Búfalo
+leopard|Leopard|Leopard|Léopard|Leopardo
+hyena|Hyäne|Hyena|Hyène|Hiena
+croc|Krokodil|Crocodile|Crocodile|Cocodrilo
+komodo|Komodowaran|Komodo dragon|Dragon de Komodo|Dragón de Komodo
+cobra|Kobra|Cobra|Cobra|Cobra
+rattle|Klapperschlange|Rattlesnake|Serpent à sonnette|Serpiente de cascabel
+scorpion|Skorpion|Scorpion|Scorpion|Escorpión
+widow|Schwarze Witwe|Black widow|Veuve noire|Viuda negra
+frog|Pfeilgiftfrosch|Poison dart frog|Grenouille venimeuse|Rana venenosa
+shark|Weißer Hai|Great white shark|Grand requin blanc|Tiburón blanco
+orca|Orca|Orca|Orque|Orca
+piranha|Piranha|Piranha|Piranha|Piraña
+sting|Stachelrochen|Stingray|Raie pastenague|Raya látigo
+box|Würfelqualle|Box jellyfish|Cuboméduse|Medusa cubo
+hornet|Hornisse|Hornet|Frelon|Avispón`.split('\n').map(l=>l.split('|'));
+const STK_ALL=Object.assign({},ST_FACE,ST_SEA,ST_BIRD,ST_DINO,ST_MISC);
+const STK_XF={flamingo:'translate(9 -2) scale(.86)',ostrich:'translate(9 -2) scale(.86)',stork:'translate(9 -2) scale(.86)',brachio:'translate(6 4) scale(.9)',diplo:'translate(6 4) scale(.9)',apato:'translate(6 4) scale(.9)',narwhal:'',plesio:''};
+function stkKey(idx){const r=STK_NAMES[idx-1];return r&&r[0]}
+function stkName(idx,lg){const r=STK_NAMES[idx-1];if(!r)return '';const i={de:1,en:2,fr:3,es:4}[lg]||2;return r[i]}
+function stkInner(key){const f=STK_ALL[key];if(!f)return '';const x=STK_XF[key];return x?`<g transform="${x}">${f()}</g>`:f()}
+function stkSvg(idx){stkEnsure();return stkWrap(stkInner(stkKey(idx)))}
+
+/* ===== Kindermodus: Stickerheft statt Story, eigener Fortschritt ===== */
+const STAMP_T={de:{title:'Stickerheft',home:'📒 Mein Stickerheft',sub:'{n} von {m} Stickern',honor:'Ehrenstab',hint:'Löse eine Aufgabe und hol dir den Sticker!',new:'Neuer Sticker!',need:'Noch {n} Sticker bis zur nächsten Stufe',open:'Nächste Stufe frei!',gate:'Sammle {n} Sticker in der Stufe davor, um diese freizuschalten',gate5:'Löse erst alle 5 Aufgaben der Einführung',task:'Aufgabe ansehen',close:'Schließen',intro:'Löse alle 5 Aufgaben, dann geht es weiter!'},
+ en:{title:'Sticker book',home:'📒 My sticker book',sub:'{n} of {m} stickers',honor:'Honour stick',hint:'Solve a task to earn its sticker!',new:'New sticker!',need:'{n} more stickers to the next stage',open:'Next stage unlocked!',gate:'Collect {n} stickers in the previous stage to unlock this one',gate5:'First solve all 5 tasks of the introduction',task:'View task',close:'Close',intro:'Solve all 5 tasks to move on!'},
+ fr:{title:'Carnet d’autocollants',home:'📒 Mon carnet d’autocollants',sub:'{n} sur {m} autocollants',honor:'Bâton d’honneur',hint:'Résous un défi pour gagner son autocollant !',new:'Nouvel autocollant !',need:'Encore {n} autocollants pour l’étape suivante',open:'Étape suivante débloquée !',gate:'Collecte {n} autocollants de l’étape précédente pour débloquer celle-ci',gate5:'Résous d’abord les 5 défis de l’introduction',task:'Voir le défi',close:'Fermer',intro:'Résous les 5 défis pour continuer !'},
+ es:{title:'Álbum de pegatinas',home:'📒 Mi álbum de pegatinas',sub:'{n} de {m} pegatinas',honor:'Palito de honor',hint:'¡Resuelve un reto y gana su pegatina!',new:'¡Pegatina nueva!',need:'Faltan {n} pegatinas para la siguiente fase',open:'¡Siguiente fase desbloqueada!',gate:'Reúne {n} pegatinas de la fase anterior para desbloquear esta',gate5:'Primero resuelve los 5 retos de la introducción',task:'Ver el reto',close:'Cerrar',intro:'¡Resuelve los 5 retos para seguir!'}};
 function stampT(){return STAMP_T[lang]||STAMP_T.en}
-function stampSvg(p){const idx=storyIndex(p),n=(idx-1)%10+1,col=(store.colors||DEFAULT_COLORS)[n-1]||'#e53935',rot=((idx*37)%17)-8;
- return `<svg viewBox="0 0 100 100" aria-hidden="true" style="transform:rotate(${rot}deg)"><circle cx="50" cy="50" r="47.5" fill="none" stroke="#1b1d22" stroke-opacity=".3" stroke-width="2"/><circle cx="50" cy="50" r="44" fill="none" stroke="${col}" stroke-width="6" stroke-dasharray="3 0"/><circle cx="50" cy="50" r="36" fill="${col}" fill-opacity=".16"/><rect x="42" y="14" width="16" height="72" rx="6" fill="${col}" transform="rotate(35 50 50)"/><text x="50" y="58" text-anchor="middle" font-size="30" font-weight="900" fill="#fff" stroke="#1b1d22" stroke-width="1.4" paint-order="stroke" font-family="inherit">${idx}</text></svg>`}
+function stampSvg(p){return stkSvg(storyIndex(p))}
+const KID_NEED=17,KID_GATES=[5,30,55,80];
+function kidStageCount(gate){const lo=gate-24;return storyPuzzles().filter(p=>{const i=storyIndex(p);return i>=lo&&i<=gate&&store.done[p.id]}).length}
+/* Freischaltung im Kindermodus: nur Hürden zwischen den Stufen, 2/3 der Sticker */
+{const _hb=hurdleBefore,_hp=hurdlePassed,_gt=storyGateText;
+ hurdleBefore=function(i){if(!store.kid)return _hb(i);let g=0;for(const x of KID_GATES){if(i>x)g=x;else break}return g};
+ hurdlePassed=function(n){if(!store.kid)return _hp(n);if(n===5)return storyPuzzles().filter(p=>storyIndex(p)<=5&&store.done[p.id]).length>=5;return kidStageCount(n)>=KID_NEED};
+ storyGateText=function(idx){if(!store.kid)return _gt(idx);const g=hurdleBefore(idx);if(!g)return '';const d=stampT();return g===5?d.gate5:d.gate.replace('{n}',KID_NEED)}}
+/* getrennter Fortschritt: Standard = Story, Kinder = Stickerheft */
+{const _sk=setKid;setKid=function(v){v=!!v;if(v===!!store.kid)return;
+  const st=store.stash||{done:{},seen:{}};const cur={done:store.done,seen:store.stampSeen||{}};
+  store.done=st.done||{};store.stampSeen=st.seen||{};store.stash=cur;
+  return _sk(v)}}
+{const _os=openStory;openStory=function(){if(store.kid)return openStamps();return _os.apply(this,arguments)}}
+{const _rhs=renderHeaderStars;renderHeaderStars=function(){const r=_rhs.apply(this,arguments);if(store.kid){const e=document.getElementById('headerStars');if(e){const n=storyPuzzles().filter(p=>store.done[p.id]).length;e.innerHTML=`📒 <b>${n}</b>`}}return r}}
+function stkNameNow(idx){return stkName(idx,lang)}
+function stkDetail(idx,id){const d=stampT();let m=document.getElementById('stkModal');if(!m){m=document.createElement('div');m.id='stkModal';m.className='modal-backdrop hidden';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');document.body.appendChild(m)}
+ m.innerHTML=`<div class="modal-card stk-card"><div class="stk-big">${stkSvg(idx)}</div><h3 class="stk-name">${esc(stkNameNow(idx))}</h3><div class="modal-actions"><button class="success" type="button" onclick="closeModalThen('stkModal',()=>openPuzzle('${id}'))">${d.task}</button><button type="button" onclick="closeModal('stkModal')">${d.close}</button></div></div>`;showModal('stkModal')}
 function openStamps(){
+  if(!store.kid){return openStory()}
   flipNavPush({view:'stamps'});renderHeaderStars();section('menu');
-  const d=stampT(),cols=store.colors||DEFAULT_COLORS;store.stampSeen=store.stampSeen||{};
+  const d=stampT(),cols=store.colors||DEFAULT_COLORS;store.stampSeen=store.stampSeen||{};stkEnsure();
   document.getElementById('menuTitle').textContent=d.title;
-  const chapters=[['intro','📘'],['easy','✨'],['medium','⚙️'],['hard','🔥'],['impossible','💀']];
+  const chapters=[['intro','📘'],['easy','✨'],['medium','⚙️'],['hard','🔥'],['impossible','💀']],gates={intro:5,easy:30,medium:55,hard:80};
   let all=0,got=0,html='';
-  chapters.forEach(([id,icon],ci)=>{const a=byDiff[id]||[];if(!a.length)return;const n=a.filter(p=>store.done[p.id]).length,full=n===a.length;all+=a.length;got+=n;
-   if(!isStoryUnlocked(a[0])){html+=`<section class="stamp-page stamp-locked" style="--chc:${chcAdapt(cols[ci]||'#888')}"><div class="stamp-head"><strong>${icon} ${diffName(id)}</strong><span class="stamp-lock">🔒 ${a.length}</span></div></section>`;return}
-   html+=`<section class="stamp-page" style="--chc:${chcAdapt(cols[ci]||'#888')}"><div class="stamp-head"><strong>${icon} ${diffName(id)}</strong><span class="stamp-honor ${full?'on':''}" title="${d.honor}"><svg viewBox="0 0 120 30" aria-hidden="true"><rect x="3" y="6" width="114" height="18" rx="9" fill="${full?'#FFD84A':'none'}" stroke="${full?'#c99a00':'currentColor'}" stroke-width="3" ${full?'':'stroke-dasharray="6 6"'}/>${full?'<text x="60" y="21" text-anchor="middle" font-size="16">★ ★ ★</text>':''}</svg><small>${full?d.honor:n+'/'+a.length}</small></span></div><div class="stamp-grid">`+
-   a.slice().sort((x,y)=>storyIndex(x)-storyIndex(y)).map(p=>{const ok=!!store.done[p.id],isNew=ok&&!store.stampSeen[p.id];if(ok)store.stampSeen[p.id]=1;
-     return `<button type="button" class="stamp ${ok?'got':''} ${isNew?'new':''}" onclick="openPuzzle('${p.id}')" aria-label="${storyIndex(p)}">${ok?stampSvg(p):`<span class="stamp-empty">${storyIndex(p)}</span>`}</button>`}).join('')+`</div></section>`});
+  chapters.forEach(([id,icon],ci)=>{const a=byDiff[id]||[];if(!a.length)return;const n=a.filter(p=>store.done[p.id]).length;all+=a.length;got+=n;
+   const col=`style="--chc:${chcAdapt(cols[ci]||'#888')}"`;
+   if(!isStoryUnlocked(a[0])){html+=`<section class="stamp-page stamp-locked" ${col}><div class="stamp-head"><strong>${icon} ${diffName(id)}</strong><span class="stamp-lock">🔒 ${a.length}</span></div><p class="stamp-note">${esc(storyGateText(storyIndex(a[0])))}</p></section>`;return}
+   const g=gates[id],need=g===5?5:KID_NEED,have=g?(g===5?n:kidStageCount(g)):0;
+   const note=g?(have>=need?`<p class="stamp-note ok">${d.open}</p>`:`<p class="stamp-note">${(g===5?d.intro:d.need.replace('{n}',need-have))}</p>`):'';
+   html+=`<section class="stamp-page" ${col}><div class="stamp-head"><strong>${icon} ${diffName(id)}</strong><span class="stamp-honor"><small>${n}/${a.length}</small></span></div>${note}<div class="stamp-grid">`+
+   a.slice().sort((x,y)=>storyIndex(x)-storyIndex(y)).map(p=>{const ok=!!store.done[p.id],isNew=ok&&!store.stampSeen[p.id];if(ok)store.stampSeen[p.id]=1;const ix=storyIndex(p);
+     return ok?`<button type="button" class="stamp got ${isNew?'new':''}" onclick="stkDetail(${ix},'${p.id}')" aria-label="${esc(stkNameNow(ix))}">${stampSvg(p)}</button>`
+       :`<button type="button" class="stamp" onclick="openPuzzle('${p.id}')" aria-label="${ix}"><span class="stamp-ghost">${stampSvg(p)}</span><span class="stamp-empty">${ix}</span></button>`}).join('')+`</div></section>`});
   persist();
   document.getElementById('menuBody').innerHTML=`<p class="stamp-sub">${d.sub.replace('{n}',got).replace('{m}',all)}</p>`+(got?'':`<p class="section-note">${d.hint}</p>`)+html;
   const h=document.getElementById('menuHelp');if(h)h.classList.add('hidden');
 }
-{const _rh=renderHome;renderHome=function(){const r=_rh.apply(this,arguments);const b=document.getElementById('btnStamps');if(b){const story=storyPuzzles(),n=story.filter(p=>store.done[p.id]).length;b.innerHTML=`<span class="bi">📒</span><span class="bl">${stampT().home.replace(/^\S+\s+/,'')}</span><small>${stampT().sub.replace('{n}',n).replace('{m}',story.length)}</small>`}return r}}
+{const _rh=renderHome;renderHome=function(){const r=_rh.apply(this,arguments);const b=document.getElementById('btnStampHero');if(b)b.innerHTML=stampT().home;
+  if(store.kid){const story=storyPuzzles(),n=story.filter(p=>store.done[p.id]).length;const h=document.getElementById('homeText');if(h)h.textContent=stampT().sub.replace('{n}',n).replace('{m}',story.length)}return r}}
+{const _bs=backToStory;backToStory=function(){if(store.kid&&!bookMode)return openStamps();return _bs.apply(this,arguments)}}
+{const _sm=showModal;showModal=function(id){if(id==='nextModal'){const b=document.getElementById('nextModalStory');if(b)b.textContent=store.kid?stampT().title:t('storyOverview')}return _sm.apply(this,arguments)}}
+
 
 
 function chcAdapt(c){return c}
@@ -1175,6 +1644,22 @@ function applyAria(){const A=ARIA_T[lang]||ARIA_T.en;const m=[['[aria-label="Zoo
  document.querySelectorAll('[aria-label="Close"],[aria-label="Schließen"],[aria-label="Fermer"],[aria-label="Cerrar"]').forEach(e=>e.setAttribute('aria-label',A.cl))}
 {const _al=applyLang;applyLang=function(){const r=_al.apply(this,arguments);try{applyAria()}catch(e){}return r}}
 try{applyAria()}catch(e){}
+
+/* Beim Öffnen einer Aufgabe immer oben beginnen (nicht mit der Scrollposition der Liste) */
+{const _sec=section;section=function(id){const wasHidden=id==='game'&&document.getElementById('game').classList.contains('hidden');const r=_sec.apply(this,arguments);
+  if(wasHidden){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;requestAnimationFrame(()=>{window.scrollTo(0,0);setTimeout(()=>window.scrollTo(0,0),60)})}return r}}
+
+/* Zurück aus einer Aufgabe: Liste (Stickerheft, Story, Aufgabenbuch…) an der alten Scrollposition zeigen */
+let _listPos=null;
+{const _sec2=section;section=function(id){
+  const g=document.getElementById('game'),mn=document.getElementById('menu');
+  if(id==='game'&&g.classList.contains('hidden')&&!mn.classList.contains('hidden')){const t=document.getElementById('menuTitle');_listPos={y:window.scrollY,title:t?t.textContent:''}}
+  const wasMenu=!mn.classList.contains('hidden');
+  const r=_sec2.apply(this,arguments);
+  if(id==='home')_listPos=null;
+  if(id==='menu'&&!wasMenu&&_listPos){const pos=_listPos,go=()=>{const t=document.getElementById('menuTitle');if(t&&t.textContent===pos.title)window.scrollTo(0,pos.y)};
+   requestAnimationFrame(()=>{go();setTimeout(()=>{go();setTimeout(()=>{go();if(_listPos===pos)_listPos=null},120)},40)})}
+  return r}}
 
 /* ===== AlignStix Icon-Satz ===== */
 const ICO={"share": "<circle cx=\"6.2\" cy=\"12\" r=\"3.3\" fill=\"currentColor\"/><circle cx=\"17.6\" cy=\"5.8\" r=\"3.3\" fill=\"currentColor\"/><circle cx=\"17.6\" cy=\"18.2\" r=\"3.3\" fill=\"var(--ac)\"/><path d=\"M8.6 10.6l6.6-3.4M8.6 13.4l6.6 3.4\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"/>", "folder": "<path d=\"M3 7.2a2.2 2.2 0 0 1 2.2-2.2h4.1l2 2.4h7.5A2.2 2.2 0 0 1 21 9.6v8.2a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.8z\" fill=\"currentColor\"/><path d=\"M3 11.2h18v6.6a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.8z\" fill=\"var(--ac)\"/>", "info": "<circle cx=\"12\" cy=\"12\" r=\"9.4\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"7.6\" r=\"1.7\" fill=\"var(--ac)\"/><rect x=\"10.6\" y=\"10.6\" width=\"2.8\" height=\"6.8\" rx=\"1.4\" fill=\"var(--ac)\"/>", "chev": "<path d=\"M9 5.5l6.5 6.5L9 18.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "star": "<path d=\"M12 3.1l2.6 5.4 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.3l5.9-.8z\" fill=\"var(--sf,currentColor)\" stroke=\"var(--ss,currentColor)\" stroke-width=\"1.9\" stroke-linejoin=\"round\"/><path d=\"M12 6.6l1.1 2.7\" stroke=\"var(--sh,transparent)\" stroke-width=\"1.6\" stroke-linecap=\"round\" fill=\"none\"/>", "star-o": "<path d=\"M12 4.6l2.2 4.6 5 .7-3.6 3.5.9 5L12 16l-4.5 2.4.9-5L4.8 9.9l5-.7z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/>", "bulb": "<path d=\"M6 3.6h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5.2l-4.6 3.6V17.6H6a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/><path d=\"M9.6 8.6a2.6 2.6 0 1 1 3.6 2.4c-.8.4-1.2.8-1.2 1.7\" fill=\"none\" stroke=\"var(--ac)\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"12\" cy=\"15.2\" r=\"1.3\" fill=\"var(--ac)\"/>", "home": "<path d=\"M3.6 11.6 12 4.2l8.4 7.4V19a1.6 1.6 0 0 1-1.6 1.6h-3.9v-5.1H9.1v5.1H5.2A1.6 1.6 0 0 1 3.6 19z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "back": "<path d=\"M10.8 5 3.8 12l7 7v-4h9.4V9h-9.4z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "next": "<path d=\"M13.2 5l7 7-7 7v-4H3.8V9h9.4z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "book": "<path d=\"M2.8 6.2c3.1-1.3 6.2-1.1 9.2.7v12.6c-3-1.8-6.1-2-9.2-.7z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M21.2 6.2c-3.1-1.3-6.2-1.1-9.2.7v12.6c3-1.8 6.1-2 9.2-.7z\" fill=\"var(--ac)\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "books": "<rect x=\"3.5\" y=\"3.5\" width=\"14\" height=\"17\" rx=\"2.6\" fill=\"currentColor\"/><rect x=\"6.8\" y=\"7\" width=\"7.4\" height=\"2.6\" rx=\"1.3\" fill=\"var(--ac)\"/><path d=\"M17.5 6.5h1.4a1.6 1.6 0 0 1 1.6 1.6v10.3a1.6 1.6 0 0 1-1.6 1.6h-1.4z\" fill=\"currentColor\" opacity=\".55\"/>", "gear": "<g fill=\"currentColor\"><rect x=\"10\" y=\"2\" width=\"4\" height=\"5\" rx=\"1.5\"/><rect x=\"10\" y=\"17\" width=\"4\" height=\"5\" rx=\"1.5\"/><rect x=\"10\" y=\"2\" width=\"4\" height=\"5\" rx=\"1.5\" transform=\"rotate(60 12 12)\"/><rect x=\"10\" y=\"2\" width=\"4\" height=\"5\" rx=\"1.5\" transform=\"rotate(120 12 12)\"/><rect x=\"10\" y=\"2\" width=\"4\" height=\"5\" rx=\"1.5\" transform=\"rotate(240 12 12)\"/><rect x=\"10\" y=\"2\" width=\"4\" height=\"5\" rx=\"1.5\" transform=\"rotate(300 12 12)\"/><path fill-rule=\"evenodd\" d=\"M12 4.9a7.1 7.1 0 1 0 0 14.2 7.1 7.1 0 1 0 0-14.2zm0 4.4a2.7 2.7 0 1 1 0 5.4 2.7 2.7 0 1 1 0-5.4z\"/></g>", "lock": "<path d=\"M8.4 10.8V8.2a3.6 3.6 0 0 1 7.2 0v2.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.7\" stroke-linecap=\"round\"/><rect x=\"4.8\" y=\"10.2\" width=\"14.4\" height=\"10.6\" rx=\"3\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"15\" r=\"1.7\" fill=\"var(--ac)\"/><rect x=\"11.2\" y=\"15.4\" width=\"1.6\" height=\"2.8\" rx=\".8\" fill=\"var(--ac)\"/>", "camera": "<rect x=\"8.4\" y=\"4\" width=\"7.2\" height=\"4.6\" rx=\"1.6\" fill=\"currentColor\"/><rect x=\"2.8\" y=\"6.6\" width=\"18.4\" height=\"13.6\" rx=\"3.4\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"13.4\" r=\"4\" fill=\"var(--ac)\"/><circle cx=\"12\" cy=\"13.4\" r=\"1.7\" fill=\"currentColor\"/>", "check": "<path d=\"M5 12.6l4.6 4.6L19 7.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "close": "<path d=\"M6 6l12 12M18 6L6 18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.6\" stroke-linecap=\"round\"/>", "plus": "<path d=\"M12 5v14M5 12h14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.6\" stroke-linecap=\"round\"/>", "minus": "<path d=\"M5 12h14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.6\" stroke-linecap=\"round\"/>", "print": "<rect x=\"6.8\" y=\"3\" width=\"10.4\" height=\"6.4\" rx=\"1.6\" fill=\"currentColor\" opacity=\".55\"/><rect x=\"2.8\" y=\"8.4\" width=\"18.4\" height=\"9\" rx=\"3\" fill=\"currentColor\"/><rect x=\"6.8\" y=\"13.6\" width=\"10.4\" height=\"7.4\" rx=\"1.6\" fill=\"var(--ac)\" stroke=\"currentColor\" stroke-width=\"1.4\"/>", "sound": "<path d=\"M3.5 9.6h3.2L11.6 5.4a.9.9 0 0 1 1.5.7v11.8a.9.9 0 0 1-1.5.7l-4.9-4.2H3.5z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M16 8.6a4.8 4.8 0 0 1 0 6.8M18.6 5.8a8.6 8.6 0 0 1 0 12.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"/>", "mute": "<path d=\"M3.5 9.6h3.2L11.6 5.4a.9.9 0 0 1 1.5.7v11.8a.9.9 0 0 1-1.5.7l-4.9-4.2H3.5z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M16.4 9.4l5 5.2M21.4 9.4l-5 5.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"/>", "warn": "<path d=\"M12 3.4c.6 0 1.2.3 1.5.9l8 13.8c.7 1.2-.2 2.7-1.5 2.7H4c-1.3 0-2.2-1.5-1.5-2.7l8-13.8c.3-.6.9-.9 1.5-.9z\" fill=\"currentColor\"/><rect x=\"10.8\" y=\"8.8\" width=\"2.4\" height=\"5.6\" rx=\"1.2\" fill=\"var(--ac)\"/><circle cx=\"12\" cy=\"17.2\" r=\"1.4\" fill=\"var(--ac)\"/>", "bookmark": "<path d=\"M6.4 3.6h11.2v16.8L12 16.2l-5.6 4.2z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "link": "<rect x=\"2.6\" y=\"8.6\" width=\"11.4\" height=\"6.8\" rx=\"3.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\"/><rect x=\"10\" y=\"8.6\" width=\"11.4\" height=\"6.8\" rx=\"3.4\" fill=\"none\" stroke=\"var(--ac)\" stroke-width=\"2.8\"/>", "eye": "<path d=\"M2 12c2.6-4.6 6.1-6.7 10-6.7s7.4 2.1 10 6.7c-2.6 4.6-6.1 6.7-10 6.7S4.6 16.6 2 12z\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"12\" r=\"3.6\" fill=\"var(--ac)\"/><circle cx=\"12\" cy=\"12\" r=\"1.5\" fill=\"currentColor\"/>", "broom": "<rect x=\"10.6\" y=\"2.4\" width=\"2.8\" height=\"9\" rx=\"1.4\" fill=\"currentColor\" transform=\"rotate(20 12 7)\"/><path d=\"M6.4 11.6h11.2l2.2 9.2H4.2z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M9.4 14.4l-.8 6.2M12 14.4v6.2M14.6 14.4l.8 6.2\" stroke=\"var(--ac)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>", "undo": "<path d=\"M5.2 12a6.8 6.8 0 1 0 2.2-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M3.2 3.4v6.6h6.6z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "rotate": "<path d=\"M18.8 12a6.8 6.8 0 1 1-2.2-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M20.8 3.4v6.6h-6.6z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "flip": "<path d=\"M16.2 3.8l4.6 4.2-4.6 4.2V9.7H4V6.3h12.2z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M7.8 11.8L3.2 16l4.6 4.2v-2.5H20v-3.4H7.8z\" fill=\"var(--ac)\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "flame": "<path d=\"M12.6 1.8c.5 4 6 6.4 6 12.2a6.6 6.6 0 0 1-13.2 0c0-2.6 1.1-4.2 2.6-5.4.2 2 1 3 2.2 3.4.1-4.2.8-7.4 2.4-10.2z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M12 22a3.4 3.4 0 0 1-3.4-3.4c0-2 1.5-3 2.5-4.4 1 1.3 4.3 2.4 4.3 4.4A3.4 3.4 0 0 1 12 22z\" fill=\"var(--ac)\"/>", "spark": "<path d=\"M10 3.4c.6 4.3 2 5.7 6.3 6.3-4.3.6-5.7 2-6.3 6.3-.6-4.3-2-5.7-6.3-6.3 4.3-.6 5.7-2 6.3-6.3z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M18 13.6c.3 2.2 1 2.9 3.2 3.2-2.2.3-2.9 1-3.2 3.2-.3-2.2-1-2.9-3.2-3.2 2.2-.3 2.9-1 3.2-3.2z\" fill=\"var(--ac)\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "kid": "<circle cx=\"12\" cy=\"12\" r=\"9.2\" fill=\"currentColor\"/><circle cx=\"8.8\" cy=\"10.2\" r=\"1.5\" fill=\"var(--ac)\"/><circle cx=\"15.2\" cy=\"10.2\" r=\"1.5\" fill=\"var(--ac)\"/><path d=\"M7.8 14c1.1 2.2 2.5 3 4.2 3s3.1-.8 4.2-3\" fill=\"none\" stroke=\"var(--ac)\" stroke-width=\"2\" stroke-linecap=\"round\"/>", "shield": "<path d=\"M12 2.8l7.6 2.8v6c0 4.6-3.1 7.9-7.6 9.6-4.5-1.7-7.6-5-7.6-9.6v-6z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M12 7.4v9.4c2.2-1.1 3.6-3 3.6-5.2V8.6z\" fill=\"var(--ac)\"/>", "puzzle": "<path d=\"M4.4 8.2h4a2.6 2.6 0 1 1 5.2 0h4a1.6 1.6 0 0 1 1.6 1.6v3.6a2.6 2.6 0 1 0 0 5.2v.4a1.6 1.6 0 0 1-1.6 1.6H4.4a1.6 1.6 0 0 1-1.6-1.6V9.8a1.6 1.6 0 0 1 1.6-1.6z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "save": "<path d=\"M5.4 3.4h11.2l3.9 3.9v11.3a2.2 2.2 0 0 1-2.2 2.2H5.4a2.2 2.2 0 0 1-2.2-2.2V5.6a2.2 2.2 0 0 1 2.2-2.2z\" fill=\"currentColor\"/><rect x=\"7\" y=\"3.4\" width=\"8\" height=\"5\" rx=\"1\" fill=\"var(--ac)\"/><rect x=\"6.6\" y=\"13\" width=\"10.8\" height=\"7.8\" rx=\"1.4\" fill=\"var(--ac)\" opacity=\".9\"/>", "play": "<circle cx=\"12\" cy=\"12\" r=\"9.4\" fill=\"currentColor\"/><path d=\"M10 7.8v8.4l6.6-4.2z\" fill=\"var(--ac)\" stroke=\"var(--ac)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/>", "skull": "<path d=\"M12 2.8c-4.6 0-8 3.2-8 7.6 0 2.6 1.2 4.4 2.8 5.6v2.4a1.6 1.6 0 0 0 1.6 1.6h7.2a1.6 1.6 0 0 0 1.6-1.6V16c1.6-1.2 2.8-3 2.8-5.6 0-4.4-3.4-7.6-8-7.6z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><circle cx=\"8.8\" cy=\"11\" r=\"2\" fill=\"var(--ac)\"/><circle cx=\"15.2\" cy=\"11\" r=\"2\" fill=\"var(--ac)\"/><path d=\"M12 13.4l-1 2h2z\" fill=\"var(--ac)\"/>", "search": "<circle cx=\"10.4\" cy=\"10.4\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><path d=\"M15 15l5.4 5.4\" stroke=\"currentColor\" stroke-width=\"3.6\" stroke-linecap=\"round\"/><circle cx=\"10.4\" cy=\"10.4\" r=\"3\" fill=\"var(--ac)\"/>", "sun": "<circle cx=\"12\" cy=\"12\" r=\"4.8\" fill=\"currentColor\"/><g stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\"><path d=\"M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M5.4 18.6l1.5-1.5M17.1 6.9l1.5-1.5\"/></g>", "moon": "<path d=\"M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>", "no": "<circle cx=\"12\" cy=\"12\" r=\"8.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><path d=\"M6.2 6.2l11.6 11.6\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>", "menu": "<rect x=\"3.6\" y=\"4.6\" width=\"16.8\" height=\"3.8\" rx=\"1.9\" fill=\"currentColor\"/><rect x=\"3.6\" y=\"10.1\" width=\"16.8\" height=\"3.8\" rx=\"1.9\" fill=\"currentColor\"/><rect x=\"3.6\" y=\"15.6\" width=\"16.8\" height=\"3.8\" rx=\"1.9\" fill=\"currentColor\"/>", "edit": "<path d=\"M15.6 3.8l4.6 4.6-11 11-5.4.8.8-5.4z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><path d=\"M14 5.4l4.6 4.6\" stroke=\"var(--ac)\" stroke-width=\"2.4\" stroke-linecap=\"round\"/>"}
@@ -1968,10 +2453,13 @@ function animateBoard(){const b=document.getElementById('board');if(!b)return;b.
 {const _ps=placeStick;placeStick=function(){const rod=pSel.rod,had=!!document.querySelector('#board [data-rod="'+rod+'"]');const r=_ps.apply(this,arguments);
   const e=document.querySelector('#board .svg-v-rod[data-rod="'+rod+'"],#board .svg-h-rod[data-rod="'+rod+'"]');if(e){e.classList.add('slide-in')}return r}}
 /* Animation: Sterne füllen sich beim Lösen, neue Aufgabe leuchtet */
-{const _cs=confirmSolvedAction;confirmSolvedAction=function(){window._storySol=current&&current.id;const id=current&&current.id,wasNext=nextTask();const r=_cs.apply(this,arguments);
+{const _cs=confirmSolvedAction;confirmSolvedAction=function(){window._storySol=current&&current.id;const cp0=current,id=current&&current.id,wasNext=nextTask();const r=_cs.apply(this,arguments);
   const s=(store.done[id]||{}).stars||0,card=document.querySelector('#nextModal .modal-card');
-  if(card){let row=card.querySelector('.star-burst');if(!row){row=document.createElement('div');row.className='star-burst';card.insertBefore(row,card.firstChild)}
+  if(card&&store.kid&&cp0){stkEnsure();let row=card.querySelector('.star-burst');if(!row){row=document.createElement('div');row.className='star-burst';card.insertBefore(row,card.firstChild)}
+   row.removeAttribute('style');row.classList.add('stk-pop');const ix=storyIndex(cp0);row.innerHTML=`<div class="stk-big">${stkSvg(ix)}</div><div class="stk-new">${stampT().new}</div><div class="stk-name">${esc(stkName(ix,lang))}</div>`}
+  else if(card){card.querySelectorAll('.stk-pop').forEach(e=>e.classList.remove('stk-pop'));let row=card.querySelector('.star-burst');if(!row){row=document.createElement('div');row.className='star-burst';card.insertBefore(row,card.firstChild)}
    row.innerHTML=[1,2,3].map(i=>`<span class="${i<=s?'on':''}" style="--d:${i*260}ms">★</span>`).join('')}
+  {const _ci=['intro','easy','medium','hard','impossible'].indexOf(current&&current.difficulty),_cc=(store.colors||DEFAULT_COLORS)[_ci];const _r=card&&card.querySelector('.star-burst');if(_r&&_cc)_r.style.setProperty('--chc',_cc)}
   const nt=nextTask();if(nt&&nt!==wasNext)window._glowId=nt.id;
   animateBoard();return r}}
 const _os=openStory;openStory=function(){const r=_os.apply(this,arguments);const id=window._glowId;window._glowId=null;

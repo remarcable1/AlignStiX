@@ -1,7 +1,7 @@
 /* AlignStix – Service Worker
    Bei jedem Release gemeinsam erhöhen: CACHE_NAME, version.json, FLIP_APP_VERSION in index.html. */
-const CACHE_NAME = 'alignstix-v137';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'alignstix-v139';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './stickers.webp'];
 
 self.addEventListener('install', event => {
   // Fehlende Einzeldateien (z. B. ein Icon) dürfen die Installation nicht verhindern.

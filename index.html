@@ -585,6 +585,8 @@ body.kid .stamp-home,body.kid #btnStamps{display:none!important}
 .solved-banner{position:fixed;left:12px;right:12px;bottom:14px;z-index:60;max-width:460px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:18px;background:#15803D;color:#fff;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35);animation:sbIn .35s ease both}
 .solved-banner button{background:#fff;color:#14532D;border:0;border-radius:12px;padding:10px 16px;font-weight:800;font-size:1rem}
 @keyframes sbIn{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+
+.place-bar .pb-x{width:34px;height:34px;min-height:0;padding:0;border-radius:50%;display:inline-grid;place-items:center;font-size:1rem;line-height:1}
 </style>
 <link rel="canonical" href="https://remarcable1.github.io/AlignStiX/"><meta property="og:type" content="website"><meta property="og:site_name" content="AlignStix"><meta property="og:url" content="https://remarcable1.github.io/AlignStiX/"><meta property="og:title" content="AlignStix – The Logic Stick Puzzle"><meta property="og:description" content="Companion app for the 3D-printed logic stick puzzle AlignStix: check your layout and get hints."><meta property="og:image" content="https://remarcable1.github.io/AlignStiX/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="AlignStix – The Logic Stick Puzzle"><meta name="twitter:image" content="https://remarcable1.github.io/AlignStiX/og-image.png"><meta name="description" content="Companion app for the 3D-printed logic stick puzzle AlignStix: check your layout and get hints."></head><body><div class="app">
 <header class="header" id="appHeader"><div class="brand-lockup" id="brandLockup" onclick="goHome()" role="button" tabindex="0"><div class="brand-mark" role="img" aria-label="AlignStix"><span class="align-word">ALIGN</span><span class="stix-word">STI</span><svg class="wm-x" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="wmGapHead" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><line x1="20" y1="80" x2="80" y2="20" stroke="#000" stroke-width="31" stroke-linecap="round"/></mask></defs><line class="wm-back" x1="20" y1="20" x2="80" y2="80" mask="url(#wmGapHead)"/><line class="wm-front" x1="20" y1="80" x2="80" y2="20"/></svg></div><div class="tag" id="appTag"></div></div><nav aria-label="Navigation" class="game-nav"><span class="header-stars" id="headerStars">⭐ <b>0</b></span><span class="header-stars" id="headerHelps">💡 <b>0</b></span><button class="nav-home" id="navHomeBtn" onclick="goHome()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 11.6 12 4.2l8.4 7.4V19a1.6 1.6 0 0 1-1.6 1.6h-3.9v-5.1H9.1v5.1H5.2A1.6 1.6 0 0 1 3.6 19z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navHomeText">Startseite</span></button><button class="nav-level" id="navLevelBtn" onclick="navBack()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 5 3.8 12l7 7v-4h9.4V9h-9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navLevelText">Zurück</span></button><button class="nav-back" id="navBackBtn" onclick="navBack()"><svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 5 3.8 12l7 7v-4h9.4V9h-9.4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><span id="navBackText">Zurück</span></button><button class="nav-main" id="navRulesBtn" onclick="openGuide()"><span class="book-icon">📖</span><span id="navRulesText">Spielregeln</span></button></nav></header>
@@ -598,7 +600,7 @@ body.kid .stamp-home,body.kid #btnStamps{display:none!important}
 <div aria-modal="true" class="modal-backdrop hidden" id="colorSetupModal" role="dialog"><div class="modal-card"><h3 id="csTitle"></h3><p id="csText"></p><div class="cs-grid" id="csGrid"></div><div class="modal-actions"><button class="success" id="csNext" onclick="csNext()"></button><button id="csReset" onclick="csReset()"></button></div></div></div><div aria-modal="true" class="modal-backdrop hidden" id="resetColorsModal" role="dialog"><div class="modal-card"><h3 id="resetColorsTitle"></h3><p id="resetColorsText"></p><div class="modal-actions"><button class="success" id="resetColorsYes" onclick="confirmResetRodColors()"></button><button id="resetColorsCancel" onclick="closeResetRodColors()"></button></div></div></div><div class="modal-backdrop hidden" id="colorPopup" onclick="if(event.target===this)closeColorPopup()"><div class="modal-card color-popup-card"><div class="top"><h3 id="colorPopupTitle"></h3><button aria-label="Close" onclick="closeColorPopup()" type="button">✕</button></div><p class="section-note" id="colorPopupText"></p><div id="colorPopupBody"></div></div></div><input aria-hidden="true" id="customColorPicker" style="position:fixed;left:-9999px;width:1px;height:1px;opacity:0" type="color"/><div class="modal-backdrop hidden" id="colorWheelModal" onclick="if(event.target===this)closeColorWheel()"><div class="modal-card"><div class="top"><h3 id="colorWheelTitle"></h3><button aria-label="Close" onclick="closeColorWheel()" type="button">✕</button></div><p class="color-popup-note" id="colorWheelText"></p><div class="color-wheel-wrap"><div class="color-wheel" id="colorWheel"><span class="wheel-cursor" id="colorWheelCursor"></span></div><div class="color-value-row"><div class="color-preview" id="colorPreview"></div><div class="color-hex-wrap"><label for="colorHexInput" id="colorHexLabel">HEX</label><input autocomplete="off" class="color-hex-input" id="colorHexInput" inputmode="text" maxlength="7" spellcheck="false" type="text" value="#000000"/></div></div><div class="color-wheel-error" id="colorWheelError" role="alert" aria-live="polite"></div><details class="cw-more" id="cwMore"><summary id="cwMoreSum">Feinabstimmung</summary><div class="color-sliders"><label><span id="colorBrightnessLabel">Helligkeit</span><input id="colorValueSlider" max="100" min="0" type="range" value="100"/></label><label><span id="colorSaturationLabel">Sättigung</span><input id="colorSaturationSlider" max="100" min="0" type="range" value="100"/></label></div></details></div><div class="cw-btns"><button class="cam-open" id="camOpenBtn" onclick="openCam()" type="button"></button><button class="color-wheel-reset" id="colorWheelReset" onclick="resetColorWheelToStandard()" type="button"></button></div><div class="color-popup-actions"><button onclick="closeColorWheel()" type="button">Abbrechen</button><button class="primary" id="colorWheelConfirm" onclick="confirmColorWheel()" type="button">Bestätigen</button></div></div></div><div class="modal-backdrop hidden" id="camModal" role="dialog" aria-modal="true"><div class="modal-card"><h3 id="camTitle"></h3><p class="color-popup-note" id="camHint"></p><div class="cam-box" id="camBox" onpointerdown="camDown(event)" onpointermove="camMove(event)" onpointerup="camUp(event)" onpointercancel="camUp(event)" onwheel="camWheel(event)"><video id="camVideo" playsinline muted autoplay></video><img id="camStill" alt="" style="display:none"><span class="cam-ring" id="camRing"></span><div class="cam-zoom"><button type="button" onclick="camZoomBtn(1.5)" aria-label="Zoom in">+</button><button type="button" onclick="camZoomBtn(1/1.5)" aria-label="Zoom out">−</button><span id="camZoomLbl"></span></div></div><p class="cam-err" id="camErr"></p><div class="cam-row"><canvas id="camCanvas" class="cam-prev" width="64" height="64"></canvas><span class="cam-arrow">→</span><span class="cam-swatch" id="camSwatch"></span><span class="cam-hex" id="camHex">#888888</span></div><p class="color-popup-note" id="camLegend"></p><input type="file" accept="image/*" id="camFileGal" style="display:none" onchange="camShowStill(this.files[0]);this.value=''"><div class="modal-actions"><button class="success" id="camUse" onclick="camUse()" type="button"></button><button id="camGalBtn" onclick="document.getElementById('camFileGal').click()" type="button"></button><button id="camCancel" onclick="camCancel()" type="button"></button></div></div></div><div class="toast" id="toast"></div></div>
 <script>
 /* AlignStix – Update-Check (Version muss mit version.json und sw.js übereinstimmen) */
-const FLIP_APP_VERSION='142';
+const FLIP_APP_VERSION='146';
 (function(){
   if(location.protocol==='file:')return;
   var busy=false;
@@ -1465,7 +1467,7 @@ function lhBar(){let b=document.getElementById('lhBar');if(!b){b=document.create
 function lhBtn(){let b=document.getElementById('lhBtn');if(!b){b=document.createElement('button');b.id='lhBtn';b.type='button';b.className='lh-open kid-only';b.onclick=lhStart;const bw=document.querySelector('#game .board-wrap');bw.after(b)}return b}
 function lhRefreshBtn(){const b=lhBtn(),show=!!current&&!bookMode&&!store.done[current.id]&&!_lh.on;if(show)b.style.removeProperty('display');else b.style.setProperty('display','none','important');b.innerHTML='📍 '+lhT().btn}
 function lhStart(){if(!current||bookMode)return;_lh.on=true;_lh.i=0;_lh.id=current.id;_lh.steps=lhSteps();document.body.classList.add('lh-on');lhRender()}
-function lhStop(fin){if(!_lh.on&&!fin)return;_lh.on=false;document.body.classList.remove('lh-on');const b=document.getElementById('lhBar');if(b)b.classList.add('hidden');if(current){drawBoard();drawInventory();lhRefreshBtn()}if(fin&&current)say(lhT().fin,'ok')}
+function lhStop(fin){if(!_lh.on&&!fin)return;window._solveLock=Date.now()+1300;_lh.on=false;document.body.classList.remove('lh-on');const b=document.getElementById('lhBar');if(b)b.classList.add('hidden');if(current){drawBoard();drawInventory();lhRefreshBtn()}if(fin&&current)say(lhT().fin,'ok')}
 function lhNext(){if(_lh.i+1>=_lh.steps.length)return lhStop(true);_lh.i++;lhRender()}
 function lhPrev(){if(_lh.i>0){_lh.i--;lhRender()}}
 function lhRender(){const T=lhT(),c=_lh.steps[_lh.i],b=lhBar();if(!c)return lhStop(true);
@@ -1478,7 +1480,13 @@ function lhRender(){const T=lhT(),c=_lh.steps[_lh.i],b=lhBar();if(!c)return lhSt
    <div class="lh-text"><b>${T.take.replace('{n}',c.rod)}</b><span>${T.lay.replace('{s}',slot)}</span><span>${T.side.replace('{y}',`<i class="lh-sym">${sym}</i>`)}</span><span class="lh-dir"><i class="lh-arrow">${arrow}</i>${T[dir]}</span></div></div>
    <div class="lh-btns"><button type="button" class="lh-prev" onclick="lhPrev()" ${_lh.i?'':'disabled'}>‹ ${T.back}</button><button type="button" class="success lh-ok" onclick="lhNext()">✓ ${T.done}</button></div>`;
   b.classList.remove('hidden');lhRefreshBtn();drawBoard();drawInventory();
-  try{document.getElementById('board').scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}}
+  lhEnsureLater()}
+function lhEnsure(){if(!_lh.on)return;const bar=document.getElementById('lhBar'),hd=document.getElementById('appHeader'),bl=[...document.querySelectorAll('#board .lh-blink')];if(!bar||!bl.length)return;
+  let t=1e9,bt=-1e9;bl.forEach(e=>{const r=e.getBoundingClientRect();t=Math.min(t,r.top);bt=Math.max(bt,r.bottom)});
+  const top0=(hd?hd.getBoundingClientRect().bottom:0)+8,bot0=bar.getBoundingClientRect().top-12;let dy=0;
+  if(bt-t>bot0-top0)dy=t-top0;else if(bt>bot0)dy=bt-bot0;else if(t<top0)dy=t-top0;
+  if(Math.abs(dy)>2)scrollBy({top:dy,behavior:'smooth'})}
+function lhEnsureLater(){requestAnimationFrame(()=>requestAnimationFrame(lhEnsure));clearTimeout(lhEnsureLater.t);lhEnsureLater.t=setTimeout(lhEnsure,450)}
 /* Brett/Inventar nur mit bereits gelegten Stäben + dem aktuellen (blinkend) */
 {const _db=drawBoard;drawBoard=function(){if(!_lh.on||!current||_lh.id!==current.id)return _db.apply(this,arguments);
   const save=current.clues,upto=_lh.steps.slice(0,_lh.i),cur=_lh.steps[_lh.i],b=document.getElementById('board');
@@ -1495,6 +1503,8 @@ function lhRender(){const T=lhT(),c=_lh.steps[_lh.i],b=lhBar();if(!c)return lhSt
 function lhOffer(){if(store.lhAsked||!store.kid)return;const T=lhT();let m=document.getElementById('lhModal');if(!m){m=document.createElement('div');m.id='lhModal';m.className='modal-backdrop hidden';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');document.body.appendChild(m)}
   m.innerHTML=`<div class="modal-card"><h3>${T.offerT}</h3><p>${T.offerP}</p><div class="modal-actions"><button class="success" type="button" onclick="lhAnswer(true)">${T.yes}</button><button type="button" onclick="lhAnswer(false)">${T.no}</button></div></div>`;showModal('lhModal')}
 function lhAnswer(y){store.lhAsked=1;persist();closeModalThen('lhModal',()=>{if(y)lhStart()})}
+
+{const _ms=markSolved;markSolved=function(){if(Date.now()<(window._solveLock||0))return;return _ms.apply(this,arguments)}}
 
 
 
@@ -1822,7 +1832,7 @@ function renderGameTexts(){
  if(!current)return;
  document.getElementById('gameTitle').textContent=`${diffName(current.difficulty)} • ${t('task')} ${String(current.level).padStart(2,'0')}`;
  const chapterSize=current.difficulty==='intro'?5:25;document.getElementById('gameBar').style.width=(current.level/chapterSize*100)+'%';
- document.getElementById('gameStars').textContent=store.done[current.id]?`${store.done[current.id].stars}/3 ⭐`:'0/3 ⭐';
+ document.getElementById('gameStars').textContent=store.done[current.id]?(()=>{const d=store.done[current.id],stt=store.state[current.id],h=(stt&&stt.hints!=null)?stt.hints:(d.stars>=3?0:d.stars===2?1:null);return `${d.stars}/3 ⭐`+(h!=null?` · 💡 ${h}`:'')})():'0/3 ⭐';
  document.getElementById('favBtn').classList.toggle('active',!!store.fav[current.id]);
  document.getElementById('gameModeNote').textContent=PLT().note;
  const solved=!!store.done[current.id],solveBtn=document.getElementById('solveBtn');
@@ -1880,7 +1890,7 @@ function endLabels(c,axis,color){
 }
 function drawBoard(){
  const b=document.getElementById('board'); const OUT=110,CELL=120,C0=110,END0=20,END1=680;
- const clueKeys=new Set((current.clues||[]).map(c=>`${c.axis}${c.pos}-${c.rod}-${c.pattern_int}`)); const solved=bookMode?bookShow:(!!store.done[current.id]&&window._storySol===current.id);
+ const clueKeys=new Set((current.clues||[]).map(c=>`${c.axis}${c.pos}-${c.rod}-${c.pattern_int}`)); const solved=bookMode?bookShow:!!store.done[current.id];
  const hinted=hintedList(); const visible=[];
  if(solved){const hk=new Set(hinted.map(h=>`${h.axis}${h.pos}`));(current.solution||[]).forEach(c=>visible.push({...c,kind:hk.has(`${c.axis}${c.pos}`)?'hint':'solved'}))} else {(current.clues||[]).forEach(c=>visible.push({...c,kind:'fixed'}));hinted.forEach(c=>visible.push({...c,kind:'hint'}));if(!bookMode){const pm=placedMap(),fx=new Set(visible.map(c=>c.axis+c.pos));for(const k in pm){if(fx.has(k))continue;if(pSel.slot&&pSel.rod&&pm[k].rod===pSel.rod)continue;visible.push(placedObj(k,pm[k]))}}}
  const byKey=new Map(visible.map(c=>[`${c.axis}${c.pos}`,c])); {const lc=document.getElementById('legendHintChip');if(lc)lc.style.display=hinted.length?'':'none'} const colors=store.colors||DEFAULT_COLORS;
@@ -1932,7 +1942,7 @@ function drawInventory(){
  const available=(current.solution||[]).filter(c=>!clueKeys.has(`${c.axis}${c.pos}-${c.rod}-${c.pattern_int}`));
  const hinted=hintedList();
  const byRod=new Map();
- const _bookAll=bookMode?bookShow:(!!store.done[current.id]&&window._storySol===current.id);
+ const _bookAll=bookMode?bookShow:!!store.done[current.id];
  (current.clues||[]).forEach(c=>byRod.set(c.rod,{...c,kind:'given',status:t('given')}));
  hinted.forEach(c=>byRod.set(c.rod,{...c,kind:'hint',status:t('hinted')}));
  if(_bookAll)(current.solution||[]).forEach(c=>{if(!byRod.has(c.rod))byRod.set(c.rod,{...c,kind:'solved',status:t('solutionLbl')})});
@@ -2603,7 +2613,15 @@ function ensureSlotVisible(){const bd=document.getElementById('board');if(!bd||!
   if(Math.abs(dy)>2)scrollBy({top:dy,behavior:'smooth'})}
 function ensureSlotVisibleLater(){requestAnimationFrame(()=>requestAnimationFrame(ensureSlotVisible));clearTimeout(ensureSlotVisibleLater.t);ensureSlotVisibleLater.t=setTimeout(ensureSlotVisible,420)}
 {const _pk=pickSlot;pickSlot=function(){const r=_pk.apply(this,arguments);ensureSlotVisibleLater();return r}}
-{const _rp=renderPlaceBar;renderPlaceBar=function(){const r=_rp.apply(this,arguments);if(pSel.slot)ensureSlotVisibleLater();return r}}
+{const _rp=renderPlaceBar;renderPlaceBar=function(){const r=_rp.apply(this,arguments);
+ const b=document.getElementById('placeBar');
+ if(b&&!b.classList.contains('hidden')){
+  if(!pSel.rod){try{const L=PLT(),colors=store.colors||DEFAULT_COLORS,vs=visSide();
+   b.insertAdjacentHTML('beforeend','<div class="pb-ph" aria-hidden="true" style="visibility:hidden;pointer-events:none"><div class="side-profile-wrap">'+miniSideProfile(RODS[1][0],RODS[1][1],colors[0],1,vs,false,pSel.slot?pSel.slot[0]:null)+'<div class="pb-rel">&nbsp;</div></div><div class="pb-acts"><button type="button">&nbsp;</button></div></div>')}catch(e){}}
+  b.style.minHeight='';const h=b.offsetHeight;if(pSel.rod)window._pbH=Math.max(window._pbH||0,h);else if(window._pbH&&h<window._pbH)b.style.minHeight=Math.min(window._pbH,innerHeight*.52)+'px';
+  document.documentElement.style.setProperty('--pb-h',b.offsetHeight+'px')}
+ if(pSel.slot)ensureSlotVisibleLater();return r}}
+['openPuzzle','openBookPuzzle'].forEach(n=>{const f=window[n];window[n]=function(){window._pbH=0;return f.apply(this,arguments)}});
 /* Einführungs-Overlay für Story und Aufgabenbuch (einmalig, mit ?-Button wieder aufrufbar) */
 const INTRO={
  story:{de:['So funktioniert der Story-Modus',[['⭐','Pro Aufgabe bis zu 3 Sterne: ohne Hilfe 3, mit 1 Hilfe 2, mit mehr Hilfen 1.'],['💡','Du startest mit 3 Hilfen. Je 10 gesammelte Sterne bringen 1 weitere.'],['🛡️','Hürden schalten neue Bereiche frei. Dafür brauchst du im Schnitt mindestens 2 Sterne.'],['🧩','Löse die Aufgabe mit deinen echten Stäben. In der App kannst du deinen Stand nachlegen.']]],

@@ -181,7 +181,9 @@ html.dark .chip{box-shadow:inset 0 0 0 2px rgba(255,255,255,.22)}
 .rodcard .meta .ib{width:40px;height:40px}.rodcard .meta .ib svg{width:20px;height:20px}
 .flipw{display:block;width:100%;container-type:inline-size;perspective:1200px;padding:6px 8px;touch-action:pan-y}
 .flipw.turning{position:relative;z-index:5}
-.lift,.turn{display:block;transform-style:preserve-3d}
+.lift,.turn,.roll{display:block;transform-style:preserve-3d}
+.lift.go .roll{animation:roll .85s cubic-bezier(.4,0,.3,1)}
+@keyframes roll{0%,100%{transform:none}28%,66%{transform:rotateX(-34deg)}}
 .turn{transform:rotateZ(var(--tz,0deg));transition:transform .85s cubic-bezier(.5,0,.2,1.1)}
 .lift.go{animation:lift .85s cubic-bezier(.4,0,.3,1)}
 @keyframes lift{0%,100%{transform:none}28%,66%{transform:rotateX(50deg) scale(.62)}}
@@ -197,14 +199,14 @@ html.dark .chip{box-shadow:inset 0 0 0 2px rgba(255,255,255,.22)}
 .flip .fd{transform:rotateX(-90deg) translateZ(5.46875cqw)}
 .flip .e{position:absolute;top:0;width:10.9375cqw;height:100%;border-radius:3px}
 .flip .nf{position:absolute;top:0;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.flip .nf.s0{transform:translateZ(.9766cqw)}
-.flip .nf.s1{transform:rotateX(180deg) translateZ(.9766cqw)}
-.flip .nw{position:absolute;top:0;height:100%;width:4.4922cqw;margin-left:-2.2461cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.flip .nw.s0.l{transform:translateZ(3.2227cqw) rotateY(90deg)}
-.flip .nw.s0.r{transform:translateZ(3.2227cqw) rotateY(-90deg)}
-.flip .nw.s1.l{transform:translateZ(-3.2227cqw) rotateY(90deg)}
-.flip .nw.s1.r{transform:translateZ(-3.2227cqw) rotateY(-90deg)}
-.flip .el{left:-5.46875cqw;transform:rotateY(90deg)}
+.flip .nf.s0{transform:translateZ(1.8229cqw)}
+.flip .nf.s1{transform:rotateX(180deg) translateZ(1.8229cqw)}
+.flip .nw{position:absolute;top:0;height:100%;width:2.8cqw;margin-left:-1.4cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .nw.s0.l{transform:translateZ(3.17cqw) rotateY(90deg)}
+.flip .nw.s0.r{transform:translateZ(3.17cqw) rotateY(-90deg)}
+.flip .nw.s1.l{transform:translateZ(-3.17cqw) rotateY(90deg)}
+.flip .nw.s1.r{transform:translateZ(-3.17cqw) rotateY(-90deg)}
+.flip .el{left:-5.46875cqw;transform:rotateY(-90deg)}
 .flip .er{right:-5.46875cqw;transform:rotateY(90deg)}
 .flip text{font-family:var(--font);font-weight:800;text-anchor:middle;dominant-baseline:central}
 
@@ -407,6 +409,77 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .lvd .btn.pri{background:var(--lci);color:var(--lc)}
 .lvd .btn.txt{color:var(--lci)}
 
+/* Stab: abgerundete Längskanten (Fase mit Verlauf) */
+.flip .ch{position:absolute;top:-.2686cqw;height:1.709cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .ch.b{top:auto;bottom:-.2686cqw}
+.flip .ch.s0.t{transform:translateZ(4.8828cqw) rotateX(45deg)}
+.flip .ch.s0.b{transform:translateZ(4.8828cqw) rotateX(-45deg)}
+.flip .ch.s1.t{transform:translateZ(-4.8828cqw) rotateX(135deg)}
+.flip .ch.s1.b{transform:translateZ(-4.8828cqw) rotateX(-135deg)}
+.flip .e{backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:0;clip-path:polygon(21% 10.2%,79% 10.2%,89.8% 21%,89.8% 79%,79% 89.8%,21% 89.8%,10.2% 79%,10.2% 21%)}
+/* Kerbenkanten */
+.flip .lp{position:absolute;top:0;height:100%;width:1.709cqw;margin-left:-.8545cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .lp.s0.l{transform:translateZ(4.8828cqw) rotateY(45deg)}
+.flip .lp.s0.r{transform:translateZ(4.8828cqw) rotateY(-45deg)}
+.flip .lp.s1.l{transform:translateZ(-4.8828cqw) rotateY(135deg)}
+.flip .lp.s1.r{transform:translateZ(-4.8828cqw) rotateY(-135deg)}
+/* Stabenden */
+.flip .ec,.flip .ek{position:absolute;width:1.709cqw;height:9.7656cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .ec{top:.5859cqw}
+.flip .ec.l,.flip .ek.l{left:-.2686cqw}.flip .ec.r,.flip .ek.r{right:-.2686cqw}
+.flip .ec.l.s0{transform:translateZ(4.8828cqw) rotateY(-45deg)}
+.flip .ec.r.s0{transform:translateZ(4.8828cqw) rotateY(45deg)}
+.flip .ec.l.s1{transform:translateZ(-4.8828cqw) rotateY(-135deg)}
+.flip .ec.r.s1{transform:translateZ(-4.8828cqw) rotateY(135deg)}
+.flip .ek.t{top:-4.2969cqw}.flip .ek.b{bottom:-4.2969cqw}
+.flip .ek.l.t{transform:rotateX(90deg) rotateY(-45deg)}
+.flip .ek.r.t{transform:rotateX(90deg) rotateY(45deg)}
+.flip .ek.l.b{transform:rotateX(-90deg) rotateY(-45deg)}
+.flip .ek.r.b{transform:rotateX(-90deg) rotateY(45deg)}
+.flip .eb{clip-path:polygon(11% 0,89% 0,100% 11%,100% 89%,89% 100%,11% 100%,0 89%,0 11%)}
+.flip .eb.el{left:-4.3cqw}.flip .eb.er{right:-4.3cqw}
+.flip .bk{position:absolute;top:0;height:100%;width:1.3672cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .bk.s0{transform:translateZ(4.2969cqw)}
+.flip .bk.s1{transform:rotateX(180deg) translateZ(4.2969cqw)}
+.flip .lp.s0.l,.flip .lp.s1.r{clip-path:polygon(0 10.7%,100% 0,100% 100%,0 89.3%)}
+.flip .lp.s0.r,.flip .lp.s1.l{clip-path:polygon(0 0,100% 10.7%,100% 89.3%,0 100%)}
+.flip .nf{margin-left:-.12cqw;padding-right:.24cqw;box-sizing:content-box}
+
+/* Stäbe fallen als echte 3D-Stäbe aufs Brett und werden beim Aufsetzen zur flachen Ansicht */
+#bd,.hero .mini{position:relative}
+.stk.in.f3{animation:stkIn .35s ease both;animation-delay:var(--o,0ms)}
+.stk.in.f3 .sh{animation:none}
+@keyframes stkIn{from{opacity:0}to{opacity:1}}
+.fly{position:absolute;width:85.3333%;pointer-events:none;z-index:2;animation:flyOut .7s ease-in-out both;animation-delay:calc(var(--o,0ms) + 150ms)}
+@keyframes flyOut{to{opacity:0}}
+.fly .flb{animation:drop .44s both;animation-delay:var(--d,0ms)}
+.fly .flipw{padding:0;display:block}
+.fly .lift{animation:flTilt .44s both;animation-delay:var(--d,0ms)}
+@keyframes flTilt{0%{transform:rotateX(20deg);animation-timing-function:cubic-bezier(.4,0,.8,.6)}66%,100%{transform:none}}
+.fly .flip{transition:none}
+.fly.spin .flip{animation:flSpin .44s both;animation-delay:var(--d,0ms)}
+@keyframes flSpin{0%{transform:rotateX(calc(var(--rx) - 180deg));animation-timing-function:cubic-bezier(.3,0,.6,1)}64%,100%{transform:rotateX(var(--rx))}}
+.fly .flsh{position:absolute;inset:0;animation:flSh .44s both;animation-delay:var(--d,0ms)}
+@keyframes flSh{0%{opacity:0;translate:0 18px;scale:1.06}66%,100%{opacity:1;translate:0 0;scale:1}}
+.fly .flip .fb .lab{transform:rotate(calc(var(--tz,0deg) * -1))}
+
+/* Prägung auf dem Kerbenboden, 3D-Ansicht über den Augen-Knopf */
+.flip .nf.mk::after{content:"";position:absolute;left:22%;right:22%;top:21.5%;bottom:21.5%;border:.7cqw solid var(--mk);border-radius:28%}
+.fly.h{z-index:3}
+.fly.keep{animation:none}
+.fly.stay,.fly.stay .flb,.fly.stay .lift,.fly.stay .flip,.fly.stay .flsh{animation:none}
+.fly.stay .flsh{translate:0 0}
+.fly.stay.fin{animation:flyIn .4s ease both}
+@keyframes flyIn{from{opacity:0}}
+.fly.fout{animation:flyOut .4s ease both!important;animation-delay:0s!important}
+.bwrap .xr{z-index:5}
+
+/* Schatten: an Kerben der Oberseite ist der Stab dünner, der Schatten kürzer */
+.flsh i{position:absolute;top:0;height:100%;background:rgba(0,0,0,.3);translate:0 11%}
+.flsh i.n{translate:0 5%;background:rgba(0,0,0,.24)}
+.flsh i.v{translate:1.2% 0;border-radius:4px}
+.setrow{flex-wrap:wrap;row-gap:6px}
+
 </style>
 </head>
 <body>
@@ -416,6 +489,8 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ viewH:'Darstellung',
+ viewFlat:'Einfach',view3d:'Echte Stäbe',
  lvDoneK:'Stufe geschafft',lvDoneStars:'{a} von {b} Sternen',lvDone0:'Du kennst jetzt die Regeln. Alle Stufen sind offen.',lvDoneP:'Alle {n} Aufgaben dieser Stufe sind gelöst.',lvDoneMore:'Für mehr Sterne kannst du Aufgaben nochmal spielen.',lvDonePerfect:'Alle Sterne geholt. Besser geht es nicht.',lvNext:'Weiter zu {lv}',allDoneK:'Alles geschafft',allDoneH:'105 von 105',allDoneP:'Du hast alle Aufgaben von AlignStix gelöst. Was für eine Leistung!',toHome:'Zur Startseite',onward:'Weiter',
  shareQ:'Kannst du sie lösen?',shareMiss:'{n} Stäbe fehlen noch',shareMiss1:'Ein Stab fehlt noch',shareBtn:'Teilen',copyLink:'Link kopieren',saveImg:'Bild speichern',shareNote:'Das Bild zeigt nur die Startstellung, nicht die Lösung.',
  askRod:'Willst du wissen, welcher Stab hierhin gehört?',askFull:'Hierhin gehört Stab {n}. Willst du auch sehen, wie er genau liegt?',yesShow:'Ja, zeigen',noSelf:'Nein, ich knoble selbst',share:'Aufgabe teilen',shareText:'Schaffst du AlignStix-Aufgabe {n} ({lv})?',copied:'Link kopiert',shared:'Aufgabe {n} wurde mit dir geteilt',photoP:'Wisch über das Foto, um den Kreis zu verschieben. Mit zwei Fingern zoomst du.',zoomIn:'Vergrößern',zoomOut:'Verkleinern',rebuildS:'Neu aufbauen',showAllS:'Alle zeigen',
@@ -440,7 +515,7 @@ de:{
  circle:'Kreis',triangle:'Dreieck',
  setupDone:'Fertig aufgebaut',
  solveH:'Jetzt bist du dran',solveP:'Lege die übrigen {n} Stäbe so, dass an jeder Kreuzung genau eine Kerbe sitzt. Es gibt nur eine Lösung.',
- left:'Noch übrig',tip:'Tipp',check:'Prüfen',realView:'Echte Draufsicht',realNote:'So sehen die Stäbe von oben aus. Bei den waagerechten zählt aber die Unterseite.',legTop:'Kerbe oben',legUnder:'Kerbe unten',solveP1:'Lege den letzten Stab so, dass an jeder Kreuzung genau eine Kerbe sitzt.',showSetup:'Startstellung',
+ left:'Noch übrig',tip:'Tipp',check:'Prüfen',realView:'Echte Draufsicht',realNote:'So sehen die echten Stäbe von oben aus. Ein geprägtes Quadrat zeigt: Hier ist auf der Unterseite eine Kerbe.',legTop:'Kerbe oben',legUnder:'Kerbe unten',solveP1:'Lege den letzten Stab so, dass an jeder Kreuzung genau eine Kerbe sitzt.',showSetup:'Startstellung',
  tipH:'Ein kleiner Schubs',tipBest:'Fang bei {slot} an. Dort kreuzen schon {k} Stäbe, also bleibt wenig Auswahl.',tipAny:'Schau dir {slot} an.',
  revealRod:'Welcher Stab gehört hierhin?',revealFull:'Zeig mir genau, wie er liegt',
  costStar:'Das kostet einen Stern.',costNone:'Kostet keinen weiteren Stern.',
@@ -466,6 +541,8 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ viewH:'Display',
+ viewFlat:'Simple',view3d:'Real sticks',
  lvDoneK:'Level complete',lvDoneStars:'{a} of {b} stars',lvDone0:'You know the rules now. All levels are open.',lvDoneP:'All {n} tasks of this level are solved.',lvDoneMore:'Play tasks again to collect more stars.',lvDonePerfect:'Every star collected. It doesn’t get better.',lvNext:'On to {lv}',allDoneK:'All done',allDoneH:'105 of 105',allDoneP:'You have solved every AlignStix task. What an achievement!',toHome:'Back to start',onward:'Continue',
  shareQ:'Can you solve it?',shareMiss:'{n} sticks still missing',shareMiss1:'One stick still missing',shareBtn:'Share',copyLink:'Copy link',saveImg:'Save image',shareNote:'The image shows only the starting position, not the solution.',
  askRod:'Do you want to know which stick belongs here?',askFull:'Stick {n} belongs here. Do you also want to see exactly how it lies?',yesShow:'Yes, show me',noSelf:'No, I’ll work it out',share:'Share task',shareText:'Can you solve AlignStix task {n} ({lv})?',copied:'Link copied',shared:'Task {n} was shared with you',photoP:'Swipe over the photo to move the circle. Pinch with two fingers to zoom.',zoomIn:'Zoom in',zoomOut:'Zoom out',rebuildS:'Start over',showAllS:'Show all',
@@ -490,7 +567,7 @@ en:{
  circle:'Circle',triangle:'Triangle',
  setupDone:'All set up',
  solveH:'Your turn',solveP:'Place the remaining {n} sticks so that every crossing has exactly one notch. There is only one solution.',
- left:'Still to place',tip:'Hint',check:'Check',realView:'Real top view',realNote:'This is how the sticks look from above. For the horizontal ones, the underside is what counts.',legTop:'notch on top',legUnder:'notch underneath',solveP1:'Place the last stick so that every crossing has exactly one notch.',showSetup:'Starting position',
+ left:'Still to place',tip:'Hint',check:'Check',realView:'Real top view',realNote:'This is how the real sticks look from above. An embossed square shows: there is a notch on the underside here.',legTop:'notch on top',legUnder:'notch underneath',solveP1:'Place the last stick so that every crossing has exactly one notch.',showSetup:'Starting position',
  tipH:'A little nudge',tipBest:'Start with {slot}. {k} sticks already cross it, so there is little choice left.',tipAny:'Take a look at {slot}.',
  revealRod:'Which stick belongs here?',revealFull:'Show me exactly how it lies',
  costStar:'Costs one star.',costNone:'Costs no further star.',
@@ -516,6 +593,8 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ viewH:'Affichage',
+ viewFlat:'Simple',view3d:'Vrais bâtons',
  lvDoneK:'Niveau terminé',lvDoneStars:'{a} étoiles sur {b}',lvDone0:'Tu connais maintenant les règles. Tous les niveaux sont ouverts.',lvDoneP:'Les {n} tâches de ce niveau sont résolues.',lvDoneMore:'Rejoue des tâches pour gagner plus d’étoiles.',lvDonePerfect:'Toutes les étoiles gagnées. Impossible de faire mieux.',lvNext:'Continuer vers {lv}',allDoneK:'Tout est fait',allDoneH:'105 sur 105',allDoneP:'Tu as résolu toutes les tâches d’AlignStix. Quel exploit !',toHome:'Retour à l’accueil',onward:'Continuer',
  shareQ:'Sauras-tu la résoudre ?',shareMiss:'Il manque encore {n} bâtons',shareMiss1:'Il manque encore un bâton',shareBtn:'Partager',copyLink:'Copier le lien',saveImg:'Enregistrer l’image',shareNote:'L’image montre seulement la position de départ, pas la solution.',
  askRod:'Tu veux savoir quel bâton va ici ?',askFull:'Ici, c’est le bâton {n}. Tu veux aussi voir exactement comment il est posé ?',yesShow:'Oui, montre',noSelf:'Non, je cherche moi-même',share:'Partager la tâche',shareText:'Arriveras-tu à résoudre la tâche AlignStix {n} ({lv}) ?',copied:'Lien copié',shared:'La tâche {n} a été partagée avec toi',photoP:'Glisse sur la photo pour déplacer le cercle. Pince à deux doigts pour zoomer.',zoomIn:'Agrandir',zoomOut:'Réduire',rebuildS:'Recommencer',showAllS:'Tout montrer',
@@ -540,7 +619,7 @@ fr:{
  circle:'Cercle',triangle:'Triangle',
  setupDone:'Tout est installé',
  solveH:'À toi de jouer',solveP:'Pose les {n} bâtons restants pour qu’il y ait exactement une encoche à chaque croisement. Il n’y a qu’une solution.',
- left:'Encore à poser',tip:'Indice',check:'Vérifier',realView:'Vraie vue de dessus',realNote:'Voilà les bâtons vus de dessus. Pour les horizontaux, c’est pourtant le dessous qui compte.',legTop:'encoche dessus',legUnder:'encoche dessous',solveP1:'Pose le dernier bâton pour qu’il y ait exactement une encoche à chaque croisement.',showSetup:'Position de départ',
+ left:'Encore à poser',tip:'Indice',check:'Vérifier',realView:'Vraie vue de dessus',realNote:'Voilà les vrais bâtons vus de dessus. Un carré en relief indique une encoche en dessous à cet endroit.',legTop:'encoche dessus',legUnder:'encoche dessous',solveP1:'Pose le dernier bâton pour qu’il y ait exactement une encoche à chaque croisement.',showSetup:'Position de départ',
  tipH:'Un petit coup de pouce',tipBest:'Commence par {slot}. {k} bâtons la croisent déjà, il reste donc peu de choix.',tipAny:'Regarde {slot}.',
  revealRod:'Quel bâton va ici ?',revealFull:'Montre-moi exactement comment il est posé',
  costStar:'Coûte une étoile.',costNone:'Ne coûte pas d’étoile en plus.',
@@ -566,6 +645,8 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ viewH:'Vista',
+ viewFlat:'Sencilla',view3d:'Reales',
  lvDoneK:'Nivel completado',lvDoneStars:'{a} de {b} estrellas',lvDone0:'Ya conoces las reglas. Todos los niveles están abiertos.',lvDoneP:'Las {n} tareas de este nivel están resueltas.',lvDoneMore:'Vuelve a jugar tareas para conseguir más estrellas.',lvDonePerfect:'Todas las estrellas conseguidas. Mejor imposible.',lvNext:'Seguir con {lv}',allDoneK:'Todo hecho',allDoneH:'105 de 105',allDoneP:'Has resuelto todas las tareas de AlignStix. ¡Qué logro!',toHome:'Volver al inicio',onward:'Continuar',
  shareQ:'¿Puedes resolverla?',shareMiss:'Faltan {n} palitos',shareMiss1:'Falta un palito',shareBtn:'Compartir',copyLink:'Copiar enlace',saveImg:'Guardar imagen',shareNote:'La imagen solo muestra la posición inicial, no la solución.',
  askRod:'¿Quieres saber qué palito va aquí?',askFull:'Aquí va el palito {n}. ¿Quieres ver también exactamente cómo va?',yesShow:'Sí, enséñamelo',noSelf:'No, lo intento yo',share:'Compartir tarea',shareText:'¿Puedes resolver la tarea {n} de AlignStix ({lv})?',copied:'Enlace copiado',shared:'Te han compartido la tarea {n}',photoP:'Desliza sobre la foto para mover el círculo. Pellizca con dos dedos para hacer zoom.',zoomIn:'Ampliar',zoomOut:'Reducir',rebuildS:'Empezar de nuevo',showAllS:'Mostrar todos',
@@ -590,7 +671,7 @@ es:{
  circle:'Círculo',triangle:'Triángulo',
  setupDone:'Ya está montado',
  solveH:'Te toca',solveP:'Coloca los {n} palitos que quedan para que en cada cruce haya exactamente una muesca. Solo hay una solución.',
- left:'Aún por colocar',tip:'Pista',check:'Comprobar',realView:'Vista real desde arriba',realNote:'Así se ven los palitos desde arriba. En los horizontales cuenta la cara de abajo.',legTop:'muesca arriba',legUnder:'muesca abajo',solveP1:'Coloca el último palito para que en cada cruce haya exactamente una muesca.',showSetup:'Posición inicial',
+ left:'Aún por colocar',tip:'Pista',check:'Comprobar',realView:'Vista real desde arriba',realNote:'Así se ven los palitos reales desde arriba. Un cuadrado en relieve indica que aquí hay una muesca por debajo.',legTop:'muesca arriba',legUnder:'muesca abajo',solveP1:'Coloca el último palito para que en cada cruce haya exactamente una muesca.',showSetup:'Posición inicial',
  tipH:'Un pequeño empujón',tipBest:'Empieza por {slot}. Ya la cruzan {k} palitos, así que quedan pocas opciones.',tipAny:'Fíjate en {slot}.',
  revealRod:'¿Qué palito va aquí?',revealFull:'Enséñame exactamente cómo va',
  costStar:'Cuesta una estrella.',costNone:'No cuesta más estrellas.',
@@ -617,7 +698,7 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='214';
+const APP_VERSION='1.0';
 const RODS={1:['00001','00000'],2:['00011','10001'],3:['00101','01001'],4:['00110','01110'],5:['11111','00111'],6:['00100','00010'],7:['11011','10011'],8:['10101','01010'],9:['01111','10111'],10:['01101','01011']};
 const RAW=[["P067-M0639",0,[[2,1,0],[6,1,1],[8,1,0],[5,0,0],[3,1,0],[10,0,0],[1,0,1],[9,1,1],[7,1,1],[4,0,1]],1011],["P011-M0927",0,[[6,1,0],[4,1,0],[10,1,0],[9,1,0],[7,1,1],[5,1,1],[3,1,1],[8,0,0],[1,0,0],[2,0,1]],1020],["P034-M0799",0,[[3,1,0],[7,0,0],[1,0,0],[6,1,0],[5,1,1],[10,0,1],[4,0,0],[9,0,1],[8,0,0],[2,0,0]],1016],["P003-M0191",0,[[1,1,0],[5,0,0],[4,0,1],[3,0,1],[6,1,0],[8,0,0],[7,1,0],[2,1,0],[10,0,1],[9,1,0]],997],["P096-M0351",0,[[5,0,0],[3,1,1],[10,1,1],[2,1,0],[7,0,0],[1,1,0],[8,1,0],[9,0,0],[6,1,0],[4,0,1]],1002],["P068-M0159",1,[[2,1,0],[4,1,0],[5,1,0],[10,0,0],[3,0,0],[9,0,0],[8,0,0],[1,0,1],[7,1,0],[6,1,1]],996],["P088-M0287",1,[[2,0,1],[5,0,0],[8,1,0],[1,1,0],[7,0,0],[4,0,0],[6,1,0],[9,1,0],[3,1,1],[10,0,1]],1000],["P093-M0095",1,[[9,0,1],[5,1,0],[8,0,0],[7,0,0],[10,1,0],[3,1,0],[4,0,1],[2,0,0],[6,0,0],[1,0,1]],994],["P061-M0287",1,[[4,1,0],[9,1,0],[5,0,0],[6,0,0],[10,0,0],[7,1,0],[8,1,0],[1,1,0],[2,0,0],[3,1,1]],1000],["P065-M0095",1,[[1,0,1],[4,0,0],[3,1,1],[7,0,0],[8,0,0],[6,1,1],[9,1,1],[10,0,1],[2,1,0],[5,1,1]],994],["P035-M0543",1,[[6,1,1],[1,0,0],[2,0,0],[4,1,0],[8,0,0],[9,0,1],[10,0,0],[5,1,1],[7,1,1],[3,1,1]],1008],["P052-M0063",1,[[4,0,1],[8,1,0],[9,1,1],[5,0,0],[10,0,1],[2,0,1],[1,0,0],[6,1,1],[3,0,1],[7,1,1]],993],["P031-M0063",1,[[4,0,0],[10,1,0],[5,0,0],[9,1,1],[8,1,0],[7,1,1],[1,0,1],[3,1,0],[6,1,0],[2,1,0]],993],["P064-M0287",1,[[8,0,0],[1,0,1],[7,0,0],[5,1,0],[9,0,1],[6,1,0],[10,1,1],[4,0,1],[2,0,1],[3,1,0]],1000],["P025-M0159",1,[[3,0,0],[1,0,0],[8,0,0],[10,0,1],[4,1,0],[7,1,1],[9,0,1],[6,1,1],[5,1,1],[2,0,0]],996],["P060-M0095",1,[[1,0,1],[7,1,1],[6,0,0],[3,0,0],[4,1,0],[5,1,0],[10,0,1],[2,0,1],[9,0,1],[8,0,0]],994],["P008-M0031",1,[[1,0,0],[9,1,1],[6,1,0],[4,1,0],[2,0,1],[10,0,1],[3,0,1],[8,0,0],[7,1,1],[5,1,0]],992],["P015-M0287",1,[[2,0,0],[4,1,0],[3,0,1],[8,0,0],[6,0,0],[7,1,1],[9,1,0],[1,0,1],[5,1,0],[10,0,0]],1000],["P100-M0031",1,[[5,0,0],[2,1,0],[3,1,1],[9,1,1],[7,0,0],[1,1,0],[4,0,1],[10,0,0],[8,1,0],[6,0,0]],992],["P057-M0031",1,[[1,0,1],[8,0,0],[2,0,0],[6,0,0],[4,1,0],[5,1,0],[9,0,1],[3,0,1],[10,1,1],[7,1,0]],992],["P075-M0031",1,[[2,0,1],[7,0,0],[6,0,0],[1,0,0],[8,0,0],[4,0,0],[5,1,0],[10,1,1],[9,1,0],[3,0,1]],992],["P082-M0031",1,[[2,0,1],[4,1,0],[5,0,0],[6,1,1],[9,1,1],[8,1,0],[1,1,0],[3,1,1],[7,1,0],[10,1,1]],992],["P007-M0031",1,[[1,0,0],[10,0,1],[3,0,1],[4,1,0],[6,1,1],[7,1,0],[5,1,1],[2,1,0],[8,0,0],[9,0,0]],992],["P022-M0031",1,[[3,0,0],[7,0,0],[1,0,1],[10,0,1],[6,0,0],[2,1,0],[9,1,0],[4,0,1],[8,0,0],[5,1,0]],992],["P104-M0031",1,[[5,0,0],[3,0,1],[7,0,0],[2,1,0],[9,1,0],[1,1,0],[10,1,0],[4,0,0],[8,1,0],[6,1,1]],992],["P098-M0031",1,[[5,0,0],[9,0,0],[2,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[3,0,0],[4,0,0],[1,1,0]],992],["P044-M0031",1,[[8,1,0],[2,0,1],[4,1,0],[5,0,0],[10,1,1],[3,0,1],[1,1,0],[7,1,1],[6,1,1],[9,1,1]],992],["P081-M0031",1,[[9,1,1],[7,0,0],[8,1,0],[5,0,0],[10,0,0],[3,0,0],[1,1,0],[4,0,1],[2,1,0],[6,0,0]],992],["P017-M0031",1,[[2,0,0],[7,0,0],[6,1,0],[9,1,0],[4,1,0],[8,0,0],[10,0,1],[5,1,1],[1,1,0],[3,0,0]],992],["P037-M0031",1,[[6,1,1],[5,0,0],[3,0,0],[1,0,0],[8,1,0],[9,1,0],[4,0,0],[7,1,0],[10,0,1],[2,1,0]],992],["P076-M0103",2,[[5,1,1],[10,0,0],[2,1,0],[7,0,0],[8,0,0],[6,1,1],[3,0,0],[4,0,0],[9,1,1],[1,0,1]],227],["P071-M0651",2,[[3,1,1],[8,1,0],[6,1,0],[1,0,1],[7,1,1],[4,0,1],[10,0,1],[5,0,0],[2,0,0],[9,0,1]],372],["P051-M0654",2,[[1,0,1],[6,1,0],[2,0,1],[8,1,0],[4,0,0],[10,1,0],[7,1,1],[9,0,1],[3,0,1],[5,0,0]],468],["P070-M0313",2,[[2,1,0],[8,0,0],[10,0,0],[4,0,0],[3,0,0],[5,1,0],[7,0,0],[1,0,1],[9,1,1],[6,1,0]],809],["P038-M0551",2,[[3,1,0],[6,1,1],[4,1,0],[5,0,0],[8,1,0],[9,1,1],[1,1,0],[7,1,1],[2,0,1],[10,0,0]],241],["P024-M0214",2,[[4,1,0],[1,1,0],[3,0,0],[2,0,0],[6,0,0],[5,0,0],[9,0,0],[8,1,0],[10,0,0],[7,1,1]],710],["P091-M0595",2,[[7,0,0],[5,1,1],[1,0,0],[2,0,1],[10,1,0],[3,0,0],[6,0,0],[9,1,0],[4,1,0],[8,1,0]],626],["P047-M0188",2,[[8,1,0],[5,0,0],[7,1,1],[1,0,0],[10,1,1],[3,1,1],[6,1,0],[9,1,0],[4,0,0],[2,1,0]],901],["P013-M0525",2,[[2,0,0],[6,0,0],[3,1,1],[1,0,1],[4,0,0],[7,1,1],[5,0,0],[10,0,1],[8,1,0],[9,0,0]],432],["P074-M0327",2,[[3,0,1],[9,1,1],[4,1,0],[5,1,1],[8,0,0],[6,0,0],[2,1,0],[1,1,0],[7,0,0],[10,0,1]],234],["P043-M0666",2,[[8,1,0],[3,0,1],[9,1,1],[5,0,0],[10,1,1],[1,0,1],[6,1,1],[2,1,0],[4,0,1],[7,1,1]],852],["P083-M0217",2,[[5,0,0],[10,0,1],[7,1,0],[3,0,1],[9,1,1],[1,1,0],[4,1,0],[6,0,0],[2,0,0],[8,1,0]],806],["P021-M0263",2,[[3,1,1],[8,1,0],[9,0,1],[4,0,0],[6,0,0],[10,1,0],[7,1,0],[2,0,1],[1,0,0],[5,0,0]],232],["P086-M0078",2,[[2,0,1],[5,1,0],[6,1,1],[1,0,0],[7,0,0],[4,1,0],[8,1,0],[9,1,0],[10,0,1],[3,0,1]],450],["P026-M0316",2,[[3,0,0],[1,0,0],[9,1,1],[6,1,0],[4,1,0],[7,0,0],[10,1,1],[8,1,0],[5,1,1],[2,0,0]],905],["P101-M0282",2,[[7,0,0],[5,0,0],[8,1,0],[3,1,1],[9,1,0],[6,0,0],[2,0,0],[10,0,1],[1,1,0],[4,0,0]],840],["P006-M0284",2,[[1,0,0],[8,1,0],[2,0,0],[4,0,1],[6,1,1],[5,0,0],[3,0,1],[9,1,1],[7,1,0],[10,1,0]],904],["P049-M0538",2,[[1,0,1],[2,0,0],[6,0,0],[8,1,0],[10,1,1],[4,1,0],[5,1,1],[7,0,0],[3,0,1],[9,1,0]],848],["P001-M0046",2,[[1,1,0],[6,0,0],[8,0,0],[4,1,0],[3,1,1],[10,1,1],[9,1,1],[2,1,0],[5,1,1],[7,0,0]],449],["P020-M0083",2,[[3,0,0],[7,1,1],[1,0,1],[10,1,1],[6,0,0],[2,1,0],[8,0,0],[4,1,0],[9,1,1],[5,1,0]],610],["P099-M0043",2,[[5,1,1],[4,1,0],[9,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[1,0,0],[3,1,1],[2,0,1]],353],["P079-M0149",2,[[9,1,1],[2,1,0],[5,1,0],[8,0,0],[10,0,0],[3,0,0],[4,1,0],[6,1,1],[7,0,0],[1,1,0]],676],["P103-M0015",2,[[5,0,0],[10,0,1],[7,0,0],[2,0,1],[9,1,0],[1,1,0],[3,1,0],[4,0,0],[6,1,0],[8,1,0]],480],["P105-M0030",2,[[5,0,0],[2,0,0],[3,0,0],[7,0,0],[9,0,0],[10,0,0],[4,0,1],[8,1,0],[6,0,0],[1,1,0]],960],["P010-M0023",2,[[4,1,0],[5,0,0],[10,0,0],[8,1,0],[6,1,1],[9,1,0],[1,1,0],[2,0,0],[3,0,0],[7,1,0]],736],["P032-M0549",3,[[5,1,0],[1,0,0],[4,1,0],[2,1,0],[6,1,0],[9,1,1],[7,0,0],[10,1,0],[8,1,0],[3,0,0]],177],["P023-M0312",3,[[5,1,0],[8,1,0],[1,0,1],[2,0,0],[6,0,0],[7,0,0],[9,1,0],[4,1,0],[3,0,0],[10,0,0]],777],["P050-M0553",3,[[7,1,0],[6,1,0],[2,1,0],[1,0,0],[10,1,1],[8,1,0],[9,0,1],[5,0,0],[4,0,0],[3,1,0]],305],["P029-M0645",3,[[3,0,0],[9,0,1],[5,1,1],[7,0,0],[4,0,1],[2,1,0],[1,0,1],[6,1,0],[8,0,0],[10,0,0]],180],["P078-M0108",3,[[9,1,1],[3,0,1],[5,0,0],[4,1,0],[10,0,0],[2,0,0],[6,1,1],[1,1,0],[7,1,1],[8,1,0]],387],["P005-M0646",3,[[1,0,0],[6,0,0],[4,0,1],[3,1,0],[8,1,0],[5,0,0],[2,0,1],[7,1,0],[9,0,1],[10,0,0]],212],["P054-M0586",3,[[3,0,1],[1,1,0],[2,0,1],[6,1,1],[10,0,1],[8,1,0],[7,1,1],[4,1,0],[9,0,1],[5,0,0]],338],["P066-M0401",3,[[2,1,0],[3,0,0],[1,1,0],[7,1,1],[8,0,0],[4,0,1],[9,1,1],[10,0,1],[5,0,0],[6,0,0]],556],["P048-M0216",3,[[3,1,1],[4,0,1],[9,0,0],[5,0,0],[8,1,0],[10,0,0],[1,0,1],[2,1,0],[6,1,1],[7,1,1]],774],["P059-M0025",3,[[4,1,0],[10,1,0],[5,0,0],[3,1,1],[9,0,1],[2,0,1],[6,1,0],[8,1,0],[1,1,0],[7,1,0]],800],["P102-M0028",3,[[7,0,0],[5,0,0],[8,1,0],[10,0,1],[9,1,0],[6,0,0],[2,0,0],[3,0,1],[1,1,0],[4,0,0]],896],["P027-M0022",3,[[1,0,1],[6,1,1],[8,1,0],[10,0,0],[3,0,1],[4,1,0],[2,1,0],[5,1,1],[7,0,0],[9,1,1]],704],["P056-M0338",3,[[4,1,0],[2,0,0],[9,0,1],[5,1,0],[10,0,0],[7,0,0],[8,1,0],[6,1,1],[1,0,0],[3,0,1]],586],["P016-M0404",3,[[2,0,0],[1,0,1],[4,0,0],[6,0,0],[3,1,1],[10,0,1],[5,0,0],[7,1,1],[8,1,0],[9,0,0]],652],["P055-M0007",3,[[4,1,0],[7,0,0],[9,1,0],[1,0,0],[10,0,1],[3,1,1],[5,1,0],[8,1,0],[6,1,0],[2,1,0]],224],["P062-M0404",3,[[4,1,0],[9,1,1],[3,1,1],[2,0,1],[7,0,0],[1,0,1],[6,0,0],[5,1,0],[8,1,0],[10,0,1]],652],["P084-M0035",3,[[5,1,1],[2,1,0],[10,1,1],[1,0,0],[9,1,1],[6,1,0],[8,1,0],[4,1,0],[7,0,0],[3,0,1]],97],["P073-M0021",3,[[3,0,1],[10,0,1],[4,1,0],[9,1,0],[8,0,0],[6,0,0],[7,0,0],[1,1,0],[2,1,0],[5,1,1]],672],["P009-M0025",3,[[2,0,0],[4,1,0],[1,0,1],[3,0,1],[6,1,1],[7,1,1],[10,0,1],[8,0,0],[5,1,0],[9,0,0]],800],["P097-M0021",3,[[5,0,0],[2,1,0],[10,1,0],[3,1,0],[7,0,0],[4,0,0],[6,1,1],[9,0,0],[8,1,0],[1,1,0]],672],["P069-M0131",3,[[2,1,0],[1,0,1],[8,1,0],[6,0,0],[3,1,0],[5,1,0],[10,1,1],[9,1,1],[7,0,0],[4,1,0]],100],["P042-M0013",3,[[8,1,0],[4,1,0],[10,0,0],[7,0,0],[9,1,0],[5,1,1],[1,0,0],[3,1,1],[6,0,0],[2,0,1]],416],["P036-M0026",3,[[6,1,1],[3,1,0],[2,0,0],[1,0,1],[8,1,0],[9,1,1],[4,0,0],[5,0,0],[10,1,1],[7,1,0]],832],["P012-M0521",3,[[6,1,0],[2,0,1],[1,0,1],[10,1,0],[8,1,0],[7,1,0],[3,0,1],[5,0,0],[4,0,1],[9,1,1]],304],["P053-M0042",3,[[4,0,1],[10,0,0],[5,0,0],[8,1,0],[9,0,0],[7,0,0],[1,1,0],[6,1,0],[2,0,1],[3,1,1]],321],["P041-M0524",4,[[1,0,1],[10,0,0],[6,0,0],[2,0,0],[3,1,1],[4,1,0],[9,1,0],[7,1,0],[5,1,1],[8,0,0]],400],["P085-M0137",4,[[7,0,0],[10,0,1],[2,1,0],[8,0,0],[9,1,1],[1,1,0],[4,1,0],[3,0,1],[5,1,0],[6,1,1]],292],["P095-M0274",4,[[7,0,0],[1,0,1],[10,0,0],[5,1,1],[9,1,0],[6,0,0],[3,1,0],[2,0,1],[4,1,0],[8,1,0]],584],["P094-M0261",4,[[7,0,0],[1,0,0],[2,0,1],[3,0,0],[9,0,0],[10,1,0],[8,1,0],[5,1,1],[4,1,0],[6,0,0]],168],["P046-M0098",4,[[8,1,0],[5,1,1],[9,1,1],[6,0,0],[10,0,1],[3,1,1],[2,0,0],[1,0,1],[4,1,0],[7,0,0]],67],["P090-M0522",4,[[5,0,0],[2,0,0],[9,1,0],[4,1,0],[7,1,0],[8,1,0],[10,0,0],[3,1,0],[1,1,0],[6,1,0]],336],["P039-M0074",4,[[3,1,0],[4,0,1],[5,0,0],[10,0,1],[9,1,1],[2,0,1],[6,1,0],[1,0,1],[7,1,1],[8,1,0]],322],["P058-M0385",4,[[3,1,1],[7,0,0],[5,1,1],[8,1,0],[4,1,0],[2,0,0],[1,0,1],[10,1,1],[6,0,0],[9,1,0]],44],["P030-M0304",4,[[4,0,0],[3,0,0],[10,0,1],[1,1,0],[6,1,0],[7,0,0],[5,0,0],[2,0,0],[8,1,0],[9,1,0]],521],["P045-M0073",4,[[3,1,1],[1,1,0],[6,1,1],[7,0,0],[8,1,0],[10,0,0],[2,0,1],[5,0,0],[4,0,1],[9,1,1]],290],["P014-M0069",4,[[1,0,1],[8,1,0],[6,0,0],[3,0,1],[2,0,1],[4,0,1],[10,0,1],[7,1,1],[9,1,0],[5,0,0]],162],["P092-M0164",4,[[9,1,1],[8,0,0],[7,1,0],[3,1,1],[10,1,0],[1,0,0],[4,1,0],[5,1,0],[2,0,1],[6,1,0]],133],["P040-M0322",4,[[3,1,0],[7,1,0],[1,0,0],[6,1,1],[8,1,0],[9,1,0],[4,0,1],[5,0,0],[10,0,1],[2,0,0]],74],["P077-M0580",4,[[9,1,0],[5,1,1],[7,0,0],[4,1,0],[10,0,0],[2,0,0],[1,0,1],[6,0,0],[3,1,0],[8,1,0]],146],["P072-M0098",4,[[3,0,1],[4,0,0],[8,0,0],[9,1,1],[7,0,0],[6,1,1],[5,1,1],[1,0,0],[10,0,1],[2,0,1]],67],["P087-M0145",4,[[2,0,1],[10,1,1],[1,1,0],[8,1,0],[7,0,0],[4,0,0],[6,0,0],[5,0,0],[3,0,1],[9,0,1]],548],["P089-M0560",4,[[7,1,1],[8,1,0],[10,0,1],[5,0,0],[9,1,0],[6,1,1],[3,0,0],[2,0,1],[1,0,1],[4,0,1]],529],["P080-M0304",4,[[2,0,1],[6,1,0],[1,0,1],[7,1,0],[10,0,0],[3,1,0],[4,1,0],[9,0,1],[8,0,0],[5,1,1]],521],["P063-M0518",4,[[5,0,0],[2,0,1],[7,0,0],[10,0,0],[9,0,1],[6,1,0],[1,1,0],[4,0,1],[8,1,0],[3,1,0]],208],["P028-M0656",4,[[3,0,0],[7,0,0],[8,1,0],[4,1,0],[6,1,0],[9,1,0],[2,1,0],[10,0,0],[1,0,1],[5,1,0]],532],["P018-M0546",4,[[5,1,0],[2,0,1],[3,1,0],[1,0,1],[6,0,0],[8,0,0],[7,1,0],[4,1,0],[9,0,0],[10,1,0]],81],["P033-M0776",4,[[4,1,0],[1,0,1],[9,0,0],[2,0,1],[5,1,1],[3,0,1],[6,1,1],[8,1,0],[10,1,0],[7,0,0]],280],["P019-M0069",4,[[6,0,0],[3,0,0],[4,1,0],[9,1,0],[10,0,1],[5,1,1],[7,0,0],[1,1,0],[2,0,1],[8,0,0]],162],["P004-M0280",4,[[1,0,0],[6,1,0],[8,1,0],[10,0,0],[3,1,0],[5,0,0],[2,0,1],[9,1,1],[7,1,0],[4,0,1]],776],["P002-M0160",4,[[1,1,0],[4,1,0],[5,1,0],[10,1,1],[6,0,0],[9,1,1],[8,0,0],[3,1,1],[2,1,0],[7,0,0]],5]];
 const TASKS=RAW.map((r,i)=>({id:r[0],lv:r[1],n:i+1,mask:r[3],sol:r[2].map((s,j)=>({k:(j<5?'H':'V')+(j%5),ax:j<5?'H':'V',pos:j%5,rod:s[0],side:s[1],flip:s[2]}))}));
@@ -716,7 +797,7 @@ function caps(ax,v0,w,col,r0){const f=lum(col)<70?'fill="#fff" fill-opacity=".16
   return `<path d="M${P(ur,v0)} L${P(u1,v0)} L${P(u1,v0+w)} L${P(ur,v0+w)} Q${P(u0,v0+w)} ${P(u0,v0+w-r)} L${P(u0,v0+r)} Q${P(u0,v0)} ${P(ur,v0)} Z" ${f}/>`};
  return mk(B.a,1)+mk(B.b,-1)}
 function stickSVG(s,kind,cls,delay){const col=colorOf(s.rod),ik=ink(col),p=cen(s.pos),ax=s.ax,w=B.w,v0=p-w/2,len=B.b-B.a,vis=ax==='V'?s.side:1-s.side;
- let g=`<g class="stk ${ax} ${kind} ${cls||''}" style="--d:${delay||0}ms">`;
+ let g=`<g class="stk ${ax} ${kind} ${cls||''}"${kind==='help1'?'':` data-r="${s.rod}" data-ax="${ax}" data-p="${s.pos}" data-v="${vis}" data-f="${s.flip?1:0}"`} style="--d:${delay||0}ms">`;
  g+=`<g class="sh" transform="translate(0 6)">${rc(ax,B.a,v0,len,w,'rx="10" fill="#000" fill-opacity=".32"')}</g>`;
  g+=rc(ax,B.a,v0,len,w,`rx="10" fill="${col}" stroke="rgba(255,255,255,.3)" stroke-width="1.500" class="body"${kind==='help1'?' stroke-dasharray="8 6"':''}`);
  if(kind==='help1'){[B.la,B.lb].forEach(u=>{const [x,y]=pt(ax,u,p);g+=`<text x="${x}" y="${y}" font-size="${s.rod===10?24:28}" fill="${ik}">${s.rod}</text>`})}
@@ -736,16 +817,23 @@ function boardSVG(o){const used=new Set(o.sticks.map(x=>x.s.k));let h=`<svg clas
   h+=`<g class="slot${o.tap?' tap':''}${o.hl===k?' hl':''}"${o.tap?` data-act="slot" data-k="${k}" role="button" tabindex="0" aria-label="${esc(cap(slotName(k)))}"`:''}>${rc(ax,B.a+3,p-B.w/2+3,B.b-B.a-6,B.w-6,'rx="9"')}</g>`}});
  ['V','H'].forEach(ax=>o.sticks.filter(x=>x.s.ax===ax).forEach(x=>{h+=stickSVG(x.s,x.kind,(x.cls||'')+(o.hl===x.s.k?' hl':''),x.delay)}));
  return h+'</svg>'}
+const NH=29.7;
 function faceSVG(n,side,holes){const col=colorOf(n),ik=ink(col),p=RODS[n][side];let body='';
- if(holes){let x0=44;const seg=(a,b)=>{body+=`<rect x="${a}" y="14" width="${b-a}" height="56" rx="4" fill="${col}" stroke="rgba(128,128,128,.55)" stroke-width="1.500"/>`};for(let i=0;i<5;i++)if(p[i]==='1'){seg(x0,cen(i)-27);x0=cen(i)+27}seg(x0,556)}
+ if(holes){let x0=49.5;const seg=(a,b)=>{body+=`<rect x="${a}" y="19.5" width="${b-a}" height="45" fill="${col}" stroke="rgba(128,128,128,.4)" stroke-width="1"/>`};for(let i=0;i<5;i++)if(p[i]==='1'){seg(x0,cen(i)-NH-5.5);x0=cen(i)+NH+5.5}seg(x0,550.5);const q=RODS[n][1-side];for(let i=0;i<5;i++)if(q[i]==='1'&&p[i]!=='1')body+=`<rect x="${cen(i)-16}" y="26" width="32" height="32" rx="8" fill="none" stroke="${lum(col)<70?'#fff':'#000'}" stroke-opacity=".15" stroke-width="4"/><rect x="${cen(i)-14.5}" y="27.5" width="32" height="32" rx="8" fill="none" stroke="#fff" stroke-opacity="${lum(col)<70?.05:.14}" stroke-width="1"/>`}
  else body=`<rect x="44" y="14" width="512" height="56" rx="7" fill="${col}"/>${grooves('H',14,56,p,col,27)}<rect x="45.500" y="15.500" width="509" height="53" rx="6" fill="none" stroke="rgba(128,128,128,.55)" stroke-width="1.500"/>`;
- return `<svg viewBox="44 14 512 56" preserveAspectRatio="none" aria-hidden="true">${body}${caps('H',14,56,col,holes?4:7)}${symSVG(B.la,42,side,ik,12,270)}<g class="lab"><text x="${B.lb}" y="42" font-size="${n===10?24:28}" fill="${ik}">${n}</text></g></svg>`}
+ return `<svg viewBox="44 14 512 56" preserveAspectRatio="none" aria-hidden="true">${holes?`<clipPath id="fcl"><rect x="49.5" y="19.5" width="501" height="45" rx="3"/></clipPath><g clip-path="url(#fcl)">${body}${caps('H',19.5,45,col,3)}</g>`:body+caps('H',14,56,col,7)}${symSVG(B.la,42,side,ik,12,270)}<g class="lab"><text x="${B.lb}" y="42" font-size="${n===10?24:28}" fill="${ik}">${n}</text></g></svg>`}
 function edgeSVG(n,aTop){const col=colorOf(n);let hd='';
- for(let i=0;i<5;i++){const c=cen(i);if(RODS[n][0][i]==='1')hd+=`M${c-27} ${aTop?14:47}h54v23h-54z`;if(RODS[n][1][i]==='1')hd+=`M${c-27} ${aTop?47:14}h54v23h-54z`}
- return `<svg viewBox="44 14 512 56" preserveAspectRatio="none" aria-hidden="true"><path fill-rule="evenodd" d="M48 14h504a4 4 0 0 1 4 4v48a4 4 0 0 1-4 4H48a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z${hd}" fill="${shade(col,.22)}"/></svg>`}
+ for(let i=0;i<5;i++){const c=cen(i);if(RODS[n][0][i]==='1')hd+=`M${c-NH} ${aTop?19.5:51.33}h${2*NH}v13.17h-${2*NH}z`;if(RODS[n][1][i]==='1')hd+=`M${c-NH} ${aTop?51.33:19.5}h${2*NH}v13.17h-${2*NH}z`}
+ return `<svg viewBox="44 14 512 56" preserveAspectRatio="none" aria-hidden="true"><path fill-rule="evenodd" d="M49.5 19.5h501v45H49.5z${hd}" fill="${shade(col,.22)}"/></svg>`}
 const flipStick=(n,cnt,trn)=>{const col=colorOf(n),e=`background:${shade(col,.42)}`,fl=shade(col,.3),wl=shade(col,.48);let nt='';
- [0,1].forEach(sd=>{for(let i=0;i<5;i++)if(RODS[n][sd][i]==='1'){const L=(cen(i)-27-44)/512*100,W=54/512*100;nt+=`<i class="nf s${sd}" style="left:${L}%;width:${W}%;background:${fl}"></i><i class="nw s${sd} l" style="left:${L}%;background:${wl}"></i><i class="nw s${sd} r" style="left:${L+W}%;background:${wl}"></i>`}});
- return `<button class="flipw" data-act="flip" data-n="${n}" aria-label="${esc(t('stick',{n}))}, ${esc(t('tapFlip'))}"><span class="lift"><span class="turn" style="--tz:${(trn|0)*180}deg"><span class="flip" style="transform:rotateX(${(cnt|0)*180}deg)"><span class="f fa">${faceSVG(n,0,true)}</span><span class="f fb">${faceSVG(n,1,true)}</span><span class="f ft">${edgeSVG(n,false)}</span><span class="f fd">${edgeSVG(n,true)}</span>${nt}<i class="e el" style="${e}"></i><i class="e er" style="${e}"></i></span></span></span></button>`};
+ [0,1].forEach(sd=>{for(let i=0;i<5;i++)if(RODS[n][sd][i]==='1'){const L=(cen(i)-NH-44)/512*100,W=2*NH/512*100;nt+=`<i class="nf s${sd}${RODS[n][1-sd][i]==='1'?' mk':''}" style="left:${L}%;width:${W}%;background:${fl};--mk:${lum(col)<70?'rgba(255,255,255,.15)':'rgba(0,0,0,.15)'}"></i><i class="nw s${sd} l" style="left:${L}%;background:${wl}"></i><i class="nw s${sd} r" style="left:${L+W}%;background:${wl}"></i>`}});
+ const sd2=shade(col,.22),ec=shade(col,.42),g1=`linear-gradient(${col},${sd2})`,g2=`linear-gradient(${sd2},${col})`,gr=(a,b)=>`linear-gradient(90deg,${a},${b})`;
+ [0,1].forEach(sd=>{let x0=47;const seg=(a,b)=>{const L=(a-44)/512*100,W=(b-a)/512*100;nt+=`<i class="ch s${sd} t" style="left:${L}%;width:${W}%;background:${sd?g1:g2}"></i><i class="ch s${sd} b" style="left:${L}%;width:${W}%;background:${sd?g2:g1}"></i>`};
+  for(let i=0;i<5;i++)if(RODS[n][sd][i]==='1'){const a=cen(i)-NH,b=cen(i)+NH;seg(x0,a);x0=b;nt+=`<i class="bk s${sd}" style="left:${(a-7-44)/512*100}%;background:${sd2}"></i><i class="bk s${sd}" style="left:${(b-44)/512*100}%;background:${sd2}"></i>`;
+   nt+=`<i class="lp s${sd} l" style="left:${(a-3-44)/512*100}%;background:${sd?gr(wl,col):gr(col,wl)}"></i><i class="lp s${sd} r" style="left:${(b+3-44)/512*100}%;background:${sd?gr(col,wl):gr(wl,col)}"></i>`}seg(x0,553)});
+ nt+=`<i class="ec l s0" style="background:${gr(ec,col)}"></i><i class="ec r s0" style="background:${gr(col,ec)}"></i><i class="ec l s1" style="background:${gr(col,ec)}"></i><i class="ec r s1" style="background:${gr(ec,col)}"></i>`
+  +`<i class="ek l t" style="background:${gr(ec,sd2)}"></i><i class="ek r t" style="background:${gr(sd2,ec)}"></i><i class="ek l b" style="background:${gr(ec,sd2)}"></i><i class="ek r b" style="background:${gr(sd2,ec)}"></i>`;
+ return `<button class="flipw" data-act="flip" data-n="${n}" aria-label="${esc(t('stick',{n}))}, ${esc(t('tapFlip'))}"><span class="lift"><span class="turn" style="--tz:${(trn|0)*180}deg"><span class="roll"><span class="flip" style="transform:rotateX(${(cnt|0)*180}deg)"><span class="f fa">${faceSVG(n,0,true)}</span><span class="f fb">${faceSVG(n,1,true)}</span><span class="f ft">${edgeSVG(n,false)}</span><span class="f fd">${edgeSVG(n,true)}</span>${nt}<i class="e el" style="${e}"></i><i class="e er" style="${e}"></i><i class="e eb el" style="background:${shade(col,.32)}"></i><i class="e eb er" style="background:${shade(col,.32)}"></i></span></span></span></span></button>`};
 let swp=null,swallow=0;
 function turnStick(el,dir){const k=el.dataset.n;T.turns[k]=(T.turns[k]|0)+dir;const tr=el.querySelector('.turn'),lf=el.querySelector('.lift');if(!tr)return;tr.style.setProperty('--tz',T.turns[k]*180+'deg');lf.classList.remove('go');void lf.offsetWidth;lf.classList.add('go');el.classList.add('turning');clearTimeout(el._tt);el._tt=setTimeout(()=>el.classList.remove('turning'),900);sfx.turn();buzz(10)}
 document.addEventListener('pointerdown',e=>{const el=e.target.closest&&e.target.closest('.flipw');swp=el?{el,x:e.clientX,y:e.clientY,done:false}:null});
@@ -779,7 +867,18 @@ function viewLevel(){const l=R.lv,a=byLv[l],dn=lvDone(l),nx=a.find(x=>!P().done[
 function dropPlan(list,base,gap){const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
  const v=sh(list.filter(s=>s.ax==='V')),h=sh(list.filter(s=>s.ax==='H')),m=new Map();let d=base;
  v.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});if(v.length&&h.length)d+=gap*1.4;h.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});m.end=d;return m}
-function landFx(){if(RM)return;const els=document.querySelectorAll('#bd .stk.in');if(!els.length)return;const ds=[...els].map(e=>parseFloat(e.style.getPropertyValue('--d'))||0).sort((a,b)=>a-b);
+let flyId=0;
+function flyOne(g,cls,st){const d=g.dataset,n=+d.r,V=d.ax==='V',p=cen(+d.p),vis=+d.v,tz=(V?90:0)+(+d.f?180:0);
+ return `<div class="fly ${V?'v':'h'} ${cls}" aria-hidden="true" style="left:${V?(p-256)/6:7.3333}%;top:${V?45.3333:(p-28)/6}%;--rx:${vis*180}deg;${st||''}"><i class="flsh" style="rotate:${V?90:0}deg">${V?'<i class="v" style="left:0;width:100%"></i>':(()=>{const pp=pat(n,vis,+d.f);let o='',x0=44;const sg=(a,b,c)=>{o+=`<i class="${c}" style="left:${(a-44)/512*100}%;width:${(b-a)/512*100}%"></i>`};for(let i=0;i<5;i++)if(pp[i]==='1'){sg(x0,cen(i)-NH,'');sg(cen(i)-NH,cen(i)+NH,'n');x0=cen(i)+NH}sg(x0,556,'');return o})()}</i><div class="flb">${flipStick(n,vis,0).replace('--tz:0deg','--tz:'+tz+'deg').replace('<button','<span').replace('</button>','</span>').replace('data-act="flip"','')}</div></div>`}
+const real=()=>S.real!==false;
+function flyFx(root){if(RM||!root)return;const els=root.querySelectorAll('.stk.in[data-r]');if(!els.length)return;const id=++flyId,keep=real();let mx=0;
+ els.forEach(g=>{mx=Math.max(mx,parseFloat(g.style.getPropertyValue('--d'))||0);g.classList.add('f3')});const o=Math.round(mx+300+500);let h='';
+ els.forEach(g=>{const dl=parseFloat(g.style.getPropertyValue('--d'))||0;g.style.setProperty('--o',o+'ms');h+=flyOne(g,(Math.random()<.3?'spin ':'')+(keep?'keep':'tmp'+id),`--d:${dl}ms;--o:${o}ms`)});
+ root.insertAdjacentHTML('beforeend',h);if(!keep)setTimeout(()=>root.querySelectorAll('.fly.tmp'+id).forEach(e=>e.remove()),o+1100)}
+/* Augen-Knopf: echte 3D-Stäbe auf dem Brett */
+function real3d(fade,root){root=root||document.getElementById('bd');if(!root||!real())return;let h='';
+ root.querySelectorAll(RM||fade?'.stk[data-r]':'.stk[data-r]:not(.in)').forEach(g=>{h+=flyOne(g,'stay'+(fade?' fin':''))});root.insertAdjacentHTML('beforeend',h)}
+function landFx(){flyFx(document.getElementById('bd'));if(RM)return;const els=document.querySelectorAll('#bd .stk.in');if(!els.length)return;const ds=[...els].map(e=>parseFloat(e.style.getPropertyValue('--d'))||0).sort((a,b)=>a-b);
  ds.forEach((d,i)=>sfx.land((d+300)/1000,ds.length>1?.7:1));setTimeout(()=>buzz(ds.length>1?[8,70,8]:10),ds[0]+300)}
 function viewLvDone(){const l=R.lv,a=byLv[l],all=TASKS.every(x=>P().done[x.id]),st=a.reduce((n,x)=>n+((P().done[x.id]||{}).stars||0),0),mx=a.length*3,nl=[1,2,3,4,0].map(i=>(l+i)%5).find(i=>i!==l&&lvDone(i)<byLv[i].length);
  const tot=totalStars(),A=all?tot:st,M=all?315:mx;
@@ -794,12 +893,12 @@ function lvDoneFx(){const l=R.lv,n=byLv[l].length,gap=n===5?.12:.05,end=.35+n*ga
  if(el){const A=+el.dataset.a,M=el.textContent.match(/\d+/g);const b=M?M[M.length-1]:'';const t0=performance.now()+(RM?0:(end+.5)*1000);const step=now=>{if(!el.isConnected)return;const k=Math.max(0,Math.min(1,(now-t0)/900)),v=Math.round(A*(1-Math.pow(1-k,3)));el.textContent=t('lvDoneStars',{a:v,b});if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)}}
 function taskPhase(x){if(R.win)return 'win';if(P().done[x.id]&&!R.replay)return 'done';return (ts(x).setup|0)>=x.clues.length?'solve':'setup'}
 function taskBoard(x,anim,only){const ph=taskPhase(x),st=ts(x),sticks=[];
- if(ph==='setup'){const n=st.setup|0;x.order.slice(0,n+1).forEach((s,i)=>sticks.push({s,kind:'given',cls:i===n&&(anim||T.animKey==='step')?'in':'',delay:anim?260:0}));return boardSVG({sticks,hl:x.order[n].k,real:T.xray})}
+ if(ph==='setup'){const n=st.setup|0;x.order.slice(0,n+1).forEach((s,i)=>sticks.push({s,kind:'given',cls:i===n&&(anim||T.animKey==='step')?'in':'',delay:anim?260:0}));return boardSVG({sticks,hl:x.order[n].k})}
  const cl=only?x.clues.filter(s=>only.has(s.k)):x.clues,pc=anim?dropPlan(cl,only?60:240,105):null;
  x.clues.forEach(s=>sticks.push({s,kind:'given',cls:pc&&pc.has(s)?'in':'',delay:pc&&pc.has(s)?pc.get(s):0}));
  if(ph==='win'||ph==='done'){const on=(ph==='win'&&T.animKey==='win')||anim,po=on?dropPlan(x.open,ph==='win'?80:(pc?pc.end+160:240),130):null;x.open.forEach(s=>sticks.push({s,kind:'sol',cls:po?'in':'',delay:po?po.get(s):0}))}
  else for(const k in (st.help||{})){const s=x.sol.find(q=>q.k===k);sticks.push({s,kind:st.help[k]>=2?'help2':'help1',cls:T.animKey===k||anim?'in':'',delay:anim?(pc?pc.end+160:240):0})}
- return boardSVG({sticks,tap:ph==='solve',hl:T.hl,real:T.xray})}
+ return boardSVG({sticks,tap:ph==='solve',hl:T.hl})}
 function clueRow(s,big){const c=colorOf(s.rod),vis=s.ax==='V'?s.side:1-s.side,end=s.ax==='H'?(s.flip?'numLeft':'numRight'):(s.flip?'numTop':'numBottom');
  return `<div class="srow${big?' big':''}"><span class="chip" style="background:${c};color:${ink(c)}">${s.rod}</span><span><b>${t('setupItem',{n:s.rod,slot:slotName(s.k)})}</b><small>${t('symUp',{sym:symName(vis)})}, ${t(end)}</small></span></div>`}
 function taskHead(x){const ph=taskPhase(x);
@@ -822,11 +921,11 @@ function viewTask(anim){const x=TASKS[R.i],ph=taskPhase(x),si=ph==='setup'?0:ph=
  return `<main class="view full task"><header class="tbar"><button class="ib" data-act="overview" aria-label="${esc(t('back'))}">${ic('back')}</button><h1>${t('task',{n:x.n})}</h1><span class="starchip" style="background:${isDark()?LV[x.lv].dc:LV[x.lv].c};color:${isDark()?LV[x.lv].dci:LV[x.lv].ci}">${t('lv')[x.lv]}</span><button class="ib" data-act="share" aria-label="${esc(t('share'))}">${ic('share')}</button></header>
  <div class="steps" id="steps" data-si="${si}">${stepsHTML(si)}</div>
  <div class="thead" id="thead">${taskHead(x)}</div>
- <div class="bbox"><div class="bwrap"><div id="bd">${taskBoard(x,anim)}</div><button class="xr${T.xray?' on':''}" data-act="xray" aria-label="${esc(t('realView'))}" aria-pressed="${T.xray}">${ic('eye')}</button></div></div>
+ <div class="bbox"><div class="bwrap"><div id="bd">${taskBoard(x,anim)}</div></div></div>
  <div class="legend" id="legend">${legendHTML()}</div>
  <section class="panel" id="panel">${taskPanel(x)}</section></main>`}
-function legendHTML(){if(T.xray&&R.view==='task')return `<span>${t('realNote')}</span>`;
- return `<span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="var(--ink2)" opacity=".35"/><rect x="9" y="1" width="12" height="16" fill="var(--ink)" opacity=".6"/></svg>${t('legTop')}</span><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="var(--ink2)" opacity=".35"/><rect x="9" y="4" width="12" height="10" rx="3" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 2"/></svg>${t('legUnder')}</span>`}
+function legendHTML(){const r=real()&&R.view==='task';
+ return `<span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="var(--ink2)" opacity=".35"/><rect x="9" y="1" width="12" height="16" fill="var(--ink)" opacity=".6"/></svg>${t('legTop')}</span><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="var(--ink2)" opacity=".35"/><rect x="9" y="4" width="12" height="10" rx="3" fill="none" stroke="var(--ink)" stroke-width="2"${r?' opacity=".7"':' stroke-dasharray="3 2"'}/></svg>${t('legUnder')}</span>`}
 const stepsHTML=si=>t('ph').map((s,i)=>`<span class="${i===si?'on':i<si?'past':''}">${s}</span>`).join('');
 function viewSticks(){return `<main class="view">${topBar()}<div class="pagehead"><h1>${t('sticksH')}</h1><p>${t('sticksP')}</p></div><div class="rodlist"><div class="rodcard"><div class="meta"><b>${t('boardH')}</b><button class="ib" data-act="color" data-n="b" aria-label="${esc(t('color'))}">${ic('palette')}</button></div><button class="bprev" data-act="color" data-n="b" aria-label="${esc(t('color'))}">${boardSVG({mini:true,sticks:[]})}</button></div>${[1,2,3,4,5,6,7,8,9,10].map(n=>`<div class="rodcard"><div class="meta"><b>${t('stick',{n})} <span id="sd${n}">${t('side',{sym:symChar((T.flips[n]|0)%2)})}</span></b><button class="ib" data-act="color" data-n="${n}" aria-label="${esc(t('color'))}">${ic('palette')}</button></div>${flipStick(n,T.flips[n],T.turns[n])}</div>`).join('')}</div></main>${navBar()}`}
 function fitSVG(kind){const lo=colorOf(3),up=colorOf(1),st='stroke="rgba(128,128,128,.5)" stroke-width="1.500"';
@@ -859,9 +958,9 @@ function draw(anim){const el=document.getElementById('app');let h;
  else if(R.view==='rules')h=viewRules();
  else if(R.view==='lvdone')h=viewLvDone();
  else h=viewHome(anim);
- el.innerHTML=h;if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'&&anim)landFx();if(R.view==='lvdone')lvDoneFx()}
+ el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d()}if(R.view==='lvdone')lvDoneFx()}
 function render(anim){if(anim&&document.startViewTransition&&!RM){try{const vt=document.startViewTransition(()=>{draw(true);scrollTo(0,0)});['ready','finished','updateCallbackDone'].forEach(k=>vt[k]&&vt[k].catch(()=>{}));return}catch(e){}}draw(anim);if(anim)scrollTo(0,0)}
-function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.animKey=null;T.check=null;if(view!=='task')T.xray=false;
+function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.animKey=null;T.check=null;
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
  render(true)}
 window.addEventListener('popstate',e=>{if(document.getElementById('pov')){ACT.printClose();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}if(sheetOpen()){closeSheet();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}R=Object.assign({view:'home'},e.state||{});T.hl=null;T.check=null;render(true)});
@@ -875,7 +974,7 @@ function flipEnd(fl){if(!fl)return;const E='cubic-bezier(.2,.8,.2,1)';fl.forEach
 function setSteps(si){const el=document.getElementById('steps');if(el&&el.dataset.si!==String(si)){el.dataset.si=si;el.innerHTML=stepsHTML(si)}}
 function redrawTask(only){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}const fl=flipStart();
  b.innerHTML=taskBoard(x,!!only,only);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
- const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx()}
+ const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx();real3d()}
 
 /* ---------- Teilen: Bildkarte ---------- */
 let shareImg=null;
@@ -907,7 +1006,7 @@ function openSheet(html){const el=document.getElementById('sheet');clearTimeout(
  el.innerHTML=`<div class="scrim" data-act="closeSheet"></div><div class="sc" role="dialog" aria-modal="true"><div class="grabz" id="grabz"><div class="grab"></div></div>${html}</div>`;
  const sc=el.querySelector('.sc');if(was){sc.style.transition='none';el.querySelector('.scrim').style.transition='none';requestAnimationFrame(()=>{sc.style.transition=''})}
  bindDrag(sc,document.getElementById('grabz'));
- requestAnimationFrame(()=>el.classList.add('open'))}
+ requestAnimationFrame(()=>{if(el.innerHTML)el.classList.add('open')})}
 function bindDrag(sc,g){let y0=null,dy=0,t0=0;
  g.addEventListener('pointerdown',e=>{y0=e.clientY;dy=0;t0=Date.now();try{g.setPointerCapture(e.pointerId)}catch(_){}sc.style.transition='none'});
  g.addEventListener('pointermove',e=>{if(y0==null)return;dy=e.clientY-y0;sc.style.transform='translateY('+(dy>0?dy:dy/5)+'px)'});
@@ -955,7 +1054,7 @@ function profileSheet(adding){const act=P();
  else if(S.players.length<6)h+=`<div class="stack" style="margin-top:8px"><button class="btn ton wide" data-act="addForm">${ic('plus')}${t('addPlayer')}</button></div>`;
  h+=`<h2 style="margin-top:28px">${t('settings')}</h2>
  <div class="setrow"><span>${t('language')}</span><span class="seg">${LANGS.map(l=>`<button class="${S.lang===l?'on':''}" data-act="lang" data-l="${l}">${l.toUpperCase()}</button>`).join('')}</span></div>
- <div class="setrow"><span>${t('theme')}</span><span class="seg">${['auto','light','dark'].map(m=>`<button class="${S.theme===m?'on':''}" data-act="theme" data-m="${m}">${t(m)}</button>`).join('')}</span></div>
+ <div class="setrow"><span>${t('viewH')}</span><span class="seg">${[['1','view3d'],['0','viewFlat']].map(([v,k])=>`<button class="${(real()?'1':'0')===v?'on':''}" data-act="viewMode" data-v="${v}">${t(k)}</button>`).join('')}</span></div><div class="setrow"><span>${t('theme')}</span><span class="seg">${['auto','light','dark'].map(m=>`<button class="${S.theme===m?'on':''}" data-act="theme" data-m="${m}">${t(m)}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('sound')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.sound===!!v?'on':''}" data-act="sound" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('haptic')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.haptic===!!v?'on':''}" data-act="haptic" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="backup">${t('backup')}</button><button class="btn ton wide" data-act="restore">${t('restore')}</button><span class="note">${t('backupP')}</span><input type="file" accept="application/json,.json" id="impf" hidden></div>
@@ -1037,7 +1136,7 @@ const ACT={
  placed(){const x=TASKS[R.i],st=ts(x);st.setup=(st.setup|0)+1;save();T.animKey='step';if(st.setup>=x.order.length){T.animKey=null;sfx.step();buzz(12)}else sfx.tap();redrawTask()},
  showAll(){const x=TASKS[R.i],st=ts(x),only=new Set(x.order.slice((st.setup|0)+1).map(s=>s.k));st.setup=x.order.length;save();sfx.step();redrawTask(only)},
  showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div>`)},
- xray(){T.xray=!T.xray;sfx.tap();const x=TASKS[R.i];document.getElementById('bd').innerHTML=taskBoard(x,false);const b=document.querySelector('.xr');b.classList.toggle('on',T.xray);b.setAttribute('aria-pressed',T.xray);document.getElementById('legend').innerHTML=legendHTML()},
+ viewMode(d){S.real=d.v==='1';save();sfx.tap();render(false);profileSheet(false)},
  slot(d){T.hl=d.k;sfx.tap();redrawTask();slotSheet(d.k)},
  tip(){const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
  reveal(d){const x=TASKS[R.i],st=ts(x);st.help=st.help||{};const lv=(st.help[d.k]||0)+1;st.help[d.k]=Math.min(2,lv);save();T.animKey=d.k;T.hl=d.k;sfx.place();buzz(15);redrawTask();

@@ -1,19 +1,25 @@
 {
-  "id": "./",
-  "name": "AlignStix – The Logic Stick Puzzle",
+  "name": "AlignStix",
   "short_name": "AlignStix",
-  "description": "The Logic Stick Puzzle",
-  "lang": "de",
+  "description": "Die App zu deinem Stäbchen-Puzzle",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "categories": ["games", "puzzle"],
-  "background_color": "#0b1020",
-  "theme_color": "#0b1020",
+  "background_color": "#0F4F41",
+  "theme_color": "#0F4F41",
   "icons": [
-    { "src": "./icon-180.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

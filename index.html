@@ -58,7 +58,7 @@ svg{display:block}
 /* Start */
 .hello{font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.025em}
 .sub{color:var(--ink2);margin-top:6px;font-size:16px}
-.hero{margin-top:20px;background:var(--mat);color:var(--onmat);border-radius:32px;padding:16px;display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:center;width:100%;text-align:left;position:relative;overflow:hidden}
+.hero{margin-top:20px;background:var(--hero,var(--mat));color:var(--onhero,var(--onmat));box-shadow:inset 0 0 0 2px rgba(127,127,127,.16);border-radius:32px;padding:16px;display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:center;width:100%;text-align:left;position:relative;overflow:hidden}
 .hero .mini{border-radius:20px;overflow:hidden}
 .hero h2{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .hero .lvn{font-size:14px;opacity:.8;font-weight:600;margin-bottom:2px}
@@ -480,6 +480,18 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .flsh i.v{translate:1.2% 0;border-radius:4px}
 .setrow{flex-wrap:wrap;row-gap:6px}
 
+/* Rangliste */
+.rank{display:flex;flex-direction:column;gap:8px}
+.rkrow{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:22px;padding:10px 16px 10px 12px}
+.rkrow.me{box-shadow:inset 0 0 0 2px var(--pri)}
+.rkn{width:22px;text-align:center;font-weight:800;font-size:18px;color:var(--ink2);flex:none}
+.rkrow .av{flex:none}
+.rkt{flex:1;min-width:0;display:flex;flex-direction:column}
+.rkt b{font-weight:800;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rkt small{color:var(--ink2);font-size:13px;font-weight:600}
+.rks{display:flex;align-items:center;gap:5px;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;flex:none}
+.rks svg{width:18px;height:18px;color:var(--sun)}
+
 </style>
 </head>
 <body>
@@ -489,6 +501,8 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ rank:'Rangliste',rkSolved:'{n} gelöst',rkPerfect:'{n} mit 3 Sternen',
+ wipe:'Alle Spieler löschen',wipeQ:'Alle Spieler und ihren Fortschritt löschen? Stabfarben und Einstellungen bleiben erhalten. Das lässt sich nicht rückgängig machen.',
  viewH:'Darstellung',
  viewFlat:'Einfach',view3d:'Echte Stäbe',
  lvDoneK:'Stufe geschafft',lvDoneStars:'{a} von {b} Sternen',lvDone0:'Du kennst jetzt die Regeln. Alle Stufen sind offen.',lvDoneP:'Alle {n} Aufgaben dieser Stufe sind gelöst.',lvDoneMore:'Für mehr Sterne kannst du Aufgaben nochmal spielen.',lvDonePerfect:'Alle Sterne geholt. Besser geht es nicht.',lvNext:'Weiter zu {lv}',allDoneK:'Alles geschafft',allDoneH:'105 von 105',allDoneP:'Du hast alle Aufgaben von AlignStix gelöst. Was für eine Leistung!',toHome:'Zur Startseite',onward:'Weiter',
@@ -541,6 +555,8 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ rank:'Ranking',rkSolved:'{n} solved',rkPerfect:'{n} with 3 stars',
+ wipe:'Delete all players',wipeQ:'Delete all players and their progress? Stick colours and settings are kept. This cannot be undone.',
  viewH:'Display',
  viewFlat:'Simple',view3d:'Real sticks',
  lvDoneK:'Level complete',lvDoneStars:'{a} of {b} stars',lvDone0:'You know the rules now. All levels are open.',lvDoneP:'All {n} tasks of this level are solved.',lvDoneMore:'Play tasks again to collect more stars.',lvDonePerfect:'Every star collected. It doesn’t get better.',lvNext:'On to {lv}',allDoneK:'All done',allDoneH:'105 of 105',allDoneP:'You have solved every AlignStix task. What an achievement!',toHome:'Back to start',onward:'Continue',
@@ -593,6 +609,8 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ rank:'Classement',rkSolved:'{n} résolus',rkPerfect:'{n} avec 3 étoiles',
+ wipe:'Supprimer tous les joueurs',wipeQ:'Supprimer tous les joueurs et leur progression ? Les couleurs et les réglages sont conservés. Cette action est définitive.',
  viewH:'Affichage',
  viewFlat:'Simple',view3d:'Vrais bâtons',
  lvDoneK:'Niveau terminé',lvDoneStars:'{a} étoiles sur {b}',lvDone0:'Tu connais maintenant les règles. Tous les niveaux sont ouverts.',lvDoneP:'Les {n} tâches de ce niveau sont résolues.',lvDoneMore:'Rejoue des tâches pour gagner plus d’étoiles.',lvDonePerfect:'Toutes les étoiles gagnées. Impossible de faire mieux.',lvNext:'Continuer vers {lv}',allDoneK:'Tout est fait',allDoneH:'105 sur 105',allDoneP:'Tu as résolu toutes les tâches d’AlignStix. Quel exploit !',toHome:'Retour à l’accueil',onward:'Continuer',
@@ -645,6 +663,8 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ rank:'Clasificación',rkSolved:'{n} resueltos',rkPerfect:'{n} con 3 estrellas',
+ wipe:'Borrar todos los jugadores',wipeQ:'¿Borrar todos los jugadores y su progreso? Los colores y los ajustes se conservan. No se puede deshacer.',
  viewH:'Vista',
  viewFlat:'Sencilla',view3d:'Reales',
  lvDoneK:'Nivel completado',lvDoneStars:'{a} de {b} estrellas',lvDone0:'Ya conoces las reglas. Todos los niveles están abiertos.',lvDoneP:'Las {n} tareas de este nivel están resueltas.',lvDoneMore:'Vuelve a jugar tareas para conseguir más estrellas.',lvDonePerfect:'Todas las estrellas conseguidas. Mejor imposible.',lvNext:'Seguir con {lv}',allDoneK:'Todo hecho',allDoneH:'105 de 105',allDoneP:'Has resuelto todas las tareas de AlignStix. ¡Qué logro!',toHome:'Volver al inicio',onward:'Continuar',
@@ -705,7 +725,7 @@ const TASKS=RAW.map((r,i)=>({id:r[0],lv:r[1],n:i+1,mask:r[3],sol:r[2].map((s,j)=
 TASKS.forEach(t=>{t.clues=t.sol.filter((s,j)=>t.mask>>j&1);t.order=t.clues.filter(s=>s.ax==='V').concat(t.clues.filter(s=>s.ax==='H'));t.open=t.sol.filter((s,j)=>!(t.mask>>j&1))});
 const byLv=[0,1,2,3,4].map(l=>TASKS.filter(t=>t.lv===l));
 const DEF_COLORS=['#f00600','#f6c928','#1976d2','#2e7d32','#d81b60','#f28c28','#7e57c2','#111111','#ffffff','#00897b'];
-const DEF_BOARD='#24282b',BOARD_PALETTE=['#24282b','#111111','#4b5563','#0f4f41','#1e2a44','#4a3428','#d9d2c3','#ffffff'];
+const DEF_BOARD='#0f4f41',BOARD_PALETTE=['#0f4f41','#24282b','#111111','#4b5563','#1e2a44','#4a3428','#d9d2c3','#ffffff'];
 const PALETTE=DEF_COLORS.concat(['#8d6e63','#00a9d6','#7cb342','#90a4ae','#c2185b','#3949ab']);
 const AV=['#EE5B3F','#2F7BEA','#E8A800','#18A57B','#8457E8','#D81B60'];
 const LV=[
@@ -741,7 +761,8 @@ const colorOf=n=>S.colors[n-1]||'#888';
 function lum(hex){const h=String(hex).replace('#','');const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return .299*r+.587*g+.114*b}
 const ink=c=>lum(c)>=150?'#14201B':'#fff';
 const isDark=()=>document.documentElement.classList.contains('dark');
-function applyBoard(){const st=document.documentElement.style,lt=lum(S.board)>=150;st.setProperty('--board',S.board);st.setProperty('--bi',lt?'14,31,26':'255,255,255');st.setProperty('--boardline',lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)')}
+const heroCol=()=>S.board;
+function applyBoard(){const st=document.documentElement.style,lt=lum(S.board)>=150,hc=heroCol();st.setProperty('--hero',hc||'var(--mat)');st.setProperty('--onhero',hc?(lt?'#14201B':'#fff'):'var(--onmat)');st.setProperty('--board',S.board);st.setProperty('--bi',lt?'14,31,26':'255,255,255');st.setProperty('--boardline',lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)')}
 function applyTheme(){applyBoard();const d=S.theme==='dark'||(S.theme==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.lang=S.lang;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#09120F':'#EEF2EE'}
 const lvStyle=i=>{const L=LV[i],d=isDark();return `--lc:${d?L.dc:L.c};--lci:${d?L.dci:L.ci};--ls:${L.s};--lsi:${L.si}`};
 
@@ -854,12 +875,15 @@ function topBar(){const p=P();return `<header class="top"><div class="wm">${logo
 function navBar(){const on=R.view==='level'?'home':R.view,it=[['home','grid','navPlay'],['sticks','sticks','navSticks'],['rules','book','navRules']];
  return `<nav class="nav"><div class="in">${it.map(([v,i,k])=>`<button class="${on===v?'on':''}" data-act="tab" data-v="${v}"${on===v?' aria-current="page"':''}><i>${ic(i)}</i>${t(k)}</button>`).join('')}</div></nav>`}
 function lattice(l){const a=byLv[l];return `<span class="lat${a.length===5?' row':''}" aria-hidden="true">${a.map(x=>`<i class="${P().done[x.id]?'on':''}"></i>`).join('')}</span>`}
+function rankHTML(){if(S.players.length<2)return '';const rows=S.players.map(p=>{const d=Object.values(p.done);return {p,st:d.reduce((a,x)=>a+(x.stars||0),0),so:d.filter(x=>x.stars>0).length,pf:d.filter(x=>x.stars===3).length}}).sort((a,b)=>b.st-a.st||b.so-a.so||b.pf-a.pf);
+ let rk=0,prev=null;return `<h2 class="sect">${t('rank')}</h2><div class="rank">${rows.map((r,i)=>{const key=r.st+'/'+r.so+'/'+r.pf;if(key!==prev){rk=i+1;prev=key}
+  return `<div class="rkrow${r.p.id===S.active?' me':''}"><span class="rkn">${rk}</span>${avatar(r.p)}<span class="rkt"><b>${esc(r.p.name)}</b><small>${t('rkSolved',{n:r.so})}, ${t('rkPerfect',{n:r.pf})}</small></span><span class="rks">${ic('star')}${r.st}</span></div>`}).join('')}</div>`}
 function viewHome(anim){const p=P(),nt=nextTask(),started=Object.keys(p.done).length>0;
  const hb=x=>{const l=nt?x.clues:x.sol,pl=anim?dropPlan(l,320,90):null;return boardSVG({mini:true,sticks:l.map(s=>({s,kind:'given',cls:pl?'in':'',delay:pl?pl.get(s):0}))})};
  const hero=nt?`<button class="hero" data-act="open" data-i="${nt.n-1}"><span class="mini">${hb(nt)}</span><span><span class="lvn">${t('lv')[nt.lv]}</span><h2>${t('task',{n:nt.n})}</h2><span class="go">${ic('play')}${t(started?'cont':'begin')}</span></span></button>`
   :`<button class="hero" data-act="level" data-l="4"><span class="mini">${hb(TASKS[104])}</span><span><h2>105 / 105</h2><span class="go">${ic('star')}${totalStars()}</span></span></button>`;
  return `<main class="view">${topBar()}<h1 class="hello">${esc(t('hello',{name:p.name}))}</h1><p class="sub">${nt?(started?t('homeNext',{n:nt.n}):t('homeFirst')):t('homeAll')}</p>${hero}${started?'':`<button class="newb" data-act="tab" data-v="rules">${ic('book')}<span>${t('newHere')}</span>${ic('back')}</button>`}
- <h2 class="sect">${t('levels')}</h2><div class="lvlist">${byLv.map((a,l)=>{const lock=l>0&&lvDone(0)<5;return `<button class="lvcard${lock?' lock':''}" style="${lvStyle(l)}" data-act="level" data-l="${l}"><span class="t"><b>${t('lv')[l]}</b><small>${lock?t('nTasks',{n:a.length}):t('solvedOf',{a:lvDone(l),b:a.length})}</small></span>${lattice(l)}</button>`}).join('')}</div></main>${navBar()}`}
+ <h2 class="sect">${t('levels')}</h2><div class="lvlist">${byLv.map((a,l)=>{const lock=l>0&&lvDone(0)<5;return `<button class="lvcard${lock?' lock':''}" style="${lvStyle(l)}" data-act="level" data-l="${l}"><span class="t"><b>${t('lv')[l]}</b><small>${lock?t('nTasks',{n:a.length}):t('solvedOf',{a:lvDone(l),b:a.length})}</small></span>${lattice(l)}</button>`}).join('')}</div>${rankHTML()}</main>${navBar()}`}
 function viewLevel(){const l=R.lv,a=byLv[l],dn=lvDone(l),nx=a.find(x=>!P().done[x.id]&&isOpen(x));
  return `<main class="view"><header class="tbar"><button class="ib" data-act="up" aria-label="${esc(t('back'))}">${ic('back')}</button></header>
  <section class="lvhead" style="${lvStyle(l)}"><h2>${t('lv')[l]}</h2><p>${t('solvedOf',{a:dn,b:a.length})}</p><div class="bar"><i style="width:${dn/a.length*100}%"></i></div></section>${l>0&&lvDone(0)<5?`<p class="note" style="margin:-6px 4px 14px">${t('lvLocked')}.</p>`:''}
@@ -979,18 +1003,18 @@ function redrawTask(only){const x=TASKS[R.i];const b=document.getElementById('bd
 /* ---------- Teilen: Bildkarte ---------- */
 let shareImg=null;
 const shareURL=x=>location.origin+location.pathname+'#a'+x.n;
-function cardSVG(x){const W=1080,H=1350,L=LV[x.lv],lt=lum(S.board)>=150,bi=lt?'14,31,26':'255,255,255',bl=lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)',F=getComputedStyle(document.documentElement).getPropertyValue('--font').trim().replace(/"/g,"'")||'sans-serif';
+function cardSVG(x){const hc=heroCol()||'#0F4F41',hi=lum(hc)>=150?'#14201B':'#fff';const W=1080,H=1350,L=LV[x.lv],lt=lum(S.board)>=150,bi=lt?'14,31,26':'255,255,255',bl=lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)',F=getComputedStyle(document.documentElement).getPropertyValue('--font').trim().replace(/"/g,"'")||'sans-serif';
  let bd=boardSVG({sticks:x.clues.map(s=>({s,kind:'given'}))}).replace(/var\(--boardline\)/g,bl).replace(/var\(--board\)/g,S.board).replace('<svg class="board"','<svg x="100" y="380" width="880" height="880"');
  const css=`text{font-family:${F};font-weight:800;text-anchor:middle;dominant-baseline:central}.slot rect{fill:rgba(${bi},.05);stroke:rgba(${bi},.3);stroke-width:2;stroke-dasharray:7 7}.stk .body{stroke:rgba(${bi},.32)}.ix{fill:rgba(${bi},.55);font-size:17px;font-weight:700}.veil,.ring,.stk.H .gv{display:none}`;
  const lg=logo().replace('<svg class=""','<svg x="80" y="62" width="76" height="76"'),lvT=esc(t('lv')[x.lv]),cw=Math.round(lvT.length*21+70),miss=x.open.length;
  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><style>${css}.c{font-family:${F};text-anchor:start;dominant-baseline:auto}</style>
- <rect width="${W}" height="${H}" fill="#0F4F41"/><circle cx="${W+80}" cy="-60" r="420" fill="#fff" fill-opacity=".05"/><circle cx="-120" cy="${H+40}" r="360" fill="#fff" fill-opacity=".04"/>
- ${lg}<text class="c" x="174" y="116" font-size="44" font-weight="800" fill="#fff">AlignStix</text>
+ <rect width="${W}" height="${H}" fill="${hc}"/><circle cx="${W+80}" cy="-60" r="420" fill="${hi}" fill-opacity=".05"/><circle cx="-120" cy="${H+40}" r="360" fill="${hi}" fill-opacity=".04"/>
+ ${lg}<text class="c" x="174" y="116" font-size="44" font-weight="800" fill="${hi}">AlignStix</text>
  <rect x="${W-80-cw}" y="70" width="${cw}" height="60" rx="30" fill="${L.s}"/><text x="${W-80-cw/2}" y="101" font-size="32" fill="${L.si}">${lvT}</text>
- <text class="c" x="80" y="262" font-size="104" font-weight="800" fill="#fff" letter-spacing="-3">${esc(t('task',{n:x.n}))}</text>
- <text class="c" x="82" y="330" font-size="40" font-weight="600" fill="#fff" fill-opacity=".78">${esc(t('shareQ'))}</text>
+ <text class="c" x="80" y="262" font-size="104" font-weight="800" fill="${hi}" letter-spacing="-3">${esc(t('task',{n:x.n}))}</text>
+ <text class="c" x="82" y="330" font-size="40" font-weight="600" fill="${hi}" fill-opacity=".78">${esc(t('shareQ'))}</text>
  <clipPath id="bc"><rect x="100" y="380" width="880" height="880" rx="60"/></clipPath><rect x="100" y="392" width="880" height="880" rx="60" fill="#000" fill-opacity=".22"/><g clip-path="url(#bc)">${bd.replace(/<svg([^>]*)>/,'<svg$1><style>'+css+'</style>')}</g>
- <text x="${W/2}" y="1308" font-size="34" font-weight="700" fill="#fff" fill-opacity=".72">${esc(t(miss===1?'shareMiss1':'shareMiss',{n:miss}))}</text></svg>`}
+ <text x="${W/2}" y="1308" font-size="34" font-weight="700" fill="${hi}" fill-opacity=".72">${esc(t(miss===1?'shareMiss1':'shareMiss',{n:miss}))}</text></svg>`}
 function makeCard(x){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{try{const c=document.createElement('canvas');c.width=1080;c.height=1350;c.getContext('2d').drawImage(img,0,0);c.toBlob(b=>b?res(b):rej(),'image/png')}catch(e){rej(e)}};img.onerror=rej;img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(cardSVG(x))})}
 function shareSheet(x){const can=!!navigator.share;
  openSheet(`<h2>${t('share')}</h2><div class="shcard" id="shc"><div class="shph"></div></div><p class="note" style="margin-top:10px">${t('shareNote')}</p><div class="stack"><button class="btn pri wide" data-act="${can?'shareGo':'copyLink'}" id="shgo" disabled>${ic('share')}${t(can?'shareBtn':'copyLink')}</button><button class="btn txt wide" data-act="saveImg" id="shsave" disabled>${t('saveImg')}</button></div>`);
@@ -1058,7 +1082,7 @@ function profileSheet(adding){const act=P();
  <div class="setrow"><span>${t('sound')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.sound===!!v?'on':''}" data-act="sound" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('haptic')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.haptic===!!v?'on':''}" data-act="haptic" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="backup">${t('backup')}</button><button class="btn ton wide" data-act="restore">${t('restore')}</button><span class="note">${t('backupP')}</span><input type="file" accept="application/json,.json" id="impf" hidden></div>
- <div class="stack" style="margin-top:24px"><button class="btn bad wide" data-act="askReset">${esc(t('reset',{name:act.name}))}</button><span class="note" style="text-align:center">AlignStix, ${t('version',{v:APP_VERSION})}</span></div>`;
+ <div class="stack" style="margin-top:24px"><button class="btn bad wide" data-act="askReset">${esc(t('reset',{name:act.name}))}</button><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askWipe">${t('wipe')}</button><span class="note" style="text-align:center">AlignStix, ${t('version',{v:APP_VERSION})}</span></div>`;
  openSheet(h)}
 function confirmSheet(text,act,data,yes){openSheet(`<h2>${esc(text)}</h2><div class="cta"><button class="btn ton" data-act="profile">${t('cancel')}</button><button class="btn bad" style="flex:1" data-act="${act}" data-id="${data||''}">${yes||t('yes')}</button></div>`)}
 function colorSheet(n){const bd=n==='b',cur=(bd?S.board:colorOf(n)).toLowerCase();openSheet(`<h2>${bd?t('boardColorH'):t('colorH',{n})}</h2><div class="swatches">${(bd?BOARD_PALETTE:PALETTE).map(c=>`<button class="${cur===c?'on':''}" style="background:${c}" data-act="setColor" data-n="${n}" data-c="${c}" aria-label="${c}"></button>`).join('')}</div><div class="stack"><button class="btn ton wide" data-act="camera" data-n="${n}">${ic('cam')}${t(bd?'camBtnB':'camBtn')}</button><button class="btn txt wide" data-act="adjFine" data-n="${n}">${t('adjFine')}</button></div>`)}
@@ -1190,6 +1214,8 @@ const ACT={
  switch(d){S.active=d.id;save();closeSheet();go('home',null,true)},
  askRemove(d){const p=S.players.find(q=>q.id===d.id);confirmSheet(t('removePlayer',{name:p.name})+'?','remove',d.id)},
  remove(d){S.players=S.players.filter(p=>p.id!==d.id);if(!S.players.some(p=>p.id===S.active))S.active=S.players[0].id;save();closeSheet();go('home',null,true)},
+ askWipe(){confirmSheet(t('wipeQ'),'wipe')},
+ wipe(){S.players=[];S.active=null;save();closeSheet(true);W.av=0;R={view:'home'};try{history.replaceState({view:'home'},'')}catch(e){}render(true)},
  askReset(){confirmSheet(t('resetQ',{name:P().name}),'reset')},
  reset(){const p=P();p.done={};p.task={};save();closeSheet();go('home',null,true)},
  lang(d){S.lang=d.l;save();applyTheme();const nm=document.getElementById('nm'),v=nm?nm.value:'';render(false);if(S.players.length)profileSheet(false);else{const n2=document.getElementById('nm');if(n2)n2.value=v}},
@@ -1255,14 +1281,14 @@ h1{font-size:30pt;line-height:1.05;font-weight:800;letter-spacing:-.025em}
 h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .muted{color:#51635C}
 /* Titel */
-.cover{background:#0F4F41;color:#EAF6F1;padding:0;--mat:transparent;--matline:transparent;--board:transparent;--boardline:transparent}
+.cover{background:var(--cv,#0F4F41);color:var(--cvi,#EAF6F1);padding:0;--mat:transparent;--matline:transparent;--board:transparent;--boardline:transparent}
 .gridbg{position:absolute;inset:0;width:100%;height:100%}
 .cover .art{position:absolute;width:250mm;left:8mm;top:96mm;transform:rotate(-9deg)}
 .cover .art .ix{display:none}.cover .art .stk .body{stroke:rgba(255,255,255,.35)}.cover .art .stk .sh{display:block}
 .cover .tt{position:absolute;left:18mm;top:20mm;right:18mm}
 .cover .wm{display:flex;align-items:center;gap:5mm;font-size:54pt;font-weight:800;letter-spacing:-.035em;line-height:1}
 .cover .wm svg{width:22mm;height:22mm}
-.cover .s1{margin-top:9mm;font-size:24pt;font-weight:800;color:#FFC533;letter-spacing:-.02em}
+.cover .s1{margin-top:9mm;font-size:24pt;font-weight:800;color:var(--cva,#FFC533);letter-spacing:-.02em}
 .cover .s2{margin-top:2mm;font-size:13pt;font-weight:500;opacity:.9}
 /* Regeln */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:9mm;margin-top:8mm}
@@ -1317,8 +1343,8 @@ h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .solc b i{width:2.600mm;height:2.600mm;border-radius:50%}
 .solc .bw{width:52mm}
 /* Rückseite */
-.back{background:#0F4F41;color:#EAF6F1;display:flex;flex-direction:column;justify-content:flex-end;padding:22mm}
-.back h1{color:#fff;font-size:32pt}
+.back{background:var(--cv,#0F4F41);color:var(--cvi,#EAF6F1);display:flex;flex-direction:column;justify-content:flex-end;padding:22mm}
+.back h1{color:var(--cvh,#fff);font-size:32pt}
 .back p{font-size:13pt;margin-top:4mm;max-width:120mm;opacity:.92}
 .back .url{margin-top:9mm;display:inline-block;background:#FFC533;color:#221A00;font-weight:800;font-size:14pt;padding:4mm 7mm;border-radius:99mm;align-self:flex-start}
 .back>*{position:relative}.back>.gridbg{position:absolute}
@@ -1326,7 +1352,8 @@ h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 `;
 function bookCSS(){return '#print{'+BOOK_ROOT+'}'+BOOK_CSS.replace(/(^|\})\s*([^{}@]+)\{/g,(m,a,sel)=>a+sel.split(',').map(x=>'#print '+x.trim()).join(',')+'{')}
 function bookPages(std){const BK=BKS[S.lang]||BKS.en,SOL0=25,URL='remarcable1.github.io/AlignStiX';let readHTML='';
-const gridbg=(()=>{let d='';for(let i=10;i<210;i+=10)d+=`M${i} 0V297`;for(let i=10;i<297;i+=10)d+=`M0 ${i}H210`;return `<svg class="gridbg" viewBox="0 0 210 297" preserveAspectRatio="none"><path d="${d}" stroke="#fff" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
+const cvc=!std&&heroCol()||null,cvl=!!cvc&&lum(cvc)>=150,cvs=cvc?`--cv:${cvc};--cvi:${cvl?'#14201B':'#F2F5F3'};--cvh:${cvl?'#0E1F1A':'#fff'};--cva:${cvl?'#0B5D4B':'#FFC533'}`:'';
+const gridbg=(()=>{let d='';for(let i=10;i<210;i+=10)d+=`M${i} 0V297`;for(let i=10;i<297;i+=10)d+=`M0 ${i}H210`;return `<svg class="gridbg" viewBox="0 0 210 297" preserveAspectRatio="none"><path d="${d}" stroke="${cvl?'#000':'#fff'}" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
 const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
 const foot=(n,left)=>`<div class="foot"><span>${left||'AlignStix'}</span><span>${n}</span></div>`;
 /* Titelbild: echte Stäbe in der Draufsicht, als reine Zeichnung, damit es sauber druckt */
@@ -1340,7 +1367,7 @@ function coverArt(sol){return `<svg class="board" viewBox="0 0 600 600">${sol.fi
 const bd=(sticks,o)=>boardSVG(Object.assign({sticks:sticks.map(s=>({s,kind:'given'}))},o||{}));
 const legend=()=>`<div class="legend"><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#9DB1A8"/><rect x="9" y="1" width="12" height="16" fill="#0E1F1A" opacity=".6"/></svg>${t('legTop')}</span><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#C9D5CF"/><rect x="9" y="4" width="12" height="10" rx="3" fill="none" stroke="#0E1F1A" stroke-width="2" stroke-dasharray="3 2"/></svg>${t('legUnder')}</span></div>`;
 let pages=[],pn=0;
-const add=(html,cls,ft)=>{pn++;pages.push(`<section class="page ${cls||''}">${html}${ft===false?'':foot(pn,ft)}</section>`)};
+const add=(html,cls,ft)=>{pn++;pages.push(`<section class="page ${cls||''}"${/cover|back/.test(cls||'')&&cvs?` style="${cvs}"`:''}>${html}${ft===false?'':foot(pn,ft)}</section>`)};
 /* 1 Titel */
 add(`${gridbg}<div class="art">${coverArt(TASKS[104].sol)}</div><div class="tt"><div class="wm">${logo()}AlignStix</div><div class="s1">${BK.sub}</div><div class="s2">${BK.sub2}</div></div>`,'cover',false);
 /* 2 Regeln */

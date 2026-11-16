@@ -492,6 +492,20 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .rks{display:flex;align-items:center;gap:5px;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;flex:none}
 .rks svg{width:18px;height:18px;color:var(--sun)}
 
+/* Willkommen: passt ohne Scrollen auf den Bildschirm */
+.welcome{min-height:100dvh;padding-top:calc(var(--safe-t) + clamp(12px,3vh,28px));padding-bottom:calc(var(--safe-b) + clamp(12px,2.6vh,28px))}
+.welcome .logo{width:clamp(64px,17vh,150px);margin:clamp(0px,1vh,8px) 0 clamp(10px,3vh,26px)}
+.welcome h1{font-size:clamp(26px,4.6vh,36px)}
+.welcome>p{margin-top:clamp(6px,1.4vh,12px);font-size:clamp(15px,2.1vh,17px);line-height:1.4}
+.welcome .form{padding-top:clamp(12px,3vh,28px)}
+.welcome .shapes{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:8px}
+.welcome .shapes button{padding:4px;display:grid;place-items:center}
+.welcome .shapes .av{width:min(44px,100%);height:auto;aspect-ratio:1}
+.welcome .btn.pri{margin-top:clamp(12px,2.4vh,22px)}
+.welcome .langs{margin-top:clamp(6px,1.6vh,16px)}
+@media (max-height:620px){.welcome .field{margin-top:6px}.welcome .langs button{padding:6px 10px}}
+@media (max-height:600px){.welcome .logo{width:46px;margin:0 0 8px}.welcome h1{font-size:24px}.welcome>p{font-size:14px;margin-top:4px}.welcome .btn.pri{height:50px;margin-top:10px}.welcome .field input{height:46px}.welcome .form{padding-top:10px}.welcome label{font-size:14px}.welcome .langs{margin-top:4px}}
+
 </style>
 </head>
 <body>

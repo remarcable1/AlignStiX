@@ -505,6 +505,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .welcome .langs{margin-top:clamp(6px,1.6vh,16px)}
 @media (max-height:620px){.welcome .field{margin-top:6px}.welcome .langs button{padding:6px 10px}}
 @media (max-height:600px){.welcome .logo{width:46px;margin:0 0 8px}.welcome h1{font-size:24px}.welcome>p{font-size:14px;margin-top:4px}.welcome .btn.pri{height:50px;margin-top:10px}.welcome .field input{height:46px}.welcome .form{padding-top:10px}.welcome label{font-size:14px}.welcome .langs{margin-top:4px}}
+#sheet .sc{overscroll-behavior:contain}
 
 </style>
 </head>
@@ -515,6 +516,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ cardsH:'Aufgabenkarten',cardsP:'53 Karten (99 × 135 mm) mit allen 105 Aufgaben, vorne und hinten bedruckt. Karte 1 zeigt vorne die Regeln. Die Karten passen in den Deckel des Spielfelds.',printCards:'Karten drucken',cardsReady:'Deine Karten sind bereit',cardsReadyP:'{n} Seiten für {s} Blatt A4. Beidseitig drucken, „an der langen Kante spiegeln“ und Größe 100 % wählen. Danach an den Marken schneiden.',
  rank:'Rangliste',rkSolved:'{n} gelöst',rkPerfect:'{n} mit 3 Sternen',
  wipe:'Alle Spieler löschen',wipeQ:'Alle Spieler und ihren Fortschritt löschen? Stabfarben und Einstellungen bleiben erhalten. Das lässt sich nicht rückgängig machen.',
  viewH:'Darstellung',
@@ -569,6 +571,7 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ cardsH:'Task cards',cardsP:'53 cards (99 × 135 mm) with all 105 tasks, printed on both sides. Card 1 shows the rules on the front. The cards fit into the lid of the board.',printCards:'Print cards',cardsReady:'Your cards are ready',cardsReadyP:'{n} pages for {s} sheets of A4. Print double-sided, “flip on long edge”, at 100 % size. Then cut along the marks.',
  rank:'Ranking',rkSolved:'{n} solved',rkPerfect:'{n} with 3 stars',
  wipe:'Delete all players',wipeQ:'Delete all players and their progress? Stick colours and settings are kept. This cannot be undone.',
  viewH:'Display',
@@ -623,6 +626,7 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ cardsH:'Cartes de tâches',cardsP:'53 cartes (99 × 135 mm) avec les 105 tâches, imprimées recto verso. La carte 1 montre les règles au recto. Les cartes se rangent dans le couvercle du plateau.',printCards:'Imprimer les cartes',cardsReady:'Tes cartes sont prêtes',cardsReadyP:'{n} pages pour {s} feuilles A4. Imprime en recto verso, « retourner sur le bord long », à 100 %. Découpe ensuite le long des repères.',
  rank:'Classement',rkSolved:'{n} résolus',rkPerfect:'{n} avec 3 étoiles',
  wipe:'Supprimer tous les joueurs',wipeQ:'Supprimer tous les joueurs et leur progression ? Les couleurs et les réglages sont conservés. Cette action est définitive.',
  viewH:'Affichage',
@@ -677,6 +681,7 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ cardsH:'Tarjetas de tareas',cardsP:'53 tarjetas (99 × 135 mm) con las 105 tareas, impresas por las dos caras. La tarjeta 1 muestra las reglas delante. Las tarjetas caben en la tapa del tablero.',printCards:'Imprimir tarjetas',cardsReady:'Tus tarjetas están listas',cardsReadyP:'{n} páginas para {s} hojas A4. Imprime a doble cara, «voltear por el borde largo», al 100 %. Después corta por las marcas.',
  rank:'Clasificación',rkSolved:'{n} resueltos',rkPerfect:'{n} con 3 estrellas',
  wipe:'Borrar todos los jugadores',wipeQ:'¿Borrar todos los jugadores y su progreso? Los colores y los ajustes se conservan. No se puede deshacer.',
  viewH:'Vista',
@@ -1045,10 +1050,12 @@ function openSheet(html){const el=document.getElementById('sheet');clearTimeout(
  const sc=el.querySelector('.sc');if(was){sc.style.transition='none';el.querySelector('.scrim').style.transition='none';requestAnimationFrame(()=>{sc.style.transition=''})}
  bindDrag(sc,document.getElementById('grabz'));
  requestAnimationFrame(()=>{if(el.innerHTML)el.classList.add('open')})}
-function bindDrag(sc,g){let y0=null,dy=0,t0=0;
- g.addEventListener('pointerdown',e=>{y0=e.clientY;dy=0;t0=Date.now();try{g.setPointerCapture(e.pointerId)}catch(_){}sc.style.transition='none'});
- g.addEventListener('pointermove',e=>{if(y0==null)return;dy=e.clientY-y0;sc.style.transform='translateY('+(dy>0?dy:dy/5)+'px)'});
- const end=()=>{if(y0==null)return;y0=null;const v=dy/Math.max(1,Date.now()-t0);sc.style.transition='';sc.style.transform='';
+function bindDrag(sc,g){let y0=null,dy=0,t0=0,pb0=0;
+ /* nach oben über das Ende hinaus: das Fenster dehnt sich leicht und bleibt unten am Rand */
+ const stretch=d=>{sc.style.paddingBottom=(pb0+48*(1-Math.exp(-d/160)))+'px'},relax=()=>{sc.style.transition='padding-bottom .32s cubic-bezier(.2,.8,.2,1),transform .38s cubic-bezier(.2,.8,.2,1)';sc.style.paddingBottom='';setTimeout(()=>{if(y0==null)sc.style.transition=''},340)};
+ g.addEventListener('pointerdown',e=>{y0=e.clientY;dy=0;t0=Date.now();pb0=parseFloat(getComputedStyle(sc).paddingBottom)||0;try{g.setPointerCapture(e.pointerId)}catch(_){}sc.style.transition='none'});
+ g.addEventListener('pointermove',e=>{if(y0==null)return;dy=e.clientY-y0;if(dy>0){sc.style.transform='translateY('+dy+'px)';sc.style.paddingBottom=''}else{sc.style.transform='translateY(0)';stretch(-dy)}});
+ const end=()=>{if(y0==null)return;y0=null;const v=dy/Math.max(1,Date.now()-t0);sc.style.transition='';sc.style.transform='';if(sc.style.paddingBottom)relax();
   if(dy>90||(dy>30&&v>.5)){if(sc.classList.contains('full')&&dy<260)sc.classList.remove('full');else closeSheet()}
   else if(dy<-28&&(sc.scrollHeight>sc.clientHeight+2||sc.classList.contains('full')))sc.classList.add('full')};
  g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end)
@@ -1057,13 +1064,15 @@ function bindDrag(sc,g){let y0=null,dy=0,t0=0;
  sc.addEventListener('touchstart',e=>{if(e.touches.length!==1||e.target.closest('input,.pview,#grabz')){ty=null;return}ty=e.touches[0].clientY;tx=e.touches[0].clientX;mode=null;d=0;tt=Date.now()},{passive:true});
  sc.addEventListener('touchmove',e=>{if(ty==null||e.touches.length!==1)return;const y=e.touches[0].clientY,dy=y-ty,dx=e.touches[0].clientX-tx;
   if(!mode){if(Math.abs(dy)<7)return;if(Math.abs(dx)>Math.abs(dy)){mode='x';return}
-   if(dy>0&&sc.scrollTop<=0)mode='down';else if(dy<0&&!sc.classList.contains('full')&&sc.scrollHeight>sc.clientHeight+2){mode='up';h0=sc.getBoundingClientRect().height;fullH=window.innerHeight-36}else mode='scroll';
-   if(mode==='down'||mode==='up'){sc.style.transition='none';ty=y;return}}
+   if(dy>0&&sc.scrollTop<=0)mode='down';else if(dy<0&&!sc.classList.contains('full')&&sc.scrollHeight>sc.clientHeight+2){mode='up';h0=sc.getBoundingClientRect().height;fullH=window.innerHeight-36}else if(dy<0&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-2){mode='rub';pb0=parseFloat(getComputedStyle(sc).paddingBottom)||0}else mode='scroll';
+   if(mode==='down'||mode==='up'||mode==='rub'){sc.style.transition='none';ty=y;return}}
   if(mode==='down'){if(e.cancelable)e.preventDefault();d=Math.max(0,y-ty);sc.style.transform='translateY('+d+'px)'}
+  else if(mode==='rub'){if(e.cancelable)e.preventDefault();stretch(Math.max(0,ty-y))}
   else if(mode==='up'){if(e.cancelable)e.preventDefault();d=Math.max(0,ty-y);const h=h0+d;if(h<fullH){sc.style.minHeight=sc.style.maxHeight=h+'px';sc.scrollTop=0}else{sc.style.minHeight=sc.style.maxHeight=fullH+'px';sc.scrollTop=h-fullH}}},{passive:false});
  const tend=()=>{if(ty==null)return;ty=null;const v=d/Math.max(1,Date.now()-tt);
   if(mode==='down'){sc.style.transition='';sc.style.transform='';if(d>110||(d>36&&v>.55)){if(sc.classList.contains('full')&&d<260)sc.classList.remove('full');else closeSheet()}}
   else if(mode==='up'){const st=sc.scrollTop;if(d>46){sc.classList.add('full');sc.style.transition='';sc.style.minHeight=sc.style.maxHeight='';if(st)sc.scrollTop=st}else{sc.style.transition='';sc.style.minHeight=sc.style.maxHeight=''}}
+  else if(mode==='rub')relax();
   mode=null;d=0};
  sc.addEventListener('touchend',tend);sc.addEventListener('touchcancel',tend)}
 function closeSheet(now){const el=document.getElementById('sheet');stopCam();if(!el.classList.contains('open')&&!el.innerHTML)return;el.classList.remove('open');clearTimeout(sheetTimer);
@@ -1202,9 +1211,10 @@ const ACT={
   else{const st=ts(x),b4=starsFor(x);st.miss=(st.miss|0)+1;save();const extra=st.miss===1?(b4>1?' '+t('missFree'):''):(starsFor(x)<b4?' '+t('missCost'):'');sfx.no();buzz([30,40,30]);el.classList.add('shake');setTimeout(()=>{T.check=null;T.hl=k;closeSheet();redrawTask();toast(cap(t('checkWrong',{slot:slotName(k)}))+extra)},420)}},
  rod(d){sfx.tap();rodSheet(+d.n)},
  flip(d,el){if(Date.now()-swallow<450)return;const cnt=(T.flips[d.n]|0)+1,on=cnt%2;T.flips[d.n]=cnt;el.querySelector('.flip').style.transform='rotateX('+cnt*180+'deg)';sfx.tap();buzz(8);const lab=document.getElementById(d.n==='s'?'sds':'sd'+d.n);if(lab)lab.textContent=t('side',{sym:symChar(on?1:0)})},
- printSheet(){const same=S.colors.every((c,i)=>String(c).toLowerCase()===DEF_COLORS[i]);openSheet(`<h2>${t('printG')}</h2><p>${t('printMineP')}</p><div class="stack">${same?`<button class="btn pri wide" data-act="print" data-std="1">${ic('print')}${t('printOne')}</button>`:`<button class="btn pri wide" data-act="print" data-std="0">${ic('print')}${t('printMine')}</button><button class="btn ton wide" data-act="print" data-std="1">${t('printStd')}</button>`}</div>`)},
- print(d){const std=d.std==='1';closeSheet(true);try{const el=printBook(std),n=el.querySelectorAll('.page').length;T.title=document.title;document.title='AlignStix – '+(BKS[S.lang]||BKS.en).sub;
-   const ov=document.createElement('div');ov.id='pov';ov.innerHTML=`<div class="povc">${logo('povl')}<h1>${t('printReady')}</h1><p>${t('printReadyP',{n})}</p><div class="stack"><button class="btn pri wide" data-act="printNow">${ic('print')}${t('printNow')}</button><button class="btn txt wide" data-act="printClose">${t('close')}</button></div></div>`;document.body.appendChild(ov)}catch(e){toast('Error')}},
+ printSheet(){const same=S.colors.every((c,i)=>String(c).toLowerCase()===DEF_COLORS[i]),btn=k=>same?`<button class="btn ${k?'ton':'pri'} wide" data-act="print" data-std="1" data-k="${k}">${ic('print')}${t(k?'printCards':'printOne')}</button>`:`<button class="btn ${k?'ton':'pri'} wide" data-act="print" data-std="0" data-k="${k}">${ic('print')}${t('printMine')}</button><button class="btn txt wide" data-act="print" data-std="1" data-k="${k}">${t('printStd')}</button>`;
+  openSheet(`<h2>${t('printG')}</h2><p>${t('printMineP')}</p><div class="stack">${btn('')}</div><h2 style="margin-top:26px">${t('cardsH')}</h2><p>${t('cardsP')}</p><div class="stack">${btn('c')}</div>`)},
+ print(d){const std=d.std==='1',cards=d.k==='c';closeSheet(true);try{const el=cards?printCards(std):printBook(std),n=el.querySelectorAll(cards?'.cpage':'.page').length;T.title=document.title;document.title='AlignStix – '+(BKS[S.lang]||BKS.en)[cards?'cardsT':'sub'];
+   const ov=document.createElement('div');ov.id='pov';ov.innerHTML=`<div class="povc">${logo('povl')}<h1>${t(cards?'cardsReady':'printReady')}</h1><p>${t(cards?'cardsReadyP':'printReadyP',{n,s:n/2})}</p><div class="stack"><button class="btn pri wide" data-act="printNow">${ic('print')}${t('printNow')}</button><button class="btn txt wide" data-act="printClose">${t('close')}</button></div></div>`;document.body.appendChild(ov)}catch(e){toast('Error')}},
  printNow(){if(typeof window.print!=='function'){toast(t('printNo'));return}window.print()},
  printClose(){const a=document.getElementById('print'),b=document.getElementById('pov');if(a)a.remove();if(b)b.remove();document.body.classList.remove('printing');if(T.title)document.title=T.title},
  color(d){colorSheet(d.n==='b'?'b':+d.n)},
@@ -1254,22 +1264,22 @@ if(window.matchMedia)try{matchMedia('(prefers-color-scheme:dark)').addEventListe
 
 /* ---------- Druckheft ---------- */
 const BKS={
-de:{simple:'Im Heft sind die Stäbe vereinfacht gezeichnet. Wie sie wirklich aussehen, zeigen das Titelblatt und die App.',sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
+de:{cardsT:'Aufgabenkarten',cGoH:'So geht’s',cGo:[['Aufbauen','Lege die Stäbe so aufs Brett, wie die Karte sie zeigt. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Fertig','Liegen alle zehn Stäbe flach, ist die Aufgabe gelöst. Es gibt immer genau eine Lösung.']],cReadH:'So liest du eine Karte',cRead:['Die Stäbe sind so gezeichnet, wie sie von oben aussehen.','Ein Quadrat auf dem Stab zeigt: Hier ist auf der Unterseite eine Kerbe.','Gestrichelte Plätze sind noch frei.'],cApp:'Lösungen, Tipps und Sterne gibt es in der App.',cTask:'Aufgabe {n}',simple:'Im Heft sind die Stäbe vereinfacht gezeichnet. Wie sie wirklich aussehen, zeigen das Titelblatt und die App.',sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
  read:['Die Zahl ist die Stabnummer. Sie steht an einem Ende des Stabs.','Am anderen Ende zeigt Kreis oder Dreieck, welche Seite oben liegt.','Dunkler Streifen: Hier hat ein unterer Stab eine Kerbe auf der Oberseite.','Gestricheltes Feld: Hier hat ein oberer Stab eine Kerbe auf der Unterseite.','Leere Plätze füllst du mit den übrigen Stäben.'],
  playH:'So spielst du mit dem Heft',play:[['Aufbauen','Lege die gezeigten Stäbe aufs Brett. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Vergleichen','Die Lösungen stehen hinten im Heft, ab Seite {p}.']],
  sticksNote:'Oben siehst du jeweils die Seite mit dem Kreis, darunter die Seite mit dem Dreieck.',colorNote:'Deine Stäbe haben andere Farben? Dann halte dich an die Nummern.',
  rest:'Übrig',solKey:'Kräftig: von dir gelegt. Blass: Startstellung.',solutions:'Lösungen',range:'Aufgaben {a} bis {b}',one:'Es gibt immer genau eine Lösung.',backH:'Lieber mit dem Handy?',backP:'Die App baut jede Aufgabe Schritt für Schritt mit dir auf, gibt Tipps und zählt deine Sterne.',done:'geschafft'},
-en:{simple:'In this booklet the sticks are drawn in a simplified way. The cover and the app show how they really look.',sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
+en:{cardsT:'Task cards',cGoH:'How it works',cGo:[['Set up','Place the sticks on the board as the card shows. The vertical ones first, they lie at the bottom.'],['Puzzle','Find the place for the remaining sticks. Exactly one notch sits at every crossing.'],['Done','When all ten sticks lie flat, the task is solved. There is always exactly one solution.']],cReadH:'How to read a card',cRead:['The sticks are drawn the way they look from above.','A square on a stick shows: there is a notch on the underside here.','Dashed places are still free.'],cApp:'Solutions, hints and stars are in the app.',cTask:'Task {n}',simple:'In this booklet the sticks are drawn in a simplified way. The cover and the app show how they really look.',sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
  read:['The number is the stick number. It sits at one end of the stick.','At the other end, the circle or triangle shows which side faces up.','Dark band: a lower stick has a notch on its top side here.','Dashed field: an upper stick has a notch on its underside here.','You fill the empty places with the remaining sticks.'],
  playH:'How to play with the booklet',play:[['Set up','Place the sticks shown on the board. The upright ones first, they lie at the bottom.'],['Solve','Find the place for the remaining sticks. Every crossing has exactly one notch.'],['Compare','The solutions are at the back of the booklet, from page {p}.']],
  sticksNote:'The upper picture shows the side with the circle, the lower one the side with the triangle.',colorNote:'Your sticks have different colours? Then go by the numbers.',
  rest:'Left',solKey:'Bold: placed by you. Pale: starting position.',solutions:'Solutions',range:'Tasks {a} to {b}',one:'There is always exactly one solution.',backH:'Rather play with your phone?',backP:'The app sets up every task with you step by step, gives hints and counts your stars.',done:'solved'},
-fr:{simple:'Dans ce livret, les bâtons sont dessinés de façon simplifiée. La couverture et l’appli les montrent tels qu’ils sont vraiment.',sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
+fr:{cardsT:'Cartes de tâches',cGoH:'Comment ça marche',cGo:[['Installer','Pose les bâtons sur le plateau comme sur la carte. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. À chaque croisement, il y a exactement une encoche.'],['Terminé','Quand les dix bâtons sont à plat, la tâche est résolue. Il y a toujours une seule solution.']],cReadH:'Comment lire une carte',cRead:['Les bâtons sont dessinés tels qu’on les voit de dessus.','Un carré sur un bâton indique une encoche en dessous à cet endroit.','Les places en pointillés sont encore libres.'],cApp:'Solutions, indices et étoiles sont dans l’appli.',cTask:'Tâche {n}',simple:'Dans ce livret, les bâtons sont dessinés de façon simplifiée. La couverture et l’appli les montrent tels qu’ils sont vraiment.',sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
  read:['Le chiffre est le numéro du bâton. Il se trouve à un bout du bâton.','À l’autre bout, le cercle ou le triangle montre quel côté est vers le haut.','Bande foncée : ici, un bâton du dessous a une encoche sur le dessus.','Case en pointillés : ici, un bâton du dessus a une encoche sur le dessous.','Tu remplis les places vides avec les bâtons restants.'],
  playH:'Comment jouer avec le livret',play:[['Installer','Pose les bâtons montrés sur le plateau. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. Chaque croisement a exactement une encoche.'],['Comparer','Les solutions sont à la fin du livret, à partir de la page {p}.']],
  sticksNote:'En haut, tu vois le côté avec le cercle ; en dessous, le côté avec le triangle.',colorNote:'Tes bâtons ont d’autres couleurs ? Fie-toi aux numéros.',
  rest:'Restent',solKey:'Vif : posé par toi. Pâle : position de départ.',solutions:'Solutions',range:'Défis {a} à {b}',one:'Il y a toujours exactement une solution.',backH:'Plutôt avec le téléphone ?',backP:'L’appli installe chaque défi avec toi pas à pas, donne des indices et compte tes étoiles.',done:'résolu'},
-es:{simple:'En este cuaderno los palitos están dibujados de forma sencilla. La portada y la app los muestran como son de verdad.',sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
+es:{cardsT:'Tarjetas de tareas',cGoH:'Cómo funciona',cGo:[['Montar','Coloca los palitos en el tablero como muestra la tarjeta. Primero los verticales, van debajo.'],['Pensar','Busca el sitio de los palitos que faltan. En cada cruce hay exactamente una muesca.'],['Listo','Cuando los diez palitos quedan planos, la tarea está resuelta. Siempre hay una sola solución.']],cReadH:'Cómo leer una tarjeta',cRead:['Los palitos están dibujados tal como se ven desde arriba.','Un cuadrado en un palito indica una muesca por debajo en ese punto.','Los sitios con línea discontinua aún están libres.'],cApp:'Las soluciones, pistas y estrellas están en la app.',cTask:'Tarea {n}',simple:'En este cuaderno los palitos están dibujados de forma sencilla. La portada y la app los muestran como son de verdad.',sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
  read:['El número es el número del palito. Está en un extremo del palito.','En el otro extremo, el círculo o el triángulo muestra qué cara queda arriba.','Franja oscura: aquí un palito de abajo tiene una muesca en la cara superior.','Casilla con rayas: aquí un palito de arriba tiene una muesca en la cara inferior.','Los huecos vacíos los rellenas con los palitos que quedan.'],
  playH:'Cómo jugar con el cuaderno',play:[['Montar','Coloca en el tablero los palitos que se muestran. Primero los verticales, que van debajo.'],['Pensar','Encuentra el sitio de los palitos que quedan. En cada cruce hay exactamente una muesca.'],['Comparar','Las soluciones están al final del cuaderno, desde la página {p}.']],
  sticksNote:'Arriba ves la cara con el círculo y debajo la cara con el triángulo.',colorNote:'¿Tus palitos son de otros colores? Guíate por los números.',
@@ -1294,6 +1304,36 @@ svg{display:block}
 h1{font-size:30pt;line-height:1.05;font-weight:800;letter-spacing:-.025em}
 h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .muted{color:#51635C}
+/* Aufgabenkarten */
+.cpage{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always;padding:0}
+.cgrid{position:absolute;left:6mm;top:13.5mm;width:198mm;height:270mm;display:grid;grid-template-columns:99mm 99mm;grid-template-rows:135mm 135mm}
+.cut{position:absolute;inset:0;width:210mm;height:297mm}
+.kc{width:99mm;height:135mm;position:relative;overflow:hidden;box-sizing:border-box;padding:6mm 6mm 5mm;display:flex;flex-direction:column;background:var(--lc);color:var(--lci)}
+.kc.none{background:none}
+.kchead{display:flex;align-items:center;justify-content:space-between;gap:3mm;height:12mm}
+.kchead b{font-size:21pt;font-weight:800;letter-spacing:-.025em;line-height:1}
+.kclv{font-size:9.5pt;font-weight:800;padding:1.6mm 3.4mm;border-radius:99mm;background:var(--ls);color:var(--lsi);white-space:nowrap}
+.kcboard{margin-top:3.5mm;width:87mm;height:87mm;border-radius:5mm;overflow:hidden;--board:#fff;--boardline:rgba(15,79,65,.07);box-shadow:0 0 0 .35mm rgba(0,0,0,.14)}
+.kcboard .board{border-radius:0}
+.kcfoot{margin-top:auto;display:flex;align-items:center;gap:1.8mm;height:10mm}
+.kcfoot .l{font-size:8.5pt;font-weight:700;opacity:.8;margin-right:1mm}
+.kcchip{width:8.4mm;height:8.4mm;border-radius:2.4mm;display:grid;place-items:center;font-weight:800;font-size:11pt;box-shadow:inset 0 0 0 .3mm rgba(0,0,0,.25)}
+.kcfoot .r{margin-left:auto;display:flex;align-items:center;gap:1.4mm;font-size:8.5pt;font-weight:800;opacity:.75}
+.kcfoot .r svg{width:5mm;height:5mm}
+.kcfoot.many{gap:1.2mm}
+.kcfoot.many .kcchip{width:6.8mm;height:6.8mm;font-size:9.5pt;border-radius:2mm}
+.kc.rules{background:var(--cv,#0F4F41);color:var(--cvi,#EAF6F1);padding:7mm}
+.kc.rules .ktop{display:flex;align-items:center;gap:2.6mm}
+.kc.rules .ktop svg{width:10mm;height:10mm}
+.kc.rules .ktop b{font-size:19pt;font-weight:800;letter-spacing:-.02em;color:var(--cvh,#fff)}
+.kc.rules h3{font-size:11pt;font-weight:800;color:var(--cva,#FFC533);margin-top:5.5mm}
+.kc.rules .st{display:grid;grid-template-columns:6mm 1fr;gap:2.2mm;margin-top:2.6mm;font-size:8.3pt;line-height:1.34}
+.kc.rules .st i{width:6mm;height:6mm;border-radius:50%;background:#FFC533;color:#221A00;font-style:normal;font-weight:800;font-size:8.5pt;display:grid;place-items:center}
+.kc.rules .st b{display:block;font-size:9pt;color:var(--cvh,#fff)}
+.kc.rules .ex{margin-top:3mm;background:#fff;border-radius:3mm;padding:2.2mm 2.6mm}
+.kc.rules ul{margin:2.4mm 0 0;padding:0 0 0 4mm;font-size:8.3pt;line-height:1.36}
+.kc.rules li{margin-top:.8mm}
+.kc.rules .app{margin-top:auto;font-size:8.3pt;font-weight:700;opacity:.9}
 /* Titel */
 .cover{background:var(--cv,#0F4F41);color:var(--cvi,#EAF6F1);padding:0;--mat:transparent;--matline:transparent;--board:transparent;--boardline:transparent}
 .gridbg{position:absolute;inset:0;width:100%;height:100%}
@@ -1365,19 +1405,20 @@ h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .p2{display:flex;flex-direction:column}.p2 .band{margin-top:auto;margin-bottom:6mm}.p2 .cols{font-size:11.500pt;gap:11mm;margin-top:10mm}.p2 h2{font-size:17pt}.p2 .brule{margin-bottom:9mm}.p2 .fit{font-size:8.500pt;padding:3mm 1.500mm}
 `;
 function bookCSS(){return '#print{'+BOOK_ROOT+'}'+BOOK_CSS.replace(/(^|\})\s*([^{}@]+)\{/g,(m,a,sel)=>a+sel.split(',').map(x=>'#print '+x.trim()).join(',')+'{')}
-function bookPages(std){const BK=BKS[S.lang]||BKS.en,SOL0=25,URL='remarcable1.github.io/AlignStiX';let readHTML='';
-const cvc=!std&&heroCol()||null,cvl=!!cvc&&lum(cvc)>=150,cvs=cvc?`--cv:${cvc};--cvi:${cvl?'#14201B':'#F2F5F3'};--cvh:${cvl?'#0E1F1A':'#fff'};--cva:${cvl?'#0B5D4B':'#FFC533'}`:'';
-const gridbg=(()=>{let d='';for(let i=10;i<210;i+=10)d+=`M${i} 0V297`;for(let i=10;i<297;i+=10)d+=`M0 ${i}H210`;return `<svg class="gridbg" viewBox="0 0 210 297" preserveAspectRatio="none"><path d="${d}" stroke="${cvl?'#000':'#fff'}" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
-const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
-const foot=(n,left)=>`<div class="foot"><span>${left||'AlignStix'}</span><span>${n}</span></div>`;
 /* Titelbild: echte Stäbe in der Draufsicht, als reine Zeichnung, damit es sauber druckt */
-function topStick(s){const n=s.rod,col=colorOf(n),V=s.ax==='V',vis=V?s.side:1-s.side,p=cen(s.pos),tz=(V?90:0)+(s.flip?180:0),P=RODS[n][vis],Q=RODS[n][1-vis],dk=lum(col)<70,mk=dk?'#fff':'#000';
+function topStick(s,strong){const o=topStick0(s);return strong?o.replace(/stroke-opacity="\.15" stroke-width="4"/g,'stroke-opacity=".5" stroke-width="4.5"'):o}
+function topStick0(s){const n=s.rod,col=colorOf(n),V=s.ax==='V',vis=V?s.side:1-s.side,p=cen(s.pos),tz=(V?90:0)+(s.flip?180:0),P=RODS[n][vis],Q=RODS[n][1-vis],dk=lum(col)<70,mk=dk?'#fff':'#000';
  let g=`<rect x="44" y="14" width="512" height="56" rx="5" fill="${shade(col,.2)}"/>`;
  for(let i=0;i<5;i++)if(P[i]==='1'){const c=cen(i);g+=`<rect x="${c-NH}" y="14" width="${2*NH}" height="56" fill="${shade(col,.32)}"/><rect x="${c-NH-6}" y="14" width="6" height="56" fill="${shade(col,.12)}"/><rect x="${c+NH}" y="14" width="6" height="56" fill="${shade(col,.12)}"/>`;if(Q[i]==='1')g+=`<rect x="${c-16}" y="26" width="32" height="32" rx="8" fill="none" stroke="${mk}" stroke-opacity=".15" stroke-width="4"/>`}
  g+=faceSVG(n,vis,true).replace('<svg ','<svg x="44" y="14" width="512" height="56" ').replace('<g class="lab">',`<g transform="rotate(${-tz} ${B.lb} 42)">`).replace(/id="fcl"/,`id="fc${n}"`).replace('url(#fcl)',`url(#fc${n})`);
  const T=`translate(${V?p-300:0} ${V?258:p-42}) rotate(${tz} 300 42)`;
  return `<g transform="translate(0 ${V?7:6}) ${T}"><rect x="44" y="14" width="512" height="56" rx="5" fill="#000" fill-opacity=".3"/></g><g transform="${T}">${g}</g>`}
 function coverArt(sol){return `<svg class="board" viewBox="0 0 600 600">${sol.filter(s=>s.ax==='V').map(topStick).join('')}${sol.filter(s=>s.ax==='H').map(topStick).join('')}</svg>`}
+function bookPages(std){const BK=BKS[S.lang]||BKS.en,SOL0=25,URL='remarcable1.github.io/AlignStiX';let readHTML='';
+const cvc=!std&&heroCol()||null,cvl=!!cvc&&lum(cvc)>=150,cvs=cvc?`--cv:${cvc};--cvi:${cvl?'#14201B':'#F2F5F3'};--cvh:${cvl?'#0E1F1A':'#fff'};--cva:${cvl?'#0B5D4B':'#FFC533'}`:'';
+const gridbg=(()=>{let d='';for(let i=10;i<210;i+=10)d+=`M${i} 0V297`;for(let i=10;i<297;i+=10)d+=`M0 ${i}H210`;return `<svg class="gridbg" viewBox="0 0 210 297" preserveAspectRatio="none"><path d="${d}" stroke="${cvl?'#000':'#fff'}" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
+const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
+const foot=(n,left)=>`<div class="foot"><span>${left||'AlignStix'}</span><span>${n}</span></div>`;
 const bd=(sticks,o)=>boardSVG(Object.assign({sticks:sticks.map(s=>({s,kind:'given'}))},o||{}));
 const legend=()=>`<div class="legend"><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#9DB1A8"/><rect x="9" y="1" width="12" height="16" fill="#0E1F1A" opacity=".6"/></svg>${t('legTop')}</span><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#C9D5CF"/><rect x="9" y="4" width="12" height="10" rx="3" fill="none" stroke="#0E1F1A" stroke-width="2" stroke-dasharray="3 2"/></svg>${t('legUnder')}</span></div>`;
 let pages=[],pn=0;
@@ -1413,6 +1454,24 @@ for(let i=0;i<TASKS.length;i+=12){const ch=TASKS.slice(i,i+12);
 /* Rückseite */
 add(`${gridbg}<div style="width:34mm;margin-bottom:auto">${logo()}</div><h1>${BK.backH}</h1><p>${BK.backP}</p><span class="url">${URL}</span>`,'back',false);
 return pages.join('')}
+function cardPages(std){const BK=BKS[S.lang]||BKS.en,cvc=!std&&heroCol()||null,cvl=!!cvc&&lum(cvc)>=150,cvs=cvc?`--cv:${cvc};--cvi:${cvl?'#14201B':'#F2F5F3'};--cvh:${cvl?'#0E1F1A':'#fff'};--cva:${cvl?'#0B5D4B':'#FFC533'}`:'';
+ const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
+ const board=x=>{let h=boardSVG({sticks:x.clues.map(s=>({s,kind:'given'}))});const c=h.indexOf('<g class="stk');h=c>0?h.slice(0,c):h.replace('</svg>','');
+  return h+x.clues.filter(s=>s.ax==='V').map(s=>topStick(s,true)).join('')+x.clues.filter(s=>s.ax==='H').map(s=>topStick(s,true)).join('')+'</svg>'};
+ const task=x=>{const rest=x.open.map(s=>s.rod).sort((a,b)=>a-b);
+  return `<div class="kc" style="${lvs(x.lv)}"><div class="kchead"><b>${BK.cTask.replace('{n}',x.n)}</b><span class="kclv">${t('lv')[x.lv]}</span></div><div class="kcboard">${board(x)}</div>
+  <div class="kcfoot${rest.length>6?' many':''}"><span class="l">${BK.rest}</span>${rest.map(r=>{const c=colorOf(r);return `<span class="kcchip" style="background:${c};color:${ink(c)}">${r}</span>`}).join('')}<span class="r">${logo()}${rest.length>6?'':'AlignStix'}</span></div></div>`};
+ const ex=`<svg class="board" viewBox="40 94 520 64" style="width:100%;height:auto;border-radius:0">${topStick({rod:4,ax:'H',pos:0,side:0,flip:0},true)}</svg>`;
+ const rules=`<div class="kc rules"${cvs?` style="${cvs}"`:''}><div class="ktop">${logo()}<b>AlignStix</b></div><h3>${BK.cGoH}</h3>${BK.cGo.map((r,i)=>`<div class="st"><i>${i+1}</i><span><b>${r[0]}</b>${r[1]}</span></div>`).join('')}
+  <h3>${BK.cReadH}</h3><div class="ex">${ex}</div><ul>${BK.cRead.map(r=>`<li>${r}</li>`).join('')}</ul><p class="app">${BK.cApp}</p></div>`;
+ const sides=[rules].concat(TASKS.map(task)),cards=[];for(let i=0;i<sides.length;i+=2)cards.push([sides[i],sides[i+1]||'<div class="kc none"></div>']);
+ const none='<div class="kc none"></div>';let m='';[6,105,204].forEach(x=>{m+=`M${x} 6V11.5M${x} 285.5V291`});[13.5,148.5,283.5].forEach(y=>{m+=`M1 ${y}H4.5M205.5 ${y}H209`});
+ const cut=`<svg class="cut" viewBox="0 0 210 297"><path d="${m}" stroke="#000" stroke-width=".15" fill="none"/></svg>`;let out='';
+ for(let i=0;i<cards.length;i+=4){const c=[0,1,2,3].map(k=>cards[i+k]||[none,none]);
+  out+=`<section class="cpage"><div class="cgrid">${c[0][0]}${c[1][0]}${c[2][0]}${c[3][0]}</div>${cut}</section><section class="cpage"><div class="cgrid">${c[1][1]}${c[0][1]}${c[3][1]}${c[2][1]}</div>${cut}</section>`}
+ return out}
+function printCards(std){let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
+ el=document.createElement('div');el.id='print';const keep=S.colors;if(std)S.colors=DEF_COLORS.slice();try{el.innerHTML=cardPages(std)}finally{S.colors=keep}document.body.appendChild(el);document.body.classList.add('printing');return el}
 function printBook(std){let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
  el=document.createElement('div');el.id='print';const keep=S.colors;if(std)S.colors=DEF_COLORS.slice();try{el.innerHTML=bookPages(std)}finally{S.colors=keep}document.body.appendChild(el);document.body.classList.add('printing');return el}
 /* ---------- Start ---------- */

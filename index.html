@@ -1214,22 +1214,22 @@ if(window.matchMedia)try{matchMedia('(prefers-color-scheme:dark)').addEventListe
 
 /* ---------- Druckheft ---------- */
 const BKS={
-de:{sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
+de:{simple:'Im Heft sind die Stäbe vereinfacht gezeichnet. Wie sie wirklich aussehen, zeigen das Titelblatt und die App.',sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
  read:['Die Zahl ist die Stabnummer. Sie steht an einem Ende des Stabs.','Am anderen Ende zeigt Kreis oder Dreieck, welche Seite oben liegt.','Dunkler Streifen: Hier hat ein unterer Stab eine Kerbe auf der Oberseite.','Gestricheltes Feld: Hier hat ein oberer Stab eine Kerbe auf der Unterseite.','Leere Plätze füllst du mit den übrigen Stäben.'],
  playH:'So spielst du mit dem Heft',play:[['Aufbauen','Lege die gezeigten Stäbe aufs Brett. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Vergleichen','Die Lösungen stehen hinten im Heft, ab Seite {p}.']],
  sticksNote:'Oben siehst du jeweils die Seite mit dem Kreis, darunter die Seite mit dem Dreieck.',colorNote:'Deine Stäbe haben andere Farben? Dann halte dich an die Nummern.',
  rest:'Übrig',solKey:'Kräftig: von dir gelegt. Blass: Startstellung.',solutions:'Lösungen',range:'Aufgaben {a} bis {b}',one:'Es gibt immer genau eine Lösung.',backH:'Lieber mit dem Handy?',backP:'Die App baut jede Aufgabe Schritt für Schritt mit dir auf, gibt Tipps und zählt deine Sterne.',done:'geschafft'},
-en:{sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
+en:{simple:'In this booklet the sticks are drawn in a simplified way. The cover and the app show how they really look.',sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
  read:['The number is the stick number. It sits at one end of the stick.','At the other end, the circle or triangle shows which side faces up.','Dark band: a lower stick has a notch on its top side here.','Dashed field: an upper stick has a notch on its underside here.','You fill the empty places with the remaining sticks.'],
  playH:'How to play with the booklet',play:[['Set up','Place the sticks shown on the board. The upright ones first, they lie at the bottom.'],['Solve','Find the place for the remaining sticks. Every crossing has exactly one notch.'],['Compare','The solutions are at the back of the booklet, from page {p}.']],
  sticksNote:'The upper picture shows the side with the circle, the lower one the side with the triangle.',colorNote:'Your sticks have different colours? Then go by the numbers.',
  rest:'Left',solKey:'Bold: placed by you. Pale: starting position.',solutions:'Solutions',range:'Tasks {a} to {b}',one:'There is always exactly one solution.',backH:'Rather play with your phone?',backP:'The app sets up every task with you step by step, gives hints and counts your stars.',done:'solved'},
-fr:{sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
+fr:{simple:'Dans ce livret, les bâtons sont dessinés de façon simplifiée. La couverture et l’appli les montrent tels qu’ils sont vraiment.',sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
  read:['Le chiffre est le numéro du bâton. Il se trouve à un bout du bâton.','À l’autre bout, le cercle ou le triangle montre quel côté est vers le haut.','Bande foncée : ici, un bâton du dessous a une encoche sur le dessus.','Case en pointillés : ici, un bâton du dessus a une encoche sur le dessous.','Tu remplis les places vides avec les bâtons restants.'],
  playH:'Comment jouer avec le livret',play:[['Installer','Pose les bâtons montrés sur le plateau. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. Chaque croisement a exactement une encoche.'],['Comparer','Les solutions sont à la fin du livret, à partir de la page {p}.']],
  sticksNote:'En haut, tu vois le côté avec le cercle ; en dessous, le côté avec le triangle.',colorNote:'Tes bâtons ont d’autres couleurs ? Fie-toi aux numéros.',
  rest:'Restent',solKey:'Vif : posé par toi. Pâle : position de départ.',solutions:'Solutions',range:'Défis {a} à {b}',one:'Il y a toujours exactement une solution.',backH:'Plutôt avec le téléphone ?',backP:'L’appli installe chaque défi avec toi pas à pas, donne des indices et compte tes étoiles.',done:'résolu'},
-es:{sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
+es:{simple:'En este cuaderno los palitos están dibujados de forma sencilla. La portada y la app los muestran como son de verdad.',sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
  read:['El número es el número del palito. Está en un extremo del palito.','En el otro extremo, el círculo o el triángulo muestra qué cara queda arriba.','Franja oscura: aquí un palito de abajo tiene una muesca en la cara superior.','Casilla con rayas: aquí un palito de arriba tiene una muesca en la cara inferior.','Los huecos vacíos los rellenas con los palitos que quedan.'],
  playH:'Cómo jugar con el cuaderno',play:[['Montar','Coloca en el tablero los palitos que se muestran. Primero los verticales, que van debajo.'],['Pensar','Encuentra el sitio de los palitos que quedan. En cada cruce hay exactamente una muesca.'],['Comparar','Las soluciones están al final del cuaderno, desde la página {p}.']],
  sticksNote:'Arriba ves la cara con el círculo y debajo la cara con el triángulo.',colorNote:'¿Tus palitos son de otros colores? Guíate por los números.',
@@ -1329,12 +1329,20 @@ function bookPages(std){const BK=BKS[S.lang]||BKS.en,SOL0=25,URL='remarcable1.gi
 const gridbg=(()=>{let d='';for(let i=10;i<210;i+=10)d+=`M${i} 0V297`;for(let i=10;i<297;i+=10)d+=`M0 ${i}H210`;return `<svg class="gridbg" viewBox="0 0 210 297" preserveAspectRatio="none"><path d="${d}" stroke="#fff" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
 const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
 const foot=(n,left)=>`<div class="foot"><span>${left||'AlignStix'}</span><span>${n}</span></div>`;
+/* Titelbild: echte Stäbe in der Draufsicht, als reine Zeichnung, damit es sauber druckt */
+function topStick(s){const n=s.rod,col=colorOf(n),V=s.ax==='V',vis=V?s.side:1-s.side,p=cen(s.pos),tz=(V?90:0)+(s.flip?180:0),P=RODS[n][vis],Q=RODS[n][1-vis],dk=lum(col)<70,mk=dk?'#fff':'#000';
+ let g=`<rect x="44" y="14" width="512" height="56" rx="5" fill="${shade(col,.2)}"/>`;
+ for(let i=0;i<5;i++)if(P[i]==='1'){const c=cen(i);g+=`<rect x="${c-NH}" y="14" width="${2*NH}" height="56" fill="${shade(col,.32)}"/><rect x="${c-NH-6}" y="14" width="6" height="56" fill="${shade(col,.12)}"/><rect x="${c+NH}" y="14" width="6" height="56" fill="${shade(col,.12)}"/>`;if(Q[i]==='1')g+=`<rect x="${c-16}" y="26" width="32" height="32" rx="8" fill="none" stroke="${mk}" stroke-opacity=".15" stroke-width="4"/>`}
+ g+=faceSVG(n,vis,true).replace('<svg ','<svg x="44" y="14" width="512" height="56" ').replace('<g class="lab">',`<g transform="rotate(${-tz} ${B.lb} 42)">`).replace(/id="fcl"/,`id="fc${n}"`).replace('url(#fcl)',`url(#fc${n})`);
+ const T=`translate(${V?p-300:0} ${V?258:p-42}) rotate(${tz} 300 42)`;
+ return `<g transform="translate(0 ${V?7:6}) ${T}"><rect x="44" y="14" width="512" height="56" rx="5" fill="#000" fill-opacity=".3"/></g><g transform="${T}">${g}</g>`}
+function coverArt(sol){return `<svg class="board" viewBox="0 0 600 600">${sol.filter(s=>s.ax==='V').map(topStick).join('')}${sol.filter(s=>s.ax==='H').map(topStick).join('')}</svg>`}
 const bd=(sticks,o)=>boardSVG(Object.assign({sticks:sticks.map(s=>({s,kind:'given'}))},o||{}));
 const legend=()=>`<div class="legend"><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#9DB1A8"/><rect x="9" y="1" width="12" height="16" fill="#0E1F1A" opacity=".6"/></svg>${t('legTop')}</span><span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="#C9D5CF"/><rect x="9" y="4" width="12" height="10" rx="3" fill="none" stroke="#0E1F1A" stroke-width="2" stroke-dasharray="3 2"/></svg>${t('legUnder')}</span></div>`;
 let pages=[],pn=0;
 const add=(html,cls,ft)=>{pn++;pages.push(`<section class="page ${cls||''}">${html}${ft===false?'':foot(pn,ft)}</section>`)};
 /* 1 Titel */
-add(`${gridbg}<div class="art">${bd(TASKS[104].sol,{mini:true})}</div><div class="tt"><div class="wm">${logo()}AlignStix</div><div class="s1">${BK.sub}</div><div class="s2">${BK.sub2}</div></div>`,'cover',false);
+add(`${gridbg}<div class="art">${coverArt(TASKS[104].sol)}</div><div class="tt"><div class="wm">${logo()}AlignStix</div><div class="s1">${BK.sub}</div><div class="s2">${BK.sub2}</div></div>`,'cover',false);
 /* 2 Regeln */
 {const x=TASKS[12],cl=x.clues,call=(n,x0,y0)=>`<circle cx="${x0}" cy="${y0}" r="17" fill="#FFC533" stroke="#0E1F1A" stroke-width="2"/><text x="${x0}" y="${y0+1}" font-size="20" fill="#221A00">${n}</text>`;
  const hk=new Set(cl.filter(s=>s.ax==='H').map(s=>s.pos)),v=cl.find(s=>s.ax==='V'&&s.pos===2)||cl.find(s=>s.ax==='V');
@@ -1349,7 +1357,7 @@ add(`${gridbg}<div class="art">${bd(TASKS[104].sol,{mini:true})}</div><div class
  <div class="band"><h2>${BK.playH}</h2><div class="steps3">${BK.play.map((p,i)=>`<div><b><span class="num">${i+1}</span>${p[0]}</b><p>${p[1].replace('{p}',SOL0)}</p></div>`).join('')}</div></div>`,'p2');
  readHTML=`<h2 style="margin-top:9mm;font-size:19pt">${BK.readH}</h2><div class="read"><div>${board}</div><ol>${BK.read.map((r,i)=>`<li><span class="num">${i+1}</span><span>${r}</span></li>`).join('')}</ol></div>`}
 /* 3 Stäbe */
-add(`<h1>${t('sticksH')}</h1><p class="muted" style="margin-top:3mm;max-width:150mm">${BK.sticksNote}${std?' '+BK.colorNote:''}</p>
+add(`<h1>${t('sticksH')}</h1><p class="muted" style="margin-top:3mm;max-width:150mm">${BK.sticksNote}${std?' '+BK.colorNote:''} ${BK.simple}</p>
  <div class="rods">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<div class="rod"><span class="n">${n}</span><div class="flipf">${faceSVG(n,0)}${faceSVG(n,1)}</div></div>`).join('')}</div>
  ${readHTML}`);
 /* Aufgaben */

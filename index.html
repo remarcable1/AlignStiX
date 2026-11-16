@@ -340,6 +340,40 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .flipf svg{width:100%;height:auto;display:block}
 .flipf text{font-family:var(--font);font-weight:800;text-anchor:middle;dominant-baseline:central}
 
+/* Aufgabe: alles auf einen Bildschirm */
+.view.task{display:flex;flex-direction:column;min-height:100dvh;padding-top:calc(var(--safe-t) + 6px);padding-bottom:calc(var(--safe-b) + 14px)}
+.task .tbar{margin-bottom:6px;gap:4px}
+.task .tbar .starchip{font-size:14px;padding:5px 11px;white-space:nowrap}
+.task .steps{margin-bottom:10px}
+.thead:empty{display:none}
+.thead h2{font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.thead p{color:var(--ink2);margin-top:3px;font-size:15px;line-height:1.38}
+.bbox{flex:1 1 0;min-height:260px;container-type:size;display:flex;justify-content:center;align-items:center;margin-top:12px}
+.bbox .bwrap{width:min(100cqw,100cqh,520px);aspect-ratio:1;flex:none}
+.task .legend{margin-top:8px;justify-content:center}
+.task .panel{margin-top:6px}
+.task .panel .slist{margin-top:6px}
+.task .srow.big{padding:10px 14px 10px 10px;border-radius:22px}.task .srow.big .chip{min-width:50px;height:50px;font-size:22px;border-radius:16px}.task .srow.big b{font-size:17px}.task .srow.big small{font-size:14px;line-height:1.3;display:block;margin-top:1px}
+.task .cta{margin-top:12px}
+.task .tray{margin-top:6px}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:34px}
+.lrow .lbl{margin-top:0}
+.lnk{color:var(--pri);font-weight:800;font-size:14px;padding:8px 2px;white-space:nowrap}
+@media (max-width:350px){.task .tbar h1{font-size:19px}.task .tbar .starchip{font-size:12px;padding:4px 8px}.task .tbar .ib{width:40px;height:40px}}
+@media (max-height:640px){.thead p{display:none}.bbox{min-height:220px}}
+/* Hilfe-Frage */
+.sc p.ask{color:var(--ink);font-size:18px;font-weight:600;margin-top:8px;line-height:1.4}
+.costn{display:flex;align-items:center;gap:6px;margin-top:10px}.costn svg{width:18px;height:18px;color:var(--ink2);flex:none}
+.costn.warn svg{color:var(--sun)}
+.sc .cta .btn{flex:1;min-width:0;white-space:normal;line-height:1.15;text-align:center;padding:0 14px}
+/* Foto-Ansicht */
+.pview{position:relative;margin:12px auto 0;border-radius:22px;overflow:hidden;background:#000;touch-action:none;cursor:crosshair}
+.pview canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pview .aim{transition:none}
+.pz{position:absolute;right:8px;bottom:8px;display:flex;flex-direction:column;gap:6px}
+.pz .ib{width:40px;height:40px;background:rgba(0,0,0,.5);color:#fff}.pz .ib svg{width:20px;height:20px}
+#adjpv .flipw{padding:4px 2px}
+
 </style>
 </head>
 <body>
@@ -349,6 +383,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ askRod:'Willst du wissen, welcher Stab hierhin gehört?',askFull:'Hierhin gehört Stab {n}. Willst du auch sehen, wie er genau liegt?',yesShow:'Ja, zeigen',noSelf:'Nein, ich knoble selbst',share:'Aufgabe teilen',shareText:'Schaffst du AlignStix-Aufgabe {n} ({lv})?',copied:'Link kopiert',shared:'Aufgabe {n} wurde mit dir geteilt',photoP:'Wisch über das Foto, um den Kreis zu verschieben. Mit zwei Fingern zoomst du.',zoomIn:'Vergrößern',zoomOut:'Verkleinern',rebuildS:'Neu aufbauen',showAllS:'Alle zeigen',
  camMeasure:'Farbe messen',adjH:'Farbe anpassen',adjP:'Vergleiche mit deinem echten Stab und justiere nach.',adjPB:'Vergleiche mit deinem echten Spielfeld und justiere nach.',adjOld:'Vorher',adjNew:'Angepasst',adjL:'Helligkeit',adjS:'Farbkraft',adjHu:'Farbton',adjAgain:'Nochmal messen',adjFine:'Aktuelle Farbe fein anpassen',
  boardH:'Dein Spielfeld',boardColorH:'Welche Farbe hat dein Spielfeld?',camBtnB:'Farbe vom echten Spielfeld aufnehmen',camHB:'Halte das Spielfeld in den Kreis',
  printReady:'Dein Heft ist bereit',printReadyP:'{n} Seiten im Format A4. Im nächsten Schritt wählst du deinen Drucker oder „Als PDF speichern“.',printNow:'Drucken oder als PDF speichern',printNo:'Drucken ist hier nicht möglich. Öffne die App im Browser.',
@@ -366,14 +401,14 @@ de:{
  ph:['Aufbauen','Knobeln','Prüfen'],
  setupH:'Bau die Startstellung auf',setupP:'Lege die Stäbe der Reihe nach auf dein Brett. Die senkrechten kommen zuerst, sie liegen unten.',setupStep:'Stab {a} von {b}',placed:'Liegt',showAll:'Alle auf einmal zeigen',
  setupItem:'Stab {n} in {slot}',row:'Reihe {n}',col:'Spalte {n}',
- symUp:'{sym} liegt oben',numLeft:'Zahl links',numRight:'Zahl rechts',numTop:'Zahl oben',numBottom:'Zahl unten',
+ symUp:'Seite mit {sym} sichtbar',numLeft:'Zahl am linken Ende',numRight:'Zahl am rechten Ende',numTop:'Zahl am oberen Ende',numBottom:'Zahl am unteren Ende',
  circle:'Kreis',triangle:'Dreieck',
  setupDone:'Fertig aufgebaut',
  solveH:'Jetzt bist du dran',solveP:'Lege die übrigen {n} Stäbe so, dass an jeder Kreuzung genau eine Kerbe sitzt. Es gibt nur eine Lösung.',
  left:'Noch übrig',tip:'Tipp',check:'Prüfen',realView:'Echte Draufsicht',realNote:'So sehen die Stäbe von oben aus. Bei den waagerechten zählt aber die Unterseite.',legTop:'Kerbe oben',legUnder:'Kerbe unten',solveP1:'Lege den letzten Stab so, dass an jeder Kreuzung genau eine Kerbe sitzt.',showSetup:'Startstellung',
  tipH:'Ein kleiner Schubs',tipBest:'Fang bei {slot} an. Dort kreuzen schon {k} Stäbe, also bleibt wenig Auswahl.',tipAny:'Schau dir {slot} an.',
  revealRod:'Welcher Stab gehört hierhin?',revealFull:'Zeig mir genau, wie er liegt',
- costStar:'Kostet einen Stern.',costNone:'Kostet keinen weiteren Stern.',
+ costStar:'Das kostet einen Stern.',costNone:'Kostet keinen weiteren Stern.',
  rodHere:'Hierhin gehört Stab {n}.',rodHereFull:'Stab {n} liegt jetzt richtig auf dem Brett.',
  showSolution:'Ganze Lösung zeigen',showSolutionP:'Die Aufgabe zählt dann als angesehen, ohne Sterne.',
  checkH:'Kurzer Check',checkQ:'Welcher Stab liegt in {slot}?',checkOf:'Frage {a} von {b}',
@@ -396,6 +431,7 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ askRod:'Do you want to know which stick belongs here?',askFull:'Stick {n} belongs here. Do you also want to see exactly how it lies?',yesShow:'Yes, show me',noSelf:'No, I’ll work it out',share:'Share task',shareText:'Can you solve AlignStix task {n} ({lv})?',copied:'Link copied',shared:'Task {n} was shared with you',photoP:'Swipe over the photo to move the circle. Pinch with two fingers to zoom.',zoomIn:'Zoom in',zoomOut:'Zoom out',rebuildS:'Start over',showAllS:'Show all',
  camMeasure:'Measure colour',adjH:'Adjust colour',adjP:'Compare with your real stick and fine-tune.',adjPB:'Compare with your real board and fine-tune.',adjOld:'Before',adjNew:'Adjusted',adjL:'Brightness',adjS:'Vividness',adjHu:'Hue',adjAgain:'Measure again',adjFine:'Fine-tune the current colour',
  boardH:'Your board',boardColorH:'What colour is your board?',camBtnB:'Take the colour from the real board',camHB:'Hold the board inside the circle',
  printReady:'Your booklet is ready',printReadyP:'{n} pages in A4. In the next step you choose your printer or “Save as PDF”.',printNow:'Print or save as PDF',printNo:'Printing is not possible here. Open the app in the browser.',
@@ -413,7 +449,7 @@ en:{
  ph:['Set up','Solve','Check'],
  setupH:'Set up the starting position',setupP:'Place the sticks on your board one after the other. The upright ones come first, they lie at the bottom.',setupStep:'Stick {a} of {b}',placed:'Placed',showAll:'Show all at once',
  setupItem:'Stick {n} in {slot}',row:'row {n}',col:'column {n}',
- symUp:'{sym} faces up',numLeft:'number on the left',numRight:'number on the right',numTop:'number at the top',numBottom:'number at the bottom',
+ symUp:'{sym} side visible',numLeft:'number at the left end',numRight:'number at the right end',numTop:'number at the top end',numBottom:'number at the bottom end',
  circle:'Circle',triangle:'Triangle',
  setupDone:'All set up',
  solveH:'Your turn',solveP:'Place the remaining {n} sticks so that every crossing has exactly one notch. There is only one solution.',
@@ -443,6 +479,7 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ askRod:'Tu veux savoir quel bâton va ici ?',askFull:'Ici, c’est le bâton {n}. Tu veux aussi voir exactement comment il est posé ?',yesShow:'Oui, montre',noSelf:'Non, je cherche moi-même',share:'Partager la tâche',shareText:'Arriveras-tu à résoudre la tâche AlignStix {n} ({lv}) ?',copied:'Lien copié',shared:'La tâche {n} a été partagée avec toi',photoP:'Glisse sur la photo pour déplacer le cercle. Pince à deux doigts pour zoomer.',zoomIn:'Agrandir',zoomOut:'Réduire',rebuildS:'Recommencer',showAllS:'Tout montrer',
  camMeasure:'Mesurer la couleur',adjH:'Ajuster la couleur',adjP:'Compare avec ton vrai bâton et ajuste.',adjPB:'Compare avec ton vrai plateau et ajuste.',adjOld:'Avant',adjNew:'Ajustée',adjL:'Luminosité',adjS:'Intensité',adjHu:'Teinte',adjAgain:'Mesurer à nouveau',adjFine:'Ajuster finement la couleur actuelle',
  boardH:'Ton plateau',boardColorH:'De quelle couleur est ton plateau ?',camBtnB:'Prendre la couleur du vrai plateau',camHB:'Place le plateau dans le cercle',
  printReady:'Ton livret est prêt',printReadyP:'{n} pages au format A4. À l’étape suivante, tu choisis ton imprimante ou « Enregistrer en PDF ».',printNow:'Imprimer ou enregistrer en PDF',printNo:'Impossible d’imprimer ici. Ouvre l’appli dans le navigateur.',
@@ -460,7 +497,7 @@ fr:{
  ph:['Installer','Chercher','Vérifier'],
  setupH:'Installe la position de départ',setupP:'Pose les bâtons sur ton plateau l’un après l’autre. Les verticaux d’abord, ils sont en dessous.',setupStep:'Bâton {a} sur {b}',placed:'Posé',showAll:'Tout montrer d’un coup',
  setupItem:'Bâton {n} dans {slot}',row:'la rangée {n}',col:'la colonne {n}',
- symUp:'{sym} vers le haut',numLeft:'numéro à gauche',numRight:'numéro à droite',numTop:'numéro en haut',numBottom:'numéro en bas',
+ symUp:'face {sym} visible',numLeft:'numéro à gauche',numRight:'numéro à droite',numTop:'numéro en haut',numBottom:'numéro en bas',
  circle:'Cercle',triangle:'Triangle',
  setupDone:'Tout est installé',
  solveH:'À toi de jouer',solveP:'Pose les {n} bâtons restants pour qu’il y ait exactement une encoche à chaque croisement. Il n’y a qu’une solution.',
@@ -490,6 +527,7 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ askRod:'¿Quieres saber qué palito va aquí?',askFull:'Aquí va el palito {n}. ¿Quieres ver también exactamente cómo va?',yesShow:'Sí, enséñamelo',noSelf:'No, lo intento yo',share:'Compartir tarea',shareText:'¿Puedes resolver la tarea {n} de AlignStix ({lv})?',copied:'Enlace copiado',shared:'Te han compartido la tarea {n}',photoP:'Desliza sobre la foto para mover el círculo. Pellizca con dos dedos para hacer zoom.',zoomIn:'Ampliar',zoomOut:'Reducir',rebuildS:'Empezar de nuevo',showAllS:'Mostrar todos',
  camMeasure:'Medir color',adjH:'Ajustar color',adjP:'Compara con tu palito real y ajusta.',adjPB:'Compara con tu tablero real y ajusta.',adjOld:'Antes',adjNew:'Ajustado',adjL:'Brillo',adjS:'Intensidad',adjHu:'Tono',adjAgain:'Medir otra vez',adjFine:'Ajustar el color actual',
  boardH:'Tu tablero',boardColorH:'¿De qué color es tu tablero?',camBtnB:'Tomar el color del tablero real',camHB:'Pon el tablero dentro del círculo',
  printReady:'Tu cuaderno está listo',printReadyP:'{n} páginas en formato A4. En el siguiente paso eliges tu impresora o «Guardar como PDF».',printNow:'Imprimir o guardar como PDF',printNo:'Aquí no se puede imprimir. Abre la app en el navegador.',
@@ -507,7 +545,7 @@ es:{
  ph:['Montar','Pensar','Comprobar'],
  setupH:'Monta la posición inicial',setupP:'Coloca los palitos en tu tablero uno tras otro. Primero los verticales, que van debajo.',setupStep:'Palito {a} de {b}',placed:'Colocado',showAll:'Mostrar todos a la vez',
  setupItem:'Palito {n} en {slot}',row:'la fila {n}',col:'la columna {n}',
- symUp:'{sym} hacia arriba',numLeft:'número a la izquierda',numRight:'número a la derecha',numTop:'número arriba',numBottom:'número abajo',
+ symUp:'cara {sym} visible',numLeft:'número a la izquierda',numRight:'número a la derecha',numTop:'número arriba',numBottom:'número abajo',
  circle:'Círculo',triangle:'Triángulo',
  setupDone:'Ya está montado',
  solveH:'Te toca',solveP:'Coloca los {n} palitos que quedan para que en cada cruce haya exactamente una muesca. Solo hay una solución.',
@@ -538,7 +576,7 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='210';
+const APP_VERSION='211';
 const RODS={1:['00001','00000'],2:['00011','10001'],3:['00101','01001'],4:['00110','01110'],5:['11111','00111'],6:['00100','00010'],7:['11011','10011'],8:['10101','01010'],9:['01111','10111'],10:['01101','01011']};
 const RAW=[["P067-M0639",0,[[2,1,0],[6,1,1],[8,1,0],[5,0,0],[3,1,0],[10,0,0],[1,0,1],[9,1,1],[7,1,1],[4,0,1]],1011],["P011-M0927",0,[[6,1,0],[4,1,0],[10,1,0],[9,1,0],[7,1,1],[5,1,1],[3,1,1],[8,0,0],[1,0,0],[2,0,1]],1020],["P034-M0799",0,[[3,1,0],[7,0,0],[1,0,0],[6,1,0],[5,1,1],[10,0,1],[4,0,0],[9,0,1],[8,0,0],[2,0,0]],1016],["P003-M0191",0,[[1,1,0],[5,0,0],[4,0,1],[3,0,1],[6,1,0],[8,0,0],[7,1,0],[2,1,0],[10,0,1],[9,1,0]],997],["P096-M0351",0,[[5,0,0],[3,1,1],[10,1,1],[2,1,0],[7,0,0],[1,1,0],[8,1,0],[9,0,0],[6,1,0],[4,0,1]],1002],["P068-M0159",1,[[2,1,0],[4,1,0],[5,1,0],[10,0,0],[3,0,0],[9,0,0],[8,0,0],[1,0,1],[7,1,0],[6,1,1]],996],["P088-M0287",1,[[2,0,1],[5,0,0],[8,1,0],[1,1,0],[7,0,0],[4,0,0],[6,1,0],[9,1,0],[3,1,1],[10,0,1]],1000],["P093-M0095",1,[[9,0,1],[5,1,0],[8,0,0],[7,0,0],[10,1,0],[3,1,0],[4,0,1],[2,0,0],[6,0,0],[1,0,1]],994],["P061-M0287",1,[[4,1,0],[9,1,0],[5,0,0],[6,0,0],[10,0,0],[7,1,0],[8,1,0],[1,1,0],[2,0,0],[3,1,1]],1000],["P065-M0095",1,[[1,0,1],[4,0,0],[3,1,1],[7,0,0],[8,0,0],[6,1,1],[9,1,1],[10,0,1],[2,1,0],[5,1,1]],994],["P035-M0543",1,[[6,1,1],[1,0,0],[2,0,0],[4,1,0],[8,0,0],[9,0,1],[10,0,0],[5,1,1],[7,1,1],[3,1,1]],1008],["P052-M0063",1,[[4,0,1],[8,1,0],[9,1,1],[5,0,0],[10,0,1],[2,0,1],[1,0,0],[6,1,1],[3,0,1],[7,1,1]],993],["P031-M0063",1,[[4,0,0],[10,1,0],[5,0,0],[9,1,1],[8,1,0],[7,1,1],[1,0,1],[3,1,0],[6,1,0],[2,1,0]],993],["P064-M0287",1,[[8,0,0],[1,0,1],[7,0,0],[5,1,0],[9,0,1],[6,1,0],[10,1,1],[4,0,1],[2,0,1],[3,1,0]],1000],["P025-M0159",1,[[3,0,0],[1,0,0],[8,0,0],[10,0,1],[4,1,0],[7,1,1],[9,0,1],[6,1,1],[5,1,1],[2,0,0]],996],["P060-M0095",1,[[1,0,1],[7,1,1],[6,0,0],[3,0,0],[4,1,0],[5,1,0],[10,0,1],[2,0,1],[9,0,1],[8,0,0]],994],["P008-M0031",1,[[1,0,0],[9,1,1],[6,1,0],[4,1,0],[2,0,1],[10,0,1],[3,0,1],[8,0,0],[7,1,1],[5,1,0]],992],["P015-M0287",1,[[2,0,0],[4,1,0],[3,0,1],[8,0,0],[6,0,0],[7,1,1],[9,1,0],[1,0,1],[5,1,0],[10,0,0]],1000],["P100-M0031",1,[[5,0,0],[2,1,0],[3,1,1],[9,1,1],[7,0,0],[1,1,0],[4,0,1],[10,0,0],[8,1,0],[6,0,0]],992],["P057-M0031",1,[[1,0,1],[8,0,0],[2,0,0],[6,0,0],[4,1,0],[5,1,0],[9,0,1],[3,0,1],[10,1,1],[7,1,0]],992],["P075-M0031",1,[[2,0,1],[7,0,0],[6,0,0],[1,0,0],[8,0,0],[4,0,0],[5,1,0],[10,1,1],[9,1,0],[3,0,1]],992],["P082-M0031",1,[[2,0,1],[4,1,0],[5,0,0],[6,1,1],[9,1,1],[8,1,0],[1,1,0],[3,1,1],[7,1,0],[10,1,1]],992],["P007-M0031",1,[[1,0,0],[10,0,1],[3,0,1],[4,1,0],[6,1,1],[7,1,0],[5,1,1],[2,1,0],[8,0,0],[9,0,0]],992],["P022-M0031",1,[[3,0,0],[7,0,0],[1,0,1],[10,0,1],[6,0,0],[2,1,0],[9,1,0],[4,0,1],[8,0,0],[5,1,0]],992],["P104-M0031",1,[[5,0,0],[3,0,1],[7,0,0],[2,1,0],[9,1,0],[1,1,0],[10,1,0],[4,0,0],[8,1,0],[6,1,1]],992],["P098-M0031",1,[[5,0,0],[9,0,0],[2,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[3,0,0],[4,0,0],[1,1,0]],992],["P044-M0031",1,[[8,1,0],[2,0,1],[4,1,0],[5,0,0],[10,1,1],[3,0,1],[1,1,0],[7,1,1],[6,1,1],[9,1,1]],992],["P081-M0031",1,[[9,1,1],[7,0,0],[8,1,0],[5,0,0],[10,0,0],[3,0,0],[1,1,0],[4,0,1],[2,1,0],[6,0,0]],992],["P017-M0031",1,[[2,0,0],[7,0,0],[6,1,0],[9,1,0],[4,1,0],[8,0,0],[10,0,1],[5,1,1],[1,1,0],[3,0,0]],992],["P037-M0031",1,[[6,1,1],[5,0,0],[3,0,0],[1,0,0],[8,1,0],[9,1,0],[4,0,0],[7,1,0],[10,0,1],[2,1,0]],992],["P076-M0103",2,[[5,1,1],[10,0,0],[2,1,0],[7,0,0],[8,0,0],[6,1,1],[3,0,0],[4,0,0],[9,1,1],[1,0,1]],227],["P071-M0651",2,[[3,1,1],[8,1,0],[6,1,0],[1,0,1],[7,1,1],[4,0,1],[10,0,1],[5,0,0],[2,0,0],[9,0,1]],372],["P051-M0654",2,[[1,0,1],[6,1,0],[2,0,1],[8,1,0],[4,0,0],[10,1,0],[7,1,1],[9,0,1],[3,0,1],[5,0,0]],468],["P070-M0313",2,[[2,1,0],[8,0,0],[10,0,0],[4,0,0],[3,0,0],[5,1,0],[7,0,0],[1,0,1],[9,1,1],[6,1,0]],809],["P038-M0551",2,[[3,1,0],[6,1,1],[4,1,0],[5,0,0],[8,1,0],[9,1,1],[1,1,0],[7,1,1],[2,0,1],[10,0,0]],241],["P024-M0214",2,[[4,1,0],[1,1,0],[3,0,0],[2,0,0],[6,0,0],[5,0,0],[9,0,0],[8,1,0],[10,0,0],[7,1,1]],710],["P091-M0595",2,[[7,0,0],[5,1,1],[1,0,0],[2,0,1],[10,1,0],[3,0,0],[6,0,0],[9,1,0],[4,1,0],[8,1,0]],626],["P047-M0188",2,[[8,1,0],[5,0,0],[7,1,1],[1,0,0],[10,1,1],[3,1,1],[6,1,0],[9,1,0],[4,0,0],[2,1,0]],901],["P013-M0525",2,[[2,0,0],[6,0,0],[3,1,1],[1,0,1],[4,0,0],[7,1,1],[5,0,0],[10,0,1],[8,1,0],[9,0,0]],432],["P074-M0327",2,[[3,0,1],[9,1,1],[4,1,0],[5,1,1],[8,0,0],[6,0,0],[2,1,0],[1,1,0],[7,0,0],[10,0,1]],234],["P043-M0666",2,[[8,1,0],[3,0,1],[9,1,1],[5,0,0],[10,1,1],[1,0,1],[6,1,1],[2,1,0],[4,0,1],[7,1,1]],852],["P083-M0217",2,[[5,0,0],[10,0,1],[7,1,0],[3,0,1],[9,1,1],[1,1,0],[4,1,0],[6,0,0],[2,0,0],[8,1,0]],806],["P021-M0263",2,[[3,1,1],[8,1,0],[9,0,1],[4,0,0],[6,0,0],[10,1,0],[7,1,0],[2,0,1],[1,0,0],[5,0,0]],232],["P086-M0078",2,[[2,0,1],[5,1,0],[6,1,1],[1,0,0],[7,0,0],[4,1,0],[8,1,0],[9,1,0],[10,0,1],[3,0,1]],450],["P026-M0316",2,[[3,0,0],[1,0,0],[9,1,1],[6,1,0],[4,1,0],[7,0,0],[10,1,1],[8,1,0],[5,1,1],[2,0,0]],905],["P101-M0282",2,[[7,0,0],[5,0,0],[8,1,0],[3,1,1],[9,1,0],[6,0,0],[2,0,0],[10,0,1],[1,1,0],[4,0,0]],840],["P006-M0284",2,[[1,0,0],[8,1,0],[2,0,0],[4,0,1],[6,1,1],[5,0,0],[3,0,1],[9,1,1],[7,1,0],[10,1,0]],904],["P049-M0538",2,[[1,0,1],[2,0,0],[6,0,0],[8,1,0],[10,1,1],[4,1,0],[5,1,1],[7,0,0],[3,0,1],[9,1,0]],848],["P001-M0046",2,[[1,1,0],[6,0,0],[8,0,0],[4,1,0],[3,1,1],[10,1,1],[9,1,1],[2,1,0],[5,1,1],[7,0,0]],449],["P020-M0083",2,[[3,0,0],[7,1,1],[1,0,1],[10,1,1],[6,0,0],[2,1,0],[8,0,0],[4,1,0],[9,1,1],[5,1,0]],610],["P099-M0043",2,[[5,1,1],[4,1,0],[9,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[1,0,0],[3,1,1],[2,0,1]],353],["P079-M0149",2,[[9,1,1],[2,1,0],[5,1,0],[8,0,0],[10,0,0],[3,0,0],[4,1,0],[6,1,1],[7,0,0],[1,1,0]],676],["P103-M0015",2,[[5,0,0],[10,0,1],[7,0,0],[2,0,1],[9,1,0],[1,1,0],[3,1,0],[4,0,0],[6,1,0],[8,1,0]],480],["P105-M0030",2,[[5,0,0],[2,0,0],[3,0,0],[7,0,0],[9,0,0],[10,0,0],[4,0,1],[8,1,0],[6,0,0],[1,1,0]],960],["P010-M0023",2,[[4,1,0],[5,0,0],[10,0,0],[8,1,0],[6,1,1],[9,1,0],[1,1,0],[2,0,0],[3,0,0],[7,1,0]],736],["P032-M0549",3,[[5,1,0],[1,0,0],[4,1,0],[2,1,0],[6,1,0],[9,1,1],[7,0,0],[10,1,0],[8,1,0],[3,0,0]],177],["P023-M0312",3,[[5,1,0],[8,1,0],[1,0,1],[2,0,0],[6,0,0],[7,0,0],[9,1,0],[4,1,0],[3,0,0],[10,0,0]],777],["P050-M0553",3,[[7,1,0],[6,1,0],[2,1,0],[1,0,0],[10,1,1],[8,1,0],[9,0,1],[5,0,0],[4,0,0],[3,1,0]],305],["P029-M0645",3,[[3,0,0],[9,0,1],[5,1,1],[7,0,0],[4,0,1],[2,1,0],[1,0,1],[6,1,0],[8,0,0],[10,0,0]],180],["P078-M0108",3,[[9,1,1],[3,0,1],[5,0,0],[4,1,0],[10,0,0],[2,0,0],[6,1,1],[1,1,0],[7,1,1],[8,1,0]],387],["P005-M0646",3,[[1,0,0],[6,0,0],[4,0,1],[3,1,0],[8,1,0],[5,0,0],[2,0,1],[7,1,0],[9,0,1],[10,0,0]],212],["P054-M0586",3,[[3,0,1],[1,1,0],[2,0,1],[6,1,1],[10,0,1],[8,1,0],[7,1,1],[4,1,0],[9,0,1],[5,0,0]],338],["P066-M0401",3,[[2,1,0],[3,0,0],[1,1,0],[7,1,1],[8,0,0],[4,0,1],[9,1,1],[10,0,1],[5,0,0],[6,0,0]],556],["P048-M0216",3,[[3,1,1],[4,0,1],[9,0,0],[5,0,0],[8,1,0],[10,0,0],[1,0,1],[2,1,0],[6,1,1],[7,1,1]],774],["P059-M0025",3,[[4,1,0],[10,1,0],[5,0,0],[3,1,1],[9,0,1],[2,0,1],[6,1,0],[8,1,0],[1,1,0],[7,1,0]],800],["P102-M0028",3,[[7,0,0],[5,0,0],[8,1,0],[10,0,1],[9,1,0],[6,0,0],[2,0,0],[3,0,1],[1,1,0],[4,0,0]],896],["P027-M0022",3,[[1,0,1],[6,1,1],[8,1,0],[10,0,0],[3,0,1],[4,1,0],[2,1,0],[5,1,1],[7,0,0],[9,1,1]],704],["P056-M0338",3,[[4,1,0],[2,0,0],[9,0,1],[5,1,0],[10,0,0],[7,0,0],[8,1,0],[6,1,1],[1,0,0],[3,0,1]],586],["P016-M0404",3,[[2,0,0],[1,0,1],[4,0,0],[6,0,0],[3,1,1],[10,0,1],[5,0,0],[7,1,1],[8,1,0],[9,0,0]],652],["P055-M0007",3,[[4,1,0],[7,0,0],[9,1,0],[1,0,0],[10,0,1],[3,1,1],[5,1,0],[8,1,0],[6,1,0],[2,1,0]],224],["P062-M0404",3,[[4,1,0],[9,1,1],[3,1,1],[2,0,1],[7,0,0],[1,0,1],[6,0,0],[5,1,0],[8,1,0],[10,0,1]],652],["P084-M0035",3,[[5,1,1],[2,1,0],[10,1,1],[1,0,0],[9,1,1],[6,1,0],[8,1,0],[4,1,0],[7,0,0],[3,0,1]],97],["P073-M0021",3,[[3,0,1],[10,0,1],[4,1,0],[9,1,0],[8,0,0],[6,0,0],[7,0,0],[1,1,0],[2,1,0],[5,1,1]],672],["P009-M0025",3,[[2,0,0],[4,1,0],[1,0,1],[3,0,1],[6,1,1],[7,1,1],[10,0,1],[8,0,0],[5,1,0],[9,0,0]],800],["P097-M0021",3,[[5,0,0],[2,1,0],[10,1,0],[3,1,0],[7,0,0],[4,0,0],[6,1,1],[9,0,0],[8,1,0],[1,1,0]],672],["P069-M0131",3,[[2,1,0],[1,0,1],[8,1,0],[6,0,0],[3,1,0],[5,1,0],[10,1,1],[9,1,1],[7,0,0],[4,1,0]],100],["P042-M0013",3,[[8,1,0],[4,1,0],[10,0,0],[7,0,0],[9,1,0],[5,1,1],[1,0,0],[3,1,1],[6,0,0],[2,0,1]],416],["P036-M0026",3,[[6,1,1],[3,1,0],[2,0,0],[1,0,1],[8,1,0],[9,1,1],[4,0,0],[5,0,0],[10,1,1],[7,1,0]],832],["P012-M0521",3,[[6,1,0],[2,0,1],[1,0,1],[10,1,0],[8,1,0],[7,1,0],[3,0,1],[5,0,0],[4,0,1],[9,1,1]],304],["P053-M0042",3,[[4,0,1],[10,0,0],[5,0,0],[8,1,0],[9,0,0],[7,0,0],[1,1,0],[6,1,0],[2,0,1],[3,1,1]],321],["P041-M0524",4,[[1,0,1],[10,0,0],[6,0,0],[2,0,0],[3,1,1],[4,1,0],[9,1,0],[7,1,0],[5,1,1],[8,0,0]],400],["P085-M0137",4,[[7,0,0],[10,0,1],[2,1,0],[8,0,0],[9,1,1],[1,1,0],[4,1,0],[3,0,1],[5,1,0],[6,1,1]],292],["P095-M0274",4,[[7,0,0],[1,0,1],[10,0,0],[5,1,1],[9,1,0],[6,0,0],[3,1,0],[2,0,1],[4,1,0],[8,1,0]],584],["P094-M0261",4,[[7,0,0],[1,0,0],[2,0,1],[3,0,0],[9,0,0],[10,1,0],[8,1,0],[5,1,1],[4,1,0],[6,0,0]],168],["P046-M0098",4,[[8,1,0],[5,1,1],[9,1,1],[6,0,0],[10,0,1],[3,1,1],[2,0,0],[1,0,1],[4,1,0],[7,0,0]],67],["P090-M0522",4,[[5,0,0],[2,0,0],[9,1,0],[4,1,0],[7,1,0],[8,1,0],[10,0,0],[3,1,0],[1,1,0],[6,1,0]],336],["P039-M0074",4,[[3,1,0],[4,0,1],[5,0,0],[10,0,1],[9,1,1],[2,0,1],[6,1,0],[1,0,1],[7,1,1],[8,1,0]],322],["P058-M0385",4,[[3,1,1],[7,0,0],[5,1,1],[8,1,0],[4,1,0],[2,0,0],[1,0,1],[10,1,1],[6,0,0],[9,1,0]],44],["P030-M0304",4,[[4,0,0],[3,0,0],[10,0,1],[1,1,0],[6,1,0],[7,0,0],[5,0,0],[2,0,0],[8,1,0],[9,1,0]],521],["P045-M0073",4,[[3,1,1],[1,1,0],[6,1,1],[7,0,0],[8,1,0],[10,0,0],[2,0,1],[5,0,0],[4,0,1],[9,1,1]],290],["P014-M0069",4,[[1,0,1],[8,1,0],[6,0,0],[3,0,1],[2,0,1],[4,0,1],[10,0,1],[7,1,1],[9,1,0],[5,0,0]],162],["P092-M0164",4,[[9,1,1],[8,0,0],[7,1,0],[3,1,1],[10,1,0],[1,0,0],[4,1,0],[5,1,0],[2,0,1],[6,1,0]],133],["P040-M0322",4,[[3,1,0],[7,1,0],[1,0,0],[6,1,1],[8,1,0],[9,1,0],[4,0,1],[5,0,0],[10,0,1],[2,0,0]],74],["P077-M0580",4,[[9,1,0],[5,1,1],[7,0,0],[4,1,0],[10,0,0],[2,0,0],[1,0,1],[6,0,0],[3,1,0],[8,1,0]],146],["P072-M0098",4,[[3,0,1],[4,0,0],[8,0,0],[9,1,1],[7,0,0],[6,1,1],[5,1,1],[1,0,0],[10,0,1],[2,0,1]],67],["P087-M0145",4,[[2,0,1],[10,1,1],[1,1,0],[8,1,0],[7,0,0],[4,0,0],[6,0,0],[5,0,0],[3,0,1],[9,0,1]],548],["P089-M0560",4,[[7,1,1],[8,1,0],[10,0,1],[5,0,0],[9,1,0],[6,1,1],[3,0,0],[2,0,1],[1,0,1],[4,0,1]],529],["P080-M0304",4,[[2,0,1],[6,1,0],[1,0,1],[7,1,0],[10,0,0],[3,1,0],[4,1,0],[9,0,1],[8,0,0],[5,1,1]],521],["P063-M0518",4,[[5,0,0],[2,0,1],[7,0,0],[10,0,0],[9,0,1],[6,1,0],[1,1,0],[4,0,1],[8,1,0],[3,1,0]],208],["P028-M0656",4,[[3,0,0],[7,0,0],[8,1,0],[4,1,0],[6,1,0],[9,1,0],[2,1,0],[10,0,0],[1,0,1],[5,1,0]],532],["P018-M0546",4,[[5,1,0],[2,0,1],[3,1,0],[1,0,1],[6,0,0],[8,0,0],[7,1,0],[4,1,0],[9,0,0],[10,1,0]],81],["P033-M0776",4,[[4,1,0],[1,0,1],[9,0,0],[2,0,1],[5,1,1],[3,0,1],[6,1,1],[8,1,0],[10,1,0],[7,0,0]],280],["P019-M0069",4,[[6,0,0],[3,0,0],[4,1,0],[9,1,0],[10,0,1],[5,1,1],[7,0,0],[1,1,0],[2,0,1],[8,0,0]],162],["P004-M0280",4,[[1,0,0],[6,1,0],[8,1,0],[10,0,0],[3,1,0],[5,0,0],[2,0,1],[9,1,1],[7,1,0],[4,0,1]],776],["P002-M0160",4,[[1,1,0],[4,1,0],[5,1,0],[10,1,1],[6,0,0],[9,1,1],[8,0,0],[3,1,1],[2,1,0],[7,0,0]],5]];
 const TASKS=RAW.map((r,i)=>({id:r[0],lv:r[1],n:i+1,mask:r[3],sol:r[2].map((s,j)=>({k:(j<5?'H':'V')+(j%5),ax:j<5?'H':'V',pos:j%5,rod:s[0],side:s[1],flip:s[2]}))}));
@@ -611,6 +649,9 @@ const IC={
  cam:'<path d="M4 8.500A1.500 1.500 0 0 1 5.500 7H8l1.500-2h5L16 7h2.500A1.500 1.500 0 0 1 20 8.500v9A1.500 1.500 0 0 1 18.500 19h-13A1.500 1.500 0 0 1 4 17.500z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.200" fill="none" stroke="currentColor" stroke-width="2"/>',
  print:'<path d="M7 8V4h10v4M7 17H5.500A1.500 1.500 0 0 1 4 15.500v-6A1.500 1.500 0 0 1 5.500 8h13A1.500 1.500 0 0 1 20 9.500v6a1.500 1.500 0 0 1-1.500 1.500H17M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
  close:'<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"/>',
+ share:'<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14.5V3.8M7.8 7.6L12 3.4l4.2 4.2"/><path d="M8.5 10.5H7A2 2 0 0 0 5 12.5v6A2 2 0 0 0 7 20.5h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1.5"/></g>',
+ zin:'<path d="M12 6v12M6 12h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',
+ zout:'<path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',
  plus:'<path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"/>'
 };
 const ic=n=>`<svg viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
@@ -667,8 +708,8 @@ const flipStick=(n,cnt,trn)=>{const col=colorOf(n),e=`background:${shade(col,.42
 let swp=null,swallow=0;
 function turnStick(el,dir){const k=el.dataset.n;T.turns[k]=(T.turns[k]|0)+dir;const tr=el.querySelector('.turn'),lf=el.querySelector('.lift');if(!tr)return;tr.style.setProperty('--tz',T.turns[k]*180+'deg');lf.classList.remove('go');void lf.offsetWidth;lf.classList.add('go');el.classList.add('turning');clearTimeout(el._tt);el._tt=setTimeout(()=>el.classList.remove('turning'),900);sfx.turn();buzz(10)}
 document.addEventListener('pointerdown',e=>{const el=e.target.closest&&e.target.closest('.flipw');swp=el?{el,x:e.clientX,y:e.clientY,done:false}:null});
-document.addEventListener('pointermove',e=>{if(!swp||swp.done)return;const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(Math.abs(dx)>26&&Math.abs(dx)>Math.abs(dy)*1.300){swp.done=true;swallow=Date.now();turnStick(swp.el,dx>0?1:-1)}});
-document.addEventListener('pointerup',()=>{if(swp&&swp.done)swallow=Date.now();swp=null});
+document.addEventListener('pointermove',e=>{if(!swp||swp.done)return;const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(Math.abs(dy)>12)swp.moved=true;if(Math.abs(dx)>26&&Math.abs(dx)>Math.abs(dy)*1.300){swp.done=true;swallow=Date.now();turnStick(swp.el,dx>0?1:-1)}});
+document.addEventListener('pointerup',()=>{if(swp&&(swp.done||swp.moved))swallow=Date.now();swp=null});
 document.addEventListener('pointercancel',()=>{swp=null});
 
 /* ---------- Töne ---------- */
@@ -703,23 +744,27 @@ function taskBoard(x,anim){const ph=taskPhase(x),st=ts(x),sticks=[];
  return boardSVG({sticks,tap:ph==='solve',hl:T.hl,real:T.xray})}
 function clueRow(s,big){const c=colorOf(s.rod),vis=s.ax==='V'?s.side:1-s.side,end=s.ax==='H'?(s.flip?'numLeft':'numRight'):(s.flip?'numTop':'numBottom');
  return `<div class="srow${big?' big':''}"><span class="chip" style="background:${c};color:${ink(c)}">${s.rod}</span><span><b>${t('setupItem',{n:s.rod,slot:slotName(s.k)})}</b><small>${t('symUp',{sym:symName(vis)})}, ${t(end)}</small></span></div>`}
+function taskHead(x){const ph=taskPhase(x);
+ if(ph==='setup')return `<h2>${t('setupH')}</h2><p>${t('setupP')}</p>`;
+ if(ph==='solve'){const hp=ts(x).help||{},n=x.open.filter(s=>!(hp[s.k]>=2)).length;return `<h2>${t('solveH')}</h2><p>${t(n===1?'solveP1':'solveP',{n})}</p>`}
+ return ''}
 function taskPanel(x){const ph=taskPhase(x),st=ts(x),d=P().done[x.id];
  if(ph==='setup'){const n=st.setup|0,s=x.order[n];
-  return `<h2>${t('setupH')}</h2><p>${t('setupP')}</p><div class="lbl">${t('setupStep',{a:n+1,b:x.order.length})}</div><div class="slist">${clueRow(s,true)}</div>
-  <div class="cta col"><button class="btn pri" data-act="placed">${ic('check')}${t('placed')}</button>${x.order.length-n>1?`<button class="btn txt" data-act="showAll">${t('showAll')}</button>`:''}${n>0?`<button class="btn txt" data-act="resetSetup">${t('rebuild')}</button>`:''}</div>`}
+  return `<div class="lrow"><span class="lbl">${t('setupStep',{a:n+1,b:x.order.length})}</span>${n>0?`<button class="lnk" data-act="resetSetup">${t('rebuildS')}</button>`:''}</div><div class="slist">${clueRow(s,true)}</div>
+  <div class="cta">${x.order.length-n>1?`<button class="btn ton" data-act="showAll">${t('showAllS')}</button>`:''}<button class="btn pri" data-act="placed">${ic('check')}${t('placed')}</button></div>`}
  if(ph==='solve'){const hp=st.help||{},rest=x.open.filter(s=>!hp[s.k]).map(s=>s.rod).sort((a,b)=>a-b),n=x.open.filter(s=>!(hp[s.k]>=2)).length;
-  return `<h2>${t('solveH')}</h2><p>${t(n===1?'solveP1':'solveP',{n})}</p>${rest.length?`<div class="lbl">${t('left')}</div><div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
-  <div class="cta"><button class="btn ton" data-act="tip">${ic('bulb')}${t('tip')}</button><button class="btn pri" data-act="check">${ic('check')}${t('check')}</button></div>
-  <div style="margin-top:6px"><button class="btn txt" data-act="showSetup">${t('showSetup')}</button></div>`}
+  return `<div class="lrow"><span class="lbl">${rest.length?t('left'):''}</span><button class="lnk" data-act="showSetup">${t('showSetup')}</button></div>${rest.length?`<div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
+  <div class="cta"><button class="btn ton" data-act="tip">${ic('bulb')}${t('tip')}</button><button class="btn pri" data-act="check">${ic('check')}${t('check')}</button></div>`}
  const nx=nextAfter(x);
  if(ph==='win'){const s=R.win.stars;return `<div class="win"><div class="banner">${s>0?t('winH')[x.n%3]:t('seen')}</div>${s>0?starRow(s,'big'):''}<p style="color:var(--ink2);margin-top:6px">${t(R.win.miss?'winMiss':'win'+s)}</p>
   <div class="cta col">${nx?`<button class="btn pri" data-act="next">${t('next')}</button>`:''}<button class="btn ${nx?'txt':'pri'}" data-act="overview">${t('overview')}</button></div></div>`}
  return `<div class="banner">${d.stars>0?t('solved'):t('seen')}${d.stars>0?starRow(d.stars):''}</div><div class="cta col">${nx?`<button class="btn pri" data-act="next">${t('next')}</button>`:''}<button class="btn ton" data-act="again">${t('again')}</button></div>`}
 function nextAfter(x){return TASKS.slice(x.n).find(y=>!P().done[y.id]&&isOpen(y))||nextTask()}
 function viewTask(anim){const x=TASKS[R.i],ph=taskPhase(x),si=ph==='setup'?0:ph==='solve'?(T.check?2:1):3;
- return `<main class="view full"><header class="tbar"><button class="ib" data-act="overview" aria-label="${esc(t('back'))}">${ic('back')}</button><h1>${t('task',{n:x.n})}</h1><span class="starchip" style="background:${isDark()?LV[x.lv].dc:LV[x.lv].c};color:${isDark()?LV[x.lv].dci:LV[x.lv].ci}">${t('lv')[x.lv]}</span></header>
+ return `<main class="view full task"><header class="tbar"><button class="ib" data-act="overview" aria-label="${esc(t('back'))}">${ic('back')}</button><h1>${t('task',{n:x.n})}</h1><span class="starchip" style="background:${isDark()?LV[x.lv].dc:LV[x.lv].c};color:${isDark()?LV[x.lv].dci:LV[x.lv].ci}">${t('lv')[x.lv]}</span><button class="ib" data-act="share" aria-label="${esc(t('share'))}">${ic('share')}</button></header>
  <div class="steps" id="steps">${stepsHTML(si)}</div>
- <div class="bwrap"><div id="bd">${taskBoard(x,anim)}</div><button class="xr${T.xray?' on':''}" data-act="xray" aria-label="${esc(t('realView'))}" aria-pressed="${T.xray}">${ic('eye')}</button></div>
+ <div class="thead" id="thead">${taskHead(x)}</div>
+ <div class="bbox"><div class="bwrap"><div id="bd">${taskBoard(x,anim)}</div><button class="xr${T.xray?' on':''}" data-act="xray" aria-label="${esc(t('realView'))}" aria-pressed="${T.xray}">${ic('eye')}</button></div></div>
  <div class="legend" id="legend">${legendHTML()}</div>
  <section class="panel" id="panel">${taskPanel(x)}</section></main>`}
 function legendHTML(){if(T.xray&&R.view==='task')return `<span>${t('realNote')}</span>`;
@@ -761,7 +806,7 @@ function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.fro
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
  render(true)}
 window.addEventListener('popstate',e=>{if(document.getElementById('pov')){ACT.printClose();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}if(sheetOpen()){closeSheet();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}R=Object.assign({view:'home'},e.state||{});T.hl=null;T.check=null;render(true)});
-function redrawTask(){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}b.innerHTML=taskBoard(x,false);document.getElementById('panel').innerHTML=taskPanel(x);
+function redrawTask(){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}b.innerHTML=taskBoard(x,false);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
  const ph=taskPhase(x);document.getElementById('steps').innerHTML=stepsHTML(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null}
 
 /* ---------- Sheet, Toast, Konfetti ---------- */
@@ -792,8 +837,7 @@ function confetti(){if(RM)return;let f=document.getElementById('fx');if(f)f.remo
 function slotSheet(k,lead){const x=TASKS[R.i],st=ts(x),hp=st.help||{},lvl=hp[k]||0,s=x.sol.find(q=>q.k===k),cost=!hp[k]&&helpCount(x)<2;
  let h=`<h2>${lead?t('tipH'):esc(cap(slotName(k)))}</h2>`;
  if(lead)h+=`<p>${esc(lead)}</p>`;
- if(lvl===1)h+=`<p>${t('rodHere',{n:s.rod})}</p><div class="stack"><button class="btn pri wide" data-act="reveal" data-k="${k}">${t('revealFull')}</button><span class="note">${t('costNone')}</span></div>`;
- else h+=`<div class="stack"><button class="btn pri wide" data-act="reveal" data-k="${k}">${t('revealRod')}</button><span class="note">${t(cost?'costStar':'costNone')}</span></div>`;
+ h+=`<p class="ask">${t(lvl===1?'askFull':'askRod',{n:s.rod})}</p><p class="note costn${cost&&lvl!==1?' warn':''}">${ic('star')}${t(cost&&lvl!==1?'costStar':'costNone')}</p><div class="cta"><button class="btn ton" data-act="slotNo">${t('noSelf')}</button><button class="btn pri" data-act="reveal" data-k="${k}">${t('yesShow')}</button></div>`;
  if(lead)h+=`<div class="stack" style="margin-top:22px;border-top:2px solid var(--line);padding-top:16px"><button class="btn bad wide" data-act="solution">${t('showSolution')}</button><span class="note">${t('showSolutionP')}</span></div>`;
  openSheet(h)}
 function rodSheet(n){T.flips.s=0;T.turns.s=0;openSheet(`<h2>${t('stick',{n})} <span id="sds" style="color:var(--ink2);font-weight:600;font-size:17px">${t('side',{sym:symChar(0)})}</span></h2><div style="margin-top:16px">${flipStick(n,0).replace('data-n="'+n+'"','data-n="s"')}</div><p class="note" style="margin-top:8px">${t('tapFlip')}</p>`)}
@@ -820,16 +864,43 @@ function stopCam(){if(!cam)return;try{cam.stream&&cam.stream.getTracks().forEach
 const hex2=v=>('0'+Math.max(0,Math.min(255,Math.round(v))).toString(16)).slice(-2);
 function avgColor(src,sx,sy,sz){const c=document.createElement('canvas');c.width=c.height=12;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(src,sx,sy,sz,sz,0,0,12,12);const d=g.getImageData(0,0,12,12).data;let r=0,gr=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gr+=d[i+1];b+=d[i+2]}const n=d.length/4;return '#'+hex2(r/n)+hex2(gr/n)+hex2(b/n)}
 function camShow(hex){if(!cam)return;cam.hex=hex;const sw=document.getElementById('camsw');if(sw)sw.style.background=hex;const b=document.getElementById('camtake');if(b)b.disabled=false}
-function camPick(fx,fy){const c=cam&&cam.canvas;if(!c)return;const sz=Math.max(8,Math.round(Math.min(c.width,c.height)*.05));camShow(avgColor(c,Math.max(0,Math.min(c.width-sz,fx*c.width-sz/2)),Math.max(0,Math.min(c.height-sz,fy*c.height-sz/2)),sz));const a=document.getElementById('aim');if(a){a.style.left=fx*100+'%';a.style.top=fy*100+'%'}}
 let adj=null;
 function hexToHsl(hex){const h=hex.replace('#','');let r=parseInt(h.slice(0,2),16)/255,g=parseInt(h.slice(2,4),16)/255,b=parseInt(h.slice(4,6),16)/255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2;let hh=0,sa=0;if(mx!==mn){const d=mx-mn;sa=l>.5?d/(2-mx-mn):d/(mx+mn);hh=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4);hh*=60}return [hh,sa,l]}
 function hslToHex(h,sa,l){h=((h%360)+360)%360;const c=(1-Math.abs(2*l-1))*sa,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2;const [r,g,b]=h<60?[c,x,0]:h<120?[x,c,0]:h<180?[0,c,x]:h<240?[0,x,c]:h<300?[x,0,c]:[c,0,x];const f=v=>('0'+Math.max(0,Math.min(255,Math.round((v+m)*255))).toString(16)).slice(-2);return '#'+f(r)+f(g)+f(b)}
 function adjHex(){const [h,sa,l]=hexToHsl(adj.base);return hslToHex(h+adj.h,Math.max(0,Math.min(1,sa+adj.s/100)),Math.max(.03,Math.min(.97,l+adj.l/100)))}
 function adjPreview(){const hex=adjHex(),n=adj.n;let pv;if(n==='b'){const k=S.board;S.board=hex;applyBoard();pv=`<div class="bprev" style="height:72px">${boardSVG({mini:true,sticks:[]})}</div>`;const el=document.getElementById('adjpv');if(el){el.innerHTML=pv;el.style.setProperty('--board',hex);const lt=lum(hex)>=150;el.style.setProperty('--bi',lt?'14,31,26':'255,255,255');el.style.setProperty('--boardline',lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)')}S.board=k;applyBoard()}
- else{const k=S.colors[n-1];S.colors[n-1]=hex;pv=`<div class="flipf">${faceSVG(n,0)}</div>`;S.colors[n-1]=k;const el=document.getElementById('adjpv');if(el)el.innerHTML=pv}
+ else{const k=S.colors[n-1];S.colors[n-1]=hex;pv=flipStick(n,T.flips.s,T.turns.s).replace('data-n="'+n+'"','data-n="s"');S.colors[n-1]=k;const el=document.getElementById('adjpv');if(el&&!(el.querySelector('.turning')))el.innerHTML=pv}
  const a=document.getElementById('adja'),b=document.getElementById('adjb');if(a)a.style.background=adj.base;if(b)b.style.background=hex}
-function adjSheet(n,hex){adj={n,base:hex,l:0,s:0,h:0};const row=(id,k,min,max)=>`<label class="adjrow"><span>${t(k)}</span><input type="range" id="${id}" min="${min}" max="${max}" value="0" step="1" aria-label="${esc(t(k))}"></label>`;
- openSheet(`<h2>${t('adjH')}</h2><p>${t(n==='b'?'adjPB':'adjP')}</p><div class="adjsw"><span><i id="adja"></i>${t('adjOld')}</span><span><i id="adjb"></i>${t('adjNew')}</span></div><div id="adjpv" style="margin-top:12px"></div>${row('adjl','adjL',-40,40)}${row('adjs','adjS',-60,60)}${row('adjh','adjHu',-30,30)}<div class="stack"><button class="btn pri wide" data-act="adjTake">${ic('check')}${t('camTake')}</button><button class="btn txt wide" data-act="camera" data-n="${n}">${ic('cam')}${t('adjAgain')}</button></div>`);adjPreview()}
+function adjSheet(n,hex,photo){adj={n,base:hex,l:0,s:0,h:0};T.flips.s=0;T.turns.s=0;pv=photo?{src:photo,z:1,ox:0,oy:0,ix:.5,iy:.5}:null;const row=(id,k,min,max)=>`<label class="adjrow"><span>${t(k)}</span><input type="range" id="${id}" min="${min}" max="${max}" value="0" step="1" aria-label="${esc(t(k))}"></label>`;
+ const ph=photo?`<div class="pview" id="pview" style="aspect-ratio:${photo.width}/${photo.height};width:min(100%,calc(46vh * ${(photo.width/photo.height).toFixed(4)}))"><canvas id="pvc"></canvas><i class="aim" id="paim"></i><div class="pz"><button class="ib" data-act="zoom" data-d="1" aria-label="${esc(t('zoomIn'))}">${ic('zin')}</button><button class="ib" data-act="zoom" data-d="-1" aria-label="${esc(t('zoomOut'))}">${ic('zout')}</button></div></div><p class="note" style="margin-top:8px">${t('photoP')}</p>`:`<p>${t(n==='b'?'adjPB':'adjP')}</p>`;
+ openSheet(`<h2>${t('adjH')}</h2>${ph}<div class="adjsw"><span><i id="adja"></i>${t('adjOld')}</span><span><i id="adjb"></i>${t('adjNew')}</span></div><div id="adjpv" style="margin-top:10px"></div>${n==='b'?'':`<p class="note" style="margin-top:2px">${t('tapFlip')}</p>`}${row('adjl','adjL',-40,40)}${row('adjs','adjS',-60,60)}${row('adjh','adjHu',-30,30)}<div class="stack"><button class="btn pri wide" data-act="adjTake">${ic('check')}${t('camTake')}</button><button class="btn txt wide" data-act="camera" data-n="${n}">${ic('cam')}${t('adjAgain')}</button></div>`);
+ if(photo){const sc=document.querySelector('#sheet .sc');if(sc)sc.classList.add('full');requestAnimationFrame(()=>{pvDraw();pvSample()});bindPhoto(document.getElementById('pview'))}
+ adjPreview()}
+/* Foto: zoomen, Messkreis verschieben */
+let pv=null;
+function snapCanvas(src,w,h){const c=document.createElement('canvas'),k=Math.min(1,1400/Math.max(w,h));c.width=Math.max(1,Math.round(w*k));c.height=Math.max(1,Math.round(h*k));c.getContext('2d').drawImage(src,0,0,c.width,c.height);return c}
+function pvClamp(){const m=1-1/pv.z;pv.ox=Math.max(0,Math.min(m,pv.ox));pv.oy=Math.max(0,Math.min(m,pv.oy));pv.ix=Math.max(0,Math.min(1,pv.ix));pv.iy=Math.max(0,Math.min(1,pv.iy))}
+function pvFollow(){const e=.07/pv.z,w=1/pv.z;if(pv.ix<pv.ox+e)pv.ox=pv.ix-e;if(pv.ix>pv.ox+w-e)pv.ox=pv.ix-w+e;if(pv.iy<pv.oy+e)pv.oy=pv.iy-e;if(pv.iy>pv.oy+w-e)pv.oy=pv.iy-w+e;pvClamp()}
+function pvDraw(){if(!pv)return;const c=document.getElementById('pvc'),box=document.getElementById('pview');if(!c||!box)return;const dpr=Math.min(2,window.devicePixelRatio||1),W=box.clientWidth,H=box.clientHeight;if(c.width!==Math.round(W*dpr)){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr)}
+ const s=pv.src,g=c.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(s,pv.ox*s.width,pv.oy*s.height,s.width/pv.z,s.height/pv.z,0,0,c.width,c.height);
+ const a=document.getElementById('paim');if(a){a.style.left=(pv.ix-pv.ox)*pv.z*100+'%';a.style.top=(pv.iy-pv.oy)*pv.z*100+'%'}}
+function pvSample(){if(!pv||!adj)return;const box=document.getElementById('pview');if(!box)return;const s=pv.src,d=Math.max(2,Math.round(46/box.clientWidth*s.width/pv.z*.62));
+ adj.base=avgColor(s,Math.max(0,Math.min(s.width-d,pv.ix*s.width-d/2)),Math.max(0,Math.min(s.height-d,pv.iy*s.height-d/2)),d);adjPreview()}
+function pvZoom(f,fx,fy){const z0=pv.z,z=Math.max(1,Math.min(6,z0*f));const mx=fx==null?(pv.ix-pv.ox)*z0:fx,my=fy==null?(pv.iy-pv.oy)*z0:fy;const px=pv.ox+mx/z0,py=pv.oy+my/z0;pv.z=z;pv.ox=px-mx/z;pv.oy=py-my/z;pvClamp();pvFollow();pvDraw();pvSample()}
+function bindPhoto(box){if(!box)return;const pts=new Map();let g=null;
+ const rel=e=>{const r=box.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]};
+ const start=()=>{const a=[...pts.values()];g={z:pv.z,ox:pv.ox,oy:pv.oy,ix:pv.ix,iy:pv.iy,moved:false,n:a.length};if(a.length===1){g.p=a[0]}else if(a.length>=2){g.d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||.01;g.m=[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2]}};
+ box.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;try{box.setPointerCapture(e.pointerId)}catch(_){}pts.set(e.pointerId,rel(e));start();e.preventDefault()});
+ box.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId)||!g)return;pts.set(e.pointerId,rel(e));const a=[...pts.values()];
+  if(a.length===1&&g.p){const dx=a[0][0]-g.p[0],dy=a[0][1]-g.p[1];if(Math.hypot(dx,dy)>.015)g.moved=true;if(!g.moved)return;pv.ix=g.ix+dx/pv.z;pv.iy=g.iy+dy/pv.z;pvClamp();pvFollow()}
+  else if(a.length>=2&&g.d){g.moved=true;const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),m=[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2],z=Math.max(1,Math.min(6,g.z*d/g.d));const px=g.ox+g.m[0]/g.z,py=g.oy+g.m[1]/g.z;pv.z=z;pv.ox=px-m[0]/z;pv.oy=py-m[1]/z;pvClamp();pv.ix=Math.max(pv.ox,Math.min(pv.ox+1/z,pv.ix));pv.iy=Math.max(pv.oy,Math.min(pv.oy+1/z,pv.iy))}
+  pvDraw();pvSample()});
+ const end=e=>{if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId);pts.delete(e.pointerId);
+  if(g&&!g.moved&&g.n===1&&pts.size===0&&e.type==='pointerup'){pv.ix=pv.ox+p[0]/pv.z;pv.iy=pv.oy+p[1]/pv.z;pvClamp();pvFollow();pvDraw();pvSample();sfx.tap()}
+  start()};
+ box.addEventListener('pointerup',end);box.addEventListener('pointercancel',end);
+ box.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);pvZoom(e.deltaY<0?1.15:1/1.15,p[0],p[1])},{passive:false})}
+window.addEventListener('resize',()=>{if(pv)pvDraw()});
 document.addEventListener('input',e=>{if(!adj)return;const m={adjl:'l',adjs:'s',adjh:'h'}[e.target.id];if(m){adj[m]=+e.target.value;adjPreview()}});
 function camSheet(n){openSheet(`<h2>${n==='b'?t('camHB'):t('camH',{n})}</h2><p id="camnote">${t('camP')}</p><div class="cam" id="cam"><video id="camv" playsinline muted autoplay></video><i class="aim"></i></div><div class="cta"><span class="chip" id="camsw" style="height:56px;min-width:56px;border-radius:18px"></span><button class="btn pri" id="camtake" data-act="camMeasure" disabled>${t('camMeasure')}</button></div><input type="file" accept="image/*" capture="environment" id="camf" hidden>`);
  cam={n,hex:null};const me=cam,v=document.getElementById('camv');
@@ -838,7 +909,7 @@ function camSheet(n){openSheet(`<h2>${n==='b'?t('camHB'):t('camH',{n})}</h2><p i
  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false}).then(st=>{if(cam!==me){st.getTracks().forEach(x=>x.stop());return}cam.stream=st;v.srcObject=st;const pl=v.play();if(pl&&pl.catch)pl.catch(()=>{});
   cam.iv=setInterval(()=>{const w=v.videoWidth,h=v.videoHeight;if(!w||cam!==me)return;const sz=Math.max(8,Math.round(Math.min(w,h)*.07));camShow(avgColor(v,(w-sz)/2,(h-sz)/2,sz))},250)}).catch(fallback)}
 document.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
- if(e.target.id==='camf'&&cam){const img=new Image();img.onload=()=>{const box=document.getElementById('cam');if(!box||!cam)return;box.className='cam photo';box.innerHTML='<canvas id="camc"></canvas><i class="aim" id="aim"></i>';const c=document.getElementById('camc'),k=Math.min(1,900/Math.max(img.width,img.height));c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);cam.canvas=c;document.getElementById('camnote').textContent=t('camTap');camPick(.5,.5);URL.revokeObjectURL(img.src)};img.src=URL.createObjectURL(f)}
+ if(e.target.id==='camf'&&cam){const n=cam.n,img=new Image();img.onload=()=>{const c=snapCanvas(img,img.naturalWidth||img.width,img.naturalHeight||img.height);URL.revokeObjectURL(img.src);const d=Math.max(2,Math.round(Math.min(c.width,c.height)*.05));adjSheet(n,avgColor(c,(c.width-d)/2,(c.height-d)/2,d),c)};img.src=URL.createObjectURL(f)}
  if(e.target.id==='impf'){const rd=new FileReader();rd.onload=()=>{let o=null;try{o=JSON.parse(rd.result)}catch(_){}if(!o||o.app!=='alignstix'||!o.data||!Array.isArray(o.data.players)||!o.data.players.length){toast(t('restoreBad'));return}pendingImport=o.data;confirmSheet(t('restoreQ'),'restoreYes','',t('replaceYes'))};rd.readAsText(f)}});
 
 /* ---------- Aktionen ---------- */
@@ -866,6 +937,10 @@ const ACT={
  tip(){const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
  reveal(d){const x=TASKS[R.i],st=ts(x);st.help=st.help||{};const lv=(st.help[d.k]||0)+1;st.help[d.k]=Math.min(2,lv);save();T.animKey=d.k;T.hl=d.k;sfx.place();buzz(15);redrawTask();
   const s=x.sol.find(q=>q.k===d.k);if(lv>=2){closeSheet();toast(t('rodHereFull',{n:s.rod}))}else slotSheet(d.k)},
+ slotNo(){T.hl=null;closeSheet();if(R.view==='task')redrawTask()},
+ share(){const x=TASKS[R.i],url=location.origin+location.pathname+'#a'+x.n,txt=t('shareText',{n:x.n,lv:t('lv')[x.lv]});sfx.tap();
+  if(navigator.share){navigator.share({title:'AlignStix',text:txt,url}).catch(()=>{});return}
+  const done=()=>toast(t('copied'));try{navigator.clipboard.writeText(txt+' '+url).then(done,()=>toast(url))}catch(e){toast(url)}},
  solution(){const x=TASKS[R.i];closeSheet();win(0)},
  check(){const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
   for(let i=ask.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ask[i],ask[j]]=[ask[j],ask[i]]}
@@ -885,9 +960,10 @@ const ACT={
  color(d){colorSheet(d.n==='b'?'b':+d.n)},
  camera(d){camSheet(d.n==='b'?'b':+d.n)},
  camFile(){const i=document.getElementById('camf');if(i)i.click()},
- camMeasure(){if(!cam||!cam.hex)return;const n=cam.n,hex=cam.hex;sfx.step();adjSheet(n,hex)},
+ camMeasure(){if(!cam||!cam.hex)return;const n=cam.n,hex=cam.hex,v=document.getElementById('camv');let ph=null;try{if(v&&v.videoWidth)ph=snapCanvas(v,v.videoWidth,v.videoHeight)}catch(e){}sfx.step();adjSheet(n,hex,ph)},
+ zoom(d){if(pv)pvZoom(+d.d>0?1.5:1/1.5)},
  adjFine(d){const n=d.n==='b'?'b':+d.n;adjSheet(n,(n==='b'?S.board:colorOf(n)).toLowerCase())},
- adjTake(){if(!adj)return;const hex=adjHex();setColorFor(adj.n,hex);adj=null;sfx.step();closeSheet();render(false)},
+ adjTake(){if(!adj)return;const hex=adjHex();setColorFor(adj.n,hex);adj=null;pv=null;sfx.step();closeSheet();render(false)},
  backup(){const data=JSON.stringify({app:'alignstix',v:1,saved:new Date().toISOString(),data:S}),name='alignstix-spielstand.json';
   try{const f=new File([data],name,{type:'application/json'});if(window.matchMedia&&matchMedia('(pointer:coarse)').matches&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'AlignStix'}).catch(()=>{});return}}catch(e){}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast(t('backupDone'))},
@@ -908,12 +984,11 @@ const ACT={
  theme(d){S.theme=d.m;save();applyTheme();render(false);profileSheet(false)},
  sound(d){S.sound=!!+d.v;save();sfx.tap();profileSheet(false)},
  haptic(d){S.haptic=!!+d.v;save();buzz(15);profileSheet(false)},
- start(){const i=document.getElementById('nm');newPlayer(i?i.value:'',W.av);sfx.step();R={view:'home'};try{history.replaceState({view:'home'},'')}catch(e){}render(true)},
+ start(){const i=document.getElementById('nm');newPlayer(i?i.value:'',W.av);sfx.step();R={view:'home'};try{history.replaceState({view:'home'},'')}catch(e){}if(!openShared())render(true)},
  closeSheet(){closeSheet()}
 };
 document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('[data-act]');
- if(!el){if(e.target.id==='camc'){const r=e.target.getBoundingClientRect();camPick((e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height)}
-  else if(R.view==='task'&&T.hl&&!sheetOpen()&&!(e.target.closest&&e.target.closest('#sheet'))&&document.getElementById('bd')&&taskPhase(TASKS[R.i])==='solve'){T.hl=null;redrawTask()}return}
+ if(!el){if(R.view==='task'&&T.hl&&!sheetOpen()&&!(e.target.closest&&e.target.closest('#sheet'))&&document.getElementById('bd')&&taskPhase(TASKS[R.i])==='solve'){T.hl=null;redrawTask()}return}
  const f=ACT[el.dataset.act];if(f){e.preventDefault();f(el.dataset,el)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('g[data-act]')){e.preventDefault();e.target.dispatchEvent(new MouseEvent('click',{bubbles:true}))}
  if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&e.target.closest&&e.target.closest('.flipw')){e.preventDefault();turnStick(e.target.closest('.flipw'),e.key==='ArrowRight'?1:-1)}
@@ -1077,7 +1152,10 @@ function printBook(std){let el=document.getElementById('print');if(el)el.remove(
 /* ---------- Start ---------- */
 applyTheme();
 try{history.replaceState({view:'home'},'')}catch(e){}
-render(true);
+let sharedN=0;{const m=/^#a(\d{1,3})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=TASKS.length)sharedN=+m[1];if(location.hash)try{history.replaceState({view:'home'},'',location.pathname+location.search)}catch(e){}}
+function openShared(){if(!sharedN||!S.players.length)return false;const n=sharedN;sharedN=0;R={view:'task',i:n-1,from:'home'};try{history.pushState({view:'task',i:n-1,from:'home'},'')}catch(e){}render(true);setTimeout(()=>toast(t('shared',{n})),500);return true}
+window.addEventListener('hashchange',()=>{const m=/^#a(\d{1,3})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=TASKS.length){sharedN=+m[1];try{history.replaceState(history.state,'',location.pathname+location.search)}catch(e){}closeSheet(true);openShared()}});
+if(!openShared())render(true);
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{});
  fetch('./version.json?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(v=>{if(v&&v.version&&String(v.version)!==APP_VERSION&&!sessionStorage.getItem('as2upd')){sessionStorage.setItem('as2upd','1');
   (window.caches?caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('alignstix2-')).map(k=>caches.delete(k)))):Promise.resolve()).then(()=>navigator.serviceWorker.getRegistration()).then(r=>r&&r.update()).then(()=>location.reload())}}).catch(()=>{})}

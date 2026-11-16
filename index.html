@@ -33,6 +33,7 @@ html.dark{
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
+html{overscroll-behavior-y:none}
 body{background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--font);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation}
 button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
@@ -163,10 +164,11 @@ html.dark .chip{box-shadow:inset 0 0 0 2px rgba(255,255,255,.22)}
 .real .stk.H .gv{display:block}
 .real .stk.H .un{display:none}
 .stk.help1 .body{opacity:.55}
-.stk.in.H{animation:inH .55s var(--spring) both;animation-delay:var(--d,0ms)}
-.stk.in.V{animation:inV .55s var(--spring) both;animation-delay:var(--d,0ms)}
-@keyframes inH{from{transform:translateX(-640px)}to{transform:none}}
-@keyframes inV{from{transform:translateY(-640px)}to{transform:none}}
+.stk{transform-box:fill-box;transform-origin:center}
+.stk.in{animation:drop .44s both;animation-delay:var(--d,0ms)}
+.stk.in .sh{animation:dropSh .44s both;animation-delay:var(--d,0ms)}
+@keyframes drop{0%{opacity:0;transform:translateY(-10px) scale(1.17);animation-timing-function:cubic-bezier(.55,0,.9,.55)}18%{opacity:1}66%{transform:scale(1);animation-timing-function:cubic-bezier(.2,.7,.4,1)}80%{transform:translateY(-1.5px) scale(1.014);animation-timing-function:cubic-bezier(.5,0,.8,.5)}100%{opacity:1;transform:none}}
+@keyframes dropSh{0%{opacity:0;transform:translate(0,40px);animation-timing-function:cubic-bezier(.55,0,.9,.55)}66%{opacity:1;transform:translate(0,6px)}80%{transform:translate(0,9px)}100%{opacity:1;transform:translate(0,6px)}}
 @keyframes pulse{50%{opacity:.45}}
 
 /* Stäbe */
@@ -381,6 +383,30 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 @keyframes shim{to{background-position:-200% 0}}
 .btn:disabled{opacity:.5;pointer-events:none}
 
+/* Fortschritt, Stufe geschafft */
+.steps span.on::before{animation:stepFill .5s var(--ease) both;transform-origin:left}
+@keyframes stepFill{from{transform:scaleX(0)}}
+.tile.just{animation:tileJust .7s var(--spring) .25s both}
+@keyframes tileJust{0%{transform:scale(.6)}60%{transform:scale(1.12)}100%{transform:none}}
+.view.lvd{display:flex;flex-direction:column;min-height:100dvh;background:var(--lc);color:var(--lci);padding-top:calc(var(--safe-t) + 24px);padding-bottom:calc(var(--safe-b) + 18px)}
+.lvdc{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:10px 6px}
+.lvdgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;width:min(62vw,250px);margin-bottom:30px;animation:gridPulse .6s var(--spring) both;animation-delay:calc(.35s + 25 * .05s)}
+.lvdgrid.row{animation-delay:calc(.35s + 5 * .12s);width:min(78vw,320px);gap:12px}
+.lvdgrid i{aspect-ratio:1;border-radius:26%;background:var(--ls);transform:scale(0);animation:pop .42s var(--spring) forwards;animation-delay:calc(.35s + var(--i) * .05s)}
+.lvdgrid.row i{animation-delay:calc(.35s + var(--i) * .12s)}
+@keyframes gridPulse{0%{transform:none}45%{transform:scale(1.07) rotate(-2deg)}100%{transform:none}}
+.lvdk{font-weight:800;font-size:17px;opacity:.75}
+.lvd h1{font-size:clamp(44px,14vw,64px);font-weight:800;letter-spacing:-.035em;line-height:1.02;margin-top:2px}
+.lvdst{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 18px 10px 14px;border-radius:999px;background:var(--ls);color:var(--lsi);font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.lvdst svg{width:22px;height:22px}
+.lvdp{margin-top:16px;font-size:17px;line-height:1.45;font-weight:500;max-width:30em;opacity:.9}
+.lvdk,.lvd h1,.lvdst,.lvdp,.lvd .cta{animation:rise .6s var(--ease) both;animation-delay:calc(var(--t0) + var(--k,0) * .09s)}
+.lvd{--t0:1.75s}.lvd:has(.row){--t0:1.1s}
+.lvd h1{--k:1}.lvdst{--k:2}.lvdp{--k:3}.lvd .cta{--k:5}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.lvd .btn.pri{background:var(--lci);color:var(--lc)}
+.lvd .btn.txt{color:var(--lci)}
+
 </style>
 </head>
 <body>
@@ -390,6 +416,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ lvDoneK:'Stufe geschafft',lvDoneStars:'{a} von {b} Sternen',lvDone0:'Du kennst jetzt die Regeln. Alle Stufen sind offen.',lvDoneP:'Alle {n} Aufgaben dieser Stufe sind gelöst.',lvDoneMore:'Für mehr Sterne kannst du Aufgaben nochmal spielen.',lvDonePerfect:'Alle Sterne geholt. Besser geht es nicht.',lvNext:'Weiter zu {lv}',allDoneK:'Alles geschafft',allDoneH:'105 von 105',allDoneP:'Du hast alle Aufgaben von AlignStix gelöst. Was für eine Leistung!',toHome:'Zur Startseite',onward:'Weiter',
  shareQ:'Kannst du sie lösen?',shareMiss:'{n} Stäbe fehlen noch',shareMiss1:'Ein Stab fehlt noch',shareBtn:'Teilen',copyLink:'Link kopieren',saveImg:'Bild speichern',shareNote:'Das Bild zeigt nur die Startstellung, nicht die Lösung.',
  askRod:'Willst du wissen, welcher Stab hierhin gehört?',askFull:'Hierhin gehört Stab {n}. Willst du auch sehen, wie er genau liegt?',yesShow:'Ja, zeigen',noSelf:'Nein, ich knoble selbst',share:'Aufgabe teilen',shareText:'Schaffst du AlignStix-Aufgabe {n} ({lv})?',copied:'Link kopiert',shared:'Aufgabe {n} wurde mit dir geteilt',photoP:'Wisch über das Foto, um den Kreis zu verschieben. Mit zwei Fingern zoomst du.',zoomIn:'Vergrößern',zoomOut:'Verkleinern',rebuildS:'Neu aufbauen',showAllS:'Alle zeigen',
  camMeasure:'Farbe messen',adjH:'Farbe anpassen',adjP:'Vergleiche mit deinem echten Stab und justiere nach.',adjPB:'Vergleiche mit deinem echten Spielfeld und justiere nach.',adjOld:'Vorher',adjNew:'Angepasst',adjL:'Helligkeit',adjS:'Farbkraft',adjHu:'Farbton',adjAgain:'Nochmal messen',adjFine:'Aktuelle Farbe fein anpassen',
@@ -439,6 +466,7 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ lvDoneK:'Level complete',lvDoneStars:'{a} of {b} stars',lvDone0:'You know the rules now. All levels are open.',lvDoneP:'All {n} tasks of this level are solved.',lvDoneMore:'Play tasks again to collect more stars.',lvDonePerfect:'Every star collected. It doesn’t get better.',lvNext:'On to {lv}',allDoneK:'All done',allDoneH:'105 of 105',allDoneP:'You have solved every AlignStix task. What an achievement!',toHome:'Back to start',onward:'Continue',
  shareQ:'Can you solve it?',shareMiss:'{n} sticks still missing',shareMiss1:'One stick still missing',shareBtn:'Share',copyLink:'Copy link',saveImg:'Save image',shareNote:'The image shows only the starting position, not the solution.',
  askRod:'Do you want to know which stick belongs here?',askFull:'Stick {n} belongs here. Do you also want to see exactly how it lies?',yesShow:'Yes, show me',noSelf:'No, I’ll work it out',share:'Share task',shareText:'Can you solve AlignStix task {n} ({lv})?',copied:'Link copied',shared:'Task {n} was shared with you',photoP:'Swipe over the photo to move the circle. Pinch with two fingers to zoom.',zoomIn:'Zoom in',zoomOut:'Zoom out',rebuildS:'Start over',showAllS:'Show all',
  camMeasure:'Measure colour',adjH:'Adjust colour',adjP:'Compare with your real stick and fine-tune.',adjPB:'Compare with your real board and fine-tune.',adjOld:'Before',adjNew:'Adjusted',adjL:'Brightness',adjS:'Vividness',adjHu:'Hue',adjAgain:'Measure again',adjFine:'Fine-tune the current colour',
@@ -488,6 +516,7 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ lvDoneK:'Niveau terminé',lvDoneStars:'{a} étoiles sur {b}',lvDone0:'Tu connais maintenant les règles. Tous les niveaux sont ouverts.',lvDoneP:'Les {n} tâches de ce niveau sont résolues.',lvDoneMore:'Rejoue des tâches pour gagner plus d’étoiles.',lvDonePerfect:'Toutes les étoiles gagnées. Impossible de faire mieux.',lvNext:'Continuer vers {lv}',allDoneK:'Tout est fait',allDoneH:'105 sur 105',allDoneP:'Tu as résolu toutes les tâches d’AlignStix. Quel exploit !',toHome:'Retour à l’accueil',onward:'Continuer',
  shareQ:'Sauras-tu la résoudre ?',shareMiss:'Il manque encore {n} bâtons',shareMiss1:'Il manque encore un bâton',shareBtn:'Partager',copyLink:'Copier le lien',saveImg:'Enregistrer l’image',shareNote:'L’image montre seulement la position de départ, pas la solution.',
  askRod:'Tu veux savoir quel bâton va ici ?',askFull:'Ici, c’est le bâton {n}. Tu veux aussi voir exactement comment il est posé ?',yesShow:'Oui, montre',noSelf:'Non, je cherche moi-même',share:'Partager la tâche',shareText:'Arriveras-tu à résoudre la tâche AlignStix {n} ({lv}) ?',copied:'Lien copié',shared:'La tâche {n} a été partagée avec toi',photoP:'Glisse sur la photo pour déplacer le cercle. Pince à deux doigts pour zoomer.',zoomIn:'Agrandir',zoomOut:'Réduire',rebuildS:'Recommencer',showAllS:'Tout montrer',
  camMeasure:'Mesurer la couleur',adjH:'Ajuster la couleur',adjP:'Compare avec ton vrai bâton et ajuste.',adjPB:'Compare avec ton vrai plateau et ajuste.',adjOld:'Avant',adjNew:'Ajustée',adjL:'Luminosité',adjS:'Intensité',adjHu:'Teinte',adjAgain:'Mesurer à nouveau',adjFine:'Ajuster finement la couleur actuelle',
@@ -537,6 +566,7 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ lvDoneK:'Nivel completado',lvDoneStars:'{a} de {b} estrellas',lvDone0:'Ya conoces las reglas. Todos los niveles están abiertos.',lvDoneP:'Las {n} tareas de este nivel están resueltas.',lvDoneMore:'Vuelve a jugar tareas para conseguir más estrellas.',lvDonePerfect:'Todas las estrellas conseguidas. Mejor imposible.',lvNext:'Seguir con {lv}',allDoneK:'Todo hecho',allDoneH:'105 de 105',allDoneP:'Has resuelto todas las tareas de AlignStix. ¡Qué logro!',toHome:'Volver al inicio',onward:'Continuar',
  shareQ:'¿Puedes resolverla?',shareMiss:'Faltan {n} palitos',shareMiss1:'Falta un palito',shareBtn:'Compartir',copyLink:'Copiar enlace',saveImg:'Guardar imagen',shareNote:'La imagen solo muestra la posición inicial, no la solución.',
  askRod:'¿Quieres saber qué palito va aquí?',askFull:'Aquí va el palito {n}. ¿Quieres ver también exactamente cómo va?',yesShow:'Sí, enséñamelo',noSelf:'No, lo intento yo',share:'Compartir tarea',shareText:'¿Puedes resolver la tarea {n} de AlignStix ({lv})?',copied:'Enlace copiado',shared:'Te han compartido la tarea {n}',photoP:'Desliza sobre la foto para mover el círculo. Pellizca con dos dedos para hacer zoom.',zoomIn:'Ampliar',zoomOut:'Reducir',rebuildS:'Empezar de nuevo',showAllS:'Mostrar todos',
  camMeasure:'Medir color',adjH:'Ajustar color',adjP:'Compara con tu palito real y ajusta.',adjPB:'Compara con tu tablero real y ajusta.',adjOld:'Antes',adjNew:'Ajustado',adjL:'Brillo',adjS:'Intensidad',adjHu:'Tono',adjAgain:'Medir otra vez',adjFine:'Ajustar el color actual',
@@ -587,7 +617,7 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='213';
+const APP_VERSION='214';
 const RODS={1:['00001','00000'],2:['00011','10001'],3:['00101','01001'],4:['00110','01110'],5:['11111','00111'],6:['00100','00010'],7:['11011','10011'],8:['10101','01010'],9:['01111','10111'],10:['01101','01011']};
 const RAW=[["P067-M0639",0,[[2,1,0],[6,1,1],[8,1,0],[5,0,0],[3,1,0],[10,0,0],[1,0,1],[9,1,1],[7,1,1],[4,0,1]],1011],["P011-M0927",0,[[6,1,0],[4,1,0],[10,1,0],[9,1,0],[7,1,1],[5,1,1],[3,1,1],[8,0,0],[1,0,0],[2,0,1]],1020],["P034-M0799",0,[[3,1,0],[7,0,0],[1,0,0],[6,1,0],[5,1,1],[10,0,1],[4,0,0],[9,0,1],[8,0,0],[2,0,0]],1016],["P003-M0191",0,[[1,1,0],[5,0,0],[4,0,1],[3,0,1],[6,1,0],[8,0,0],[7,1,0],[2,1,0],[10,0,1],[9,1,0]],997],["P096-M0351",0,[[5,0,0],[3,1,1],[10,1,1],[2,1,0],[7,0,0],[1,1,0],[8,1,0],[9,0,0],[6,1,0],[4,0,1]],1002],["P068-M0159",1,[[2,1,0],[4,1,0],[5,1,0],[10,0,0],[3,0,0],[9,0,0],[8,0,0],[1,0,1],[7,1,0],[6,1,1]],996],["P088-M0287",1,[[2,0,1],[5,0,0],[8,1,0],[1,1,0],[7,0,0],[4,0,0],[6,1,0],[9,1,0],[3,1,1],[10,0,1]],1000],["P093-M0095",1,[[9,0,1],[5,1,0],[8,0,0],[7,0,0],[10,1,0],[3,1,0],[4,0,1],[2,0,0],[6,0,0],[1,0,1]],994],["P061-M0287",1,[[4,1,0],[9,1,0],[5,0,0],[6,0,0],[10,0,0],[7,1,0],[8,1,0],[1,1,0],[2,0,0],[3,1,1]],1000],["P065-M0095",1,[[1,0,1],[4,0,0],[3,1,1],[7,0,0],[8,0,0],[6,1,1],[9,1,1],[10,0,1],[2,1,0],[5,1,1]],994],["P035-M0543",1,[[6,1,1],[1,0,0],[2,0,0],[4,1,0],[8,0,0],[9,0,1],[10,0,0],[5,1,1],[7,1,1],[3,1,1]],1008],["P052-M0063",1,[[4,0,1],[8,1,0],[9,1,1],[5,0,0],[10,0,1],[2,0,1],[1,0,0],[6,1,1],[3,0,1],[7,1,1]],993],["P031-M0063",1,[[4,0,0],[10,1,0],[5,0,0],[9,1,1],[8,1,0],[7,1,1],[1,0,1],[3,1,0],[6,1,0],[2,1,0]],993],["P064-M0287",1,[[8,0,0],[1,0,1],[7,0,0],[5,1,0],[9,0,1],[6,1,0],[10,1,1],[4,0,1],[2,0,1],[3,1,0]],1000],["P025-M0159",1,[[3,0,0],[1,0,0],[8,0,0],[10,0,1],[4,1,0],[7,1,1],[9,0,1],[6,1,1],[5,1,1],[2,0,0]],996],["P060-M0095",1,[[1,0,1],[7,1,1],[6,0,0],[3,0,0],[4,1,0],[5,1,0],[10,0,1],[2,0,1],[9,0,1],[8,0,0]],994],["P008-M0031",1,[[1,0,0],[9,1,1],[6,1,0],[4,1,0],[2,0,1],[10,0,1],[3,0,1],[8,0,0],[7,1,1],[5,1,0]],992],["P015-M0287",1,[[2,0,0],[4,1,0],[3,0,1],[8,0,0],[6,0,0],[7,1,1],[9,1,0],[1,0,1],[5,1,0],[10,0,0]],1000],["P100-M0031",1,[[5,0,0],[2,1,0],[3,1,1],[9,1,1],[7,0,0],[1,1,0],[4,0,1],[10,0,0],[8,1,0],[6,0,0]],992],["P057-M0031",1,[[1,0,1],[8,0,0],[2,0,0],[6,0,0],[4,1,0],[5,1,0],[9,0,1],[3,0,1],[10,1,1],[7,1,0]],992],["P075-M0031",1,[[2,0,1],[7,0,0],[6,0,0],[1,0,0],[8,0,0],[4,0,0],[5,1,0],[10,1,1],[9,1,0],[3,0,1]],992],["P082-M0031",1,[[2,0,1],[4,1,0],[5,0,0],[6,1,1],[9,1,1],[8,1,0],[1,1,0],[3,1,1],[7,1,0],[10,1,1]],992],["P007-M0031",1,[[1,0,0],[10,0,1],[3,0,1],[4,1,0],[6,1,1],[7,1,0],[5,1,1],[2,1,0],[8,0,0],[9,0,0]],992],["P022-M0031",1,[[3,0,0],[7,0,0],[1,0,1],[10,0,1],[6,0,0],[2,1,0],[9,1,0],[4,0,1],[8,0,0],[5,1,0]],992],["P104-M0031",1,[[5,0,0],[3,0,1],[7,0,0],[2,1,0],[9,1,0],[1,1,0],[10,1,0],[4,0,0],[8,1,0],[6,1,1]],992],["P098-M0031",1,[[5,0,0],[9,0,0],[2,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[3,0,0],[4,0,0],[1,1,0]],992],["P044-M0031",1,[[8,1,0],[2,0,1],[4,1,0],[5,0,0],[10,1,1],[3,0,1],[1,1,0],[7,1,1],[6,1,1],[9,1,1]],992],["P081-M0031",1,[[9,1,1],[7,0,0],[8,1,0],[5,0,0],[10,0,0],[3,0,0],[1,1,0],[4,0,1],[2,1,0],[6,0,0]],992],["P017-M0031",1,[[2,0,0],[7,0,0],[6,1,0],[9,1,0],[4,1,0],[8,0,0],[10,0,1],[5,1,1],[1,1,0],[3,0,0]],992],["P037-M0031",1,[[6,1,1],[5,0,0],[3,0,0],[1,0,0],[8,1,0],[9,1,0],[4,0,0],[7,1,0],[10,0,1],[2,1,0]],992],["P076-M0103",2,[[5,1,1],[10,0,0],[2,1,0],[7,0,0],[8,0,0],[6,1,1],[3,0,0],[4,0,0],[9,1,1],[1,0,1]],227],["P071-M0651",2,[[3,1,1],[8,1,0],[6,1,0],[1,0,1],[7,1,1],[4,0,1],[10,0,1],[5,0,0],[2,0,0],[9,0,1]],372],["P051-M0654",2,[[1,0,1],[6,1,0],[2,0,1],[8,1,0],[4,0,0],[10,1,0],[7,1,1],[9,0,1],[3,0,1],[5,0,0]],468],["P070-M0313",2,[[2,1,0],[8,0,0],[10,0,0],[4,0,0],[3,0,0],[5,1,0],[7,0,0],[1,0,1],[9,1,1],[6,1,0]],809],["P038-M0551",2,[[3,1,0],[6,1,1],[4,1,0],[5,0,0],[8,1,0],[9,1,1],[1,1,0],[7,1,1],[2,0,1],[10,0,0]],241],["P024-M0214",2,[[4,1,0],[1,1,0],[3,0,0],[2,0,0],[6,0,0],[5,0,0],[9,0,0],[8,1,0],[10,0,0],[7,1,1]],710],["P091-M0595",2,[[7,0,0],[5,1,1],[1,0,0],[2,0,1],[10,1,0],[3,0,0],[6,0,0],[9,1,0],[4,1,0],[8,1,0]],626],["P047-M0188",2,[[8,1,0],[5,0,0],[7,1,1],[1,0,0],[10,1,1],[3,1,1],[6,1,0],[9,1,0],[4,0,0],[2,1,0]],901],["P013-M0525",2,[[2,0,0],[6,0,0],[3,1,1],[1,0,1],[4,0,0],[7,1,1],[5,0,0],[10,0,1],[8,1,0],[9,0,0]],432],["P074-M0327",2,[[3,0,1],[9,1,1],[4,1,0],[5,1,1],[8,0,0],[6,0,0],[2,1,0],[1,1,0],[7,0,0],[10,0,1]],234],["P043-M0666",2,[[8,1,0],[3,0,1],[9,1,1],[5,0,0],[10,1,1],[1,0,1],[6,1,1],[2,1,0],[4,0,1],[7,1,1]],852],["P083-M0217",2,[[5,0,0],[10,0,1],[7,1,0],[3,0,1],[9,1,1],[1,1,0],[4,1,0],[6,0,0],[2,0,0],[8,1,0]],806],["P021-M0263",2,[[3,1,1],[8,1,0],[9,0,1],[4,0,0],[6,0,0],[10,1,0],[7,1,0],[2,0,1],[1,0,0],[5,0,0]],232],["P086-M0078",2,[[2,0,1],[5,1,0],[6,1,1],[1,0,0],[7,0,0],[4,1,0],[8,1,0],[9,1,0],[10,0,1],[3,0,1]],450],["P026-M0316",2,[[3,0,0],[1,0,0],[9,1,1],[6,1,0],[4,1,0],[7,0,0],[10,1,1],[8,1,0],[5,1,1],[2,0,0]],905],["P101-M0282",2,[[7,0,0],[5,0,0],[8,1,0],[3,1,1],[9,1,0],[6,0,0],[2,0,0],[10,0,1],[1,1,0],[4,0,0]],840],["P006-M0284",2,[[1,0,0],[8,1,0],[2,0,0],[4,0,1],[6,1,1],[5,0,0],[3,0,1],[9,1,1],[7,1,0],[10,1,0]],904],["P049-M0538",2,[[1,0,1],[2,0,0],[6,0,0],[8,1,0],[10,1,1],[4,1,0],[5,1,1],[7,0,0],[3,0,1],[9,1,0]],848],["P001-M0046",2,[[1,1,0],[6,0,0],[8,0,0],[4,1,0],[3,1,1],[10,1,1],[9,1,1],[2,1,0],[5,1,1],[7,0,0]],449],["P020-M0083",2,[[3,0,0],[7,1,1],[1,0,1],[10,1,1],[6,0,0],[2,1,0],[8,0,0],[4,1,0],[9,1,1],[5,1,0]],610],["P099-M0043",2,[[5,1,1],[4,1,0],[9,1,0],[10,0,0],[7,0,0],[8,1,0],[6,0,0],[1,0,0],[3,1,1],[2,0,1]],353],["P079-M0149",2,[[9,1,1],[2,1,0],[5,1,0],[8,0,0],[10,0,0],[3,0,0],[4,1,0],[6,1,1],[7,0,0],[1,1,0]],676],["P103-M0015",2,[[5,0,0],[10,0,1],[7,0,0],[2,0,1],[9,1,0],[1,1,0],[3,1,0],[4,0,0],[6,1,0],[8,1,0]],480],["P105-M0030",2,[[5,0,0],[2,0,0],[3,0,0],[7,0,0],[9,0,0],[10,0,0],[4,0,1],[8,1,0],[6,0,0],[1,1,0]],960],["P010-M0023",2,[[4,1,0],[5,0,0],[10,0,0],[8,1,0],[6,1,1],[9,1,0],[1,1,0],[2,0,0],[3,0,0],[7,1,0]],736],["P032-M0549",3,[[5,1,0],[1,0,0],[4,1,0],[2,1,0],[6,1,0],[9,1,1],[7,0,0],[10,1,0],[8,1,0],[3,0,0]],177],["P023-M0312",3,[[5,1,0],[8,1,0],[1,0,1],[2,0,0],[6,0,0],[7,0,0],[9,1,0],[4,1,0],[3,0,0],[10,0,0]],777],["P050-M0553",3,[[7,1,0],[6,1,0],[2,1,0],[1,0,0],[10,1,1],[8,1,0],[9,0,1],[5,0,0],[4,0,0],[3,1,0]],305],["P029-M0645",3,[[3,0,0],[9,0,1],[5,1,1],[7,0,0],[4,0,1],[2,1,0],[1,0,1],[6,1,0],[8,0,0],[10,0,0]],180],["P078-M0108",3,[[9,1,1],[3,0,1],[5,0,0],[4,1,0],[10,0,0],[2,0,0],[6,1,1],[1,1,0],[7,1,1],[8,1,0]],387],["P005-M0646",3,[[1,0,0],[6,0,0],[4,0,1],[3,1,0],[8,1,0],[5,0,0],[2,0,1],[7,1,0],[9,0,1],[10,0,0]],212],["P054-M0586",3,[[3,0,1],[1,1,0],[2,0,1],[6,1,1],[10,0,1],[8,1,0],[7,1,1],[4,1,0],[9,0,1],[5,0,0]],338],["P066-M0401",3,[[2,1,0],[3,0,0],[1,1,0],[7,1,1],[8,0,0],[4,0,1],[9,1,1],[10,0,1],[5,0,0],[6,0,0]],556],["P048-M0216",3,[[3,1,1],[4,0,1],[9,0,0],[5,0,0],[8,1,0],[10,0,0],[1,0,1],[2,1,0],[6,1,1],[7,1,1]],774],["P059-M0025",3,[[4,1,0],[10,1,0],[5,0,0],[3,1,1],[9,0,1],[2,0,1],[6,1,0],[8,1,0],[1,1,0],[7,1,0]],800],["P102-M0028",3,[[7,0,0],[5,0,0],[8,1,0],[10,0,1],[9,1,0],[6,0,0],[2,0,0],[3,0,1],[1,1,0],[4,0,0]],896],["P027-M0022",3,[[1,0,1],[6,1,1],[8,1,0],[10,0,0],[3,0,1],[4,1,0],[2,1,0],[5,1,1],[7,0,0],[9,1,1]],704],["P056-M0338",3,[[4,1,0],[2,0,0],[9,0,1],[5,1,0],[10,0,0],[7,0,0],[8,1,0],[6,1,1],[1,0,0],[3,0,1]],586],["P016-M0404",3,[[2,0,0],[1,0,1],[4,0,0],[6,0,0],[3,1,1],[10,0,1],[5,0,0],[7,1,1],[8,1,0],[9,0,0]],652],["P055-M0007",3,[[4,1,0],[7,0,0],[9,1,0],[1,0,0],[10,0,1],[3,1,1],[5,1,0],[8,1,0],[6,1,0],[2,1,0]],224],["P062-M0404",3,[[4,1,0],[9,1,1],[3,1,1],[2,0,1],[7,0,0],[1,0,1],[6,0,0],[5,1,0],[8,1,0],[10,0,1]],652],["P084-M0035",3,[[5,1,1],[2,1,0],[10,1,1],[1,0,0],[9,1,1],[6,1,0],[8,1,0],[4,1,0],[7,0,0],[3,0,1]],97],["P073-M0021",3,[[3,0,1],[10,0,1],[4,1,0],[9,1,0],[8,0,0],[6,0,0],[7,0,0],[1,1,0],[2,1,0],[5,1,1]],672],["P009-M0025",3,[[2,0,0],[4,1,0],[1,0,1],[3,0,1],[6,1,1],[7,1,1],[10,0,1],[8,0,0],[5,1,0],[9,0,0]],800],["P097-M0021",3,[[5,0,0],[2,1,0],[10,1,0],[3,1,0],[7,0,0],[4,0,0],[6,1,1],[9,0,0],[8,1,0],[1,1,0]],672],["P069-M0131",3,[[2,1,0],[1,0,1],[8,1,0],[6,0,0],[3,1,0],[5,1,0],[10,1,1],[9,1,1],[7,0,0],[4,1,0]],100],["P042-M0013",3,[[8,1,0],[4,1,0],[10,0,0],[7,0,0],[9,1,0],[5,1,1],[1,0,0],[3,1,1],[6,0,0],[2,0,1]],416],["P036-M0026",3,[[6,1,1],[3,1,0],[2,0,0],[1,0,1],[8,1,0],[9,1,1],[4,0,0],[5,0,0],[10,1,1],[7,1,0]],832],["P012-M0521",3,[[6,1,0],[2,0,1],[1,0,1],[10,1,0],[8,1,0],[7,1,0],[3,0,1],[5,0,0],[4,0,1],[9,1,1]],304],["P053-M0042",3,[[4,0,1],[10,0,0],[5,0,0],[8,1,0],[9,0,0],[7,0,0],[1,1,0],[6,1,0],[2,0,1],[3,1,1]],321],["P041-M0524",4,[[1,0,1],[10,0,0],[6,0,0],[2,0,0],[3,1,1],[4,1,0],[9,1,0],[7,1,0],[5,1,1],[8,0,0]],400],["P085-M0137",4,[[7,0,0],[10,0,1],[2,1,0],[8,0,0],[9,1,1],[1,1,0],[4,1,0],[3,0,1],[5,1,0],[6,1,1]],292],["P095-M0274",4,[[7,0,0],[1,0,1],[10,0,0],[5,1,1],[9,1,0],[6,0,0],[3,1,0],[2,0,1],[4,1,0],[8,1,0]],584],["P094-M0261",4,[[7,0,0],[1,0,0],[2,0,1],[3,0,0],[9,0,0],[10,1,0],[8,1,0],[5,1,1],[4,1,0],[6,0,0]],168],["P046-M0098",4,[[8,1,0],[5,1,1],[9,1,1],[6,0,0],[10,0,1],[3,1,1],[2,0,0],[1,0,1],[4,1,0],[7,0,0]],67],["P090-M0522",4,[[5,0,0],[2,0,0],[9,1,0],[4,1,0],[7,1,0],[8,1,0],[10,0,0],[3,1,0],[1,1,0],[6,1,0]],336],["P039-M0074",4,[[3,1,0],[4,0,1],[5,0,0],[10,0,1],[9,1,1],[2,0,1],[6,1,0],[1,0,1],[7,1,1],[8,1,0]],322],["P058-M0385",4,[[3,1,1],[7,0,0],[5,1,1],[8,1,0],[4,1,0],[2,0,0],[1,0,1],[10,1,1],[6,0,0],[9,1,0]],44],["P030-M0304",4,[[4,0,0],[3,0,0],[10,0,1],[1,1,0],[6,1,0],[7,0,0],[5,0,0],[2,0,0],[8,1,0],[9,1,0]],521],["P045-M0073",4,[[3,1,1],[1,1,0],[6,1,1],[7,0,0],[8,1,0],[10,0,0],[2,0,1],[5,0,0],[4,0,1],[9,1,1]],290],["P014-M0069",4,[[1,0,1],[8,1,0],[6,0,0],[3,0,1],[2,0,1],[4,0,1],[10,0,1],[7,1,1],[9,1,0],[5,0,0]],162],["P092-M0164",4,[[9,1,1],[8,0,0],[7,1,0],[3,1,1],[10,1,0],[1,0,0],[4,1,0],[5,1,0],[2,0,1],[6,1,0]],133],["P040-M0322",4,[[3,1,0],[7,1,0],[1,0,0],[6,1,1],[8,1,0],[9,1,0],[4,0,1],[5,0,0],[10,0,1],[2,0,0]],74],["P077-M0580",4,[[9,1,0],[5,1,1],[7,0,0],[4,1,0],[10,0,0],[2,0,0],[1,0,1],[6,0,0],[3,1,0],[8,1,0]],146],["P072-M0098",4,[[3,0,1],[4,0,0],[8,0,0],[9,1,1],[7,0,0],[6,1,1],[5,1,1],[1,0,0],[10,0,1],[2,0,1]],67],["P087-M0145",4,[[2,0,1],[10,1,1],[1,1,0],[8,1,0],[7,0,0],[4,0,0],[6,0,0],[5,0,0],[3,0,1],[9,0,1]],548],["P089-M0560",4,[[7,1,1],[8,1,0],[10,0,1],[5,0,0],[9,1,0],[6,1,1],[3,0,0],[2,0,1],[1,0,1],[4,0,1]],529],["P080-M0304",4,[[2,0,1],[6,1,0],[1,0,1],[7,1,0],[10,0,0],[3,1,0],[4,1,0],[9,0,1],[8,0,0],[5,1,1]],521],["P063-M0518",4,[[5,0,0],[2,0,1],[7,0,0],[10,0,0],[9,0,1],[6,1,0],[1,1,0],[4,0,1],[8,1,0],[3,1,0]],208],["P028-M0656",4,[[3,0,0],[7,0,0],[8,1,0],[4,1,0],[6,1,0],[9,1,0],[2,1,0],[10,0,0],[1,0,1],[5,1,0]],532],["P018-M0546",4,[[5,1,0],[2,0,1],[3,1,0],[1,0,1],[6,0,0],[8,0,0],[7,1,0],[4,1,0],[9,0,0],[10,1,0]],81],["P033-M0776",4,[[4,1,0],[1,0,1],[9,0,0],[2,0,1],[5,1,1],[3,0,1],[6,1,1],[8,1,0],[10,1,0],[7,0,0]],280],["P019-M0069",4,[[6,0,0],[3,0,0],[4,1,0],[9,1,0],[10,0,1],[5,1,1],[7,0,0],[1,1,0],[2,0,1],[8,0,0]],162],["P004-M0280",4,[[1,0,0],[6,1,0],[8,1,0],[10,0,0],[3,1,0],[5,0,0],[2,0,1],[9,1,1],[7,1,0],[4,0,1]],776],["P002-M0160",4,[[1,1,0],[4,1,0],[5,1,0],[10,1,1],[6,0,0],[9,1,1],[8,0,0],[3,1,1],[2,1,0],[7,0,0]],5]];
 const TASKS=RAW.map((r,i)=>({id:r[0],lv:r[1],n:i+1,mask:r[3],sol:r[2].map((s,j)=>({k:(j<5?'H':'V')+(j%5),ax:j<5?'H':'V',pos:j%5,rod:s[0],side:s[1],flip:s[2]}))}));
@@ -726,7 +756,7 @@ document.addEventListener('pointercancel',()=>{swp=null});
 /* ---------- Töne ---------- */
 let AC=null;
 function tone(f,d,type,v,when){if(!S.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain(),t0=AC.currentTime+(when||0);o.type=type||'triangle';o.frequency.value=f;g.gain.setValueAtTime(v||.06,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(g);g.connect(AC.destination);o.start(t0);o.stop(t0+d+.02)}catch(e){}}
-const sfx={tap:()=>tone(540,.05,'triangle',.04),place:()=>{tone(260,.1,'triangle',.07);tone(390,.08,'triangle',.04,.05)},ok:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.25,'triangle',.07,i*.1)),step:()=>tone(660,.12,'triangle',.06),turn:()=>{tone(330,.16,'sine',.05);tone(495,.2,'sine',.045,.09)},no:()=>{tone(233,.16,'sine',.09);tone(185,.22,'sine',.09,.13)}};
+const sfx={tap:()=>tone(540,.05,'triangle',.04),place:()=>{tone(260,.1,'triangle',.07);tone(390,.08,'triangle',.04,.05)},ok:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.25,'triangle',.07,i*.1)),step:()=>tone(660,.12,'triangle',.06),land:(w,v)=>{const f=150+Math.random()*50;tone(f,.09,'triangle',.085*(v||1),w);tone(f*5.1,.03,'sine',.03*(v||1),w)},stars:n=>{[0,1,2].slice(0,n).forEach(i=>tone([660,831,988][i],.3,'triangle',.07,.52+i*.16));if(n===3)tone(1319,.5,'sine',.05,1.02)},fanfare:w=>{[[523,0],[659,.13],[784,.26],[1047,.42]].forEach(([f,d])=>tone(f,.34,'triangle',.075,w+d));[523,659,784,1047].forEach(f=>tone(f,.9,'sine',.04,w+.62))},tick:(i,n,w)=>tone(520+560*i/n,.05,'sine',.028,w),turn:()=>{tone(330,.16,'sine',.05);tone(495,.2,'sine',.045,.09)},no:()=>{tone(233,.16,'sine',.09);tone(185,.22,'sine',.09,.13)}};
 const buzz=ms=>{if(S.haptic&&navigator.vibrate)try{navigator.vibrate(ms)}catch(e){}};
 
 /* ---------- Ansichten ---------- */
@@ -737,7 +767,7 @@ function navBar(){const on=R.view==='level'?'home':R.view,it=[['home','grid','na
  return `<nav class="nav"><div class="in">${it.map(([v,i,k])=>`<button class="${on===v?'on':''}" data-act="tab" data-v="${v}"${on===v?' aria-current="page"':''}><i>${ic(i)}</i>${t(k)}</button>`).join('')}</div></nav>`}
 function lattice(l){const a=byLv[l];return `<span class="lat${a.length===5?' row':''}" aria-hidden="true">${a.map(x=>`<i class="${P().done[x.id]?'on':''}"></i>`).join('')}</span>`}
 function viewHome(anim){const p=P(),nt=nextTask(),started=Object.keys(p.done).length>0;
- const hb=x=>boardSVG({mini:true,sticks:(nt?x.clues:x.sol).map((s,i)=>({s,kind:'given',cls:anim?'in':'',delay:250+i*80}))});
+ const hb=x=>{const l=nt?x.clues:x.sol,pl=anim?dropPlan(l,320,90):null;return boardSVG({mini:true,sticks:l.map(s=>({s,kind:'given',cls:pl?'in':'',delay:pl?pl.get(s):0}))})};
  const hero=nt?`<button class="hero" data-act="open" data-i="${nt.n-1}"><span class="mini">${hb(nt)}</span><span><span class="lvn">${t('lv')[nt.lv]}</span><h2>${t('task',{n:nt.n})}</h2><span class="go">${ic('play')}${t(started?'cont':'begin')}</span></span></button>`
   :`<button class="hero" data-act="level" data-l="4"><span class="mini">${hb(TASKS[104])}</span><span><h2>105 / 105</h2><span class="go">${ic('star')}${totalStars()}</span></span></button>`;
  return `<main class="view">${topBar()}<h1 class="hello">${esc(t('hello',{name:p.name}))}</h1><p class="sub">${nt?(started?t('homeNext',{n:nt.n}):t('homeFirst')):t('homeAll')}</p>${hero}${started?'':`<button class="newb" data-act="tab" data-v="rules">${ic('book')}<span>${t('newHere')}</span>${ic('back')}</button>`}
@@ -745,13 +775,30 @@ function viewHome(anim){const p=P(),nt=nextTask(),started=Object.keys(p.done).le
 function viewLevel(){const l=R.lv,a=byLv[l],dn=lvDone(l),nx=a.find(x=>!P().done[x.id]&&isOpen(x));
  return `<main class="view"><header class="tbar"><button class="ib" data-act="up" aria-label="${esc(t('back'))}">${ic('back')}</button></header>
  <section class="lvhead" style="${lvStyle(l)}"><h2>${t('lv')[l]}</h2><p>${t('solvedOf',{a:dn,b:a.length})}</p><div class="bar"><i style="width:${dn/a.length*100}%"></i></div></section>${l>0&&lvDone(0)<5?`<p class="note" style="margin:-6px 4px 14px">${t('lvLocked')}.</p>`:''}
- <div class="tiles" style="${lvStyle(l)}">${a.map(x=>{const d=P().done[x.id],op=isOpen(x);return `<button class="tile${d?' done':op?'':' lock'}${x===nx?' next':''}" data-act="open" data-i="${x.n-1}" aria-label="${esc(t('task',{n:x.n}))}">${x.n}${d?`<span class="pips">${[0,1,2].map(i=>`<i class="${i<d.stars?'on':''}"></i>`).join('')}</span>`:''}</button>`}).join('')}</div></main>${navBar()}`}
+ <div class="tiles" style="${lvStyle(l)}">${a.map(x=>{const d=P().done[x.id],op=isOpen(x);return `<button class="tile${d?' done':op?'':' lock'}${x===nx?' next':''}${T.just===x.id?' just':''}" data-act="open" data-i="${x.n-1}" aria-label="${esc(t('task',{n:x.n}))}">${x.n}${d?`<span class="pips">${[0,1,2].map(i=>`<i class="${i<d.stars?'on':''}"></i>`).join('')}</span>`:''}</button>`}).join('')}</div></main>${navBar()}`}
+function dropPlan(list,base,gap){const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+ const v=sh(list.filter(s=>s.ax==='V')),h=sh(list.filter(s=>s.ax==='H')),m=new Map();let d=base;
+ v.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});if(v.length&&h.length)d+=gap*1.4;h.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});m.end=d;return m}
+function landFx(){if(RM)return;const els=document.querySelectorAll('#bd .stk.in');if(!els.length)return;const ds=[...els].map(e=>parseFloat(e.style.getPropertyValue('--d'))||0).sort((a,b)=>a-b);
+ ds.forEach((d,i)=>sfx.land((d+300)/1000,ds.length>1?.7:1));setTimeout(()=>buzz(ds.length>1?[8,70,8]:10),ds[0]+300)}
+function viewLvDone(){const l=R.lv,a=byLv[l],all=TASKS.every(x=>P().done[x.id]),st=a.reduce((n,x)=>n+((P().done[x.id]||{}).stars||0),0),mx=a.length*3,nl=[1,2,3,4,0].map(i=>(l+i)%5).find(i=>i!==l&&lvDone(i)<byLv[i].length);
+ const tot=totalStars(),A=all?tot:st,M=all?315:mx;
+ return `<main class="view full lvd" style="${lvStyle(l)}"><div class="lvdc"><div class="lvdgrid${a.length===5?' row':''}" aria-hidden="true">${a.map((x,i)=>`<i style="--i:${i}"></i>`).join('')}</div>
+ <p class="lvdk">${t(all?'allDoneK':'lvDoneK')}</p><h1>${all?t('allDoneH'):t('lv')[l]}</h1>
+ <div class="lvdst">${ic('star')}<span id="lvdn" data-a="${A}">${t('lvDoneStars',{a:0,b:M})}</span></div>
+ <p class="lvdp">${all?t('allDoneP'):t(l===0?'lvDone0':'lvDoneP',{n:a.length})} ${A>=M?t('lvDonePerfect'):l===0&&!all?'':t('lvDoneMore')}</p></div>
+ <div class="cta col">${all||nl==null?`<button class="btn pri" data-act="lvHome">${t('toHome')}</button>`:`<button class="btn pri" data-act="lvGo" data-l="${nl}">${t('lvNext',{lv:t('lv')[nl]})}</button><button class="btn txt" data-act="lvHome">${t('toHome')}</button>`}</div></main>`}
+function lvDoneFx(){const l=R.lv,n=byLv[l].length,gap=n===5?.12:.05,end=.35+n*gap,el=document.getElementById('lvdn');
+ if(!RM)for(let i=0;i<n;i++)sfx.tick(i,n,.35+i*gap);sfx.fanfare(RM?.1:end+.1);
+ setTimeout(()=>{if(R.view!=='lvdone')return;confetti();buzz([20,60,30,60,40])},RM?100:(end+.1)*1000);
+ if(el){const A=+el.dataset.a,M=el.textContent.match(/\d+/g);const b=M?M[M.length-1]:'';const t0=performance.now()+(RM?0:(end+.5)*1000);const step=now=>{if(!el.isConnected)return;const k=Math.max(0,Math.min(1,(now-t0)/900)),v=Math.round(A*(1-Math.pow(1-k,3)));el.textContent=t('lvDoneStars',{a:v,b});if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)}}
 function taskPhase(x){if(R.win)return 'win';if(P().done[x.id]&&!R.replay)return 'done';return (ts(x).setup|0)>=x.clues.length?'solve':'setup'}
-function taskBoard(x,anim){const ph=taskPhase(x),st=ts(x),sticks=[];
- if(ph==='setup'){const n=st.setup|0;x.order.slice(0,n+1).forEach((s,i)=>sticks.push({s,kind:'given',cls:i===n&&(anim||T.animKey==='step')?'in':'',delay:anim?200:0}));return boardSVG({sticks,hl:x.order[n].k,real:T.xray})}
- x.clues.forEach((s,i)=>sticks.push({s,kind:'given',cls:anim?'in':'',delay:120+i*90}));
- if(ph==='win'||ph==='done')x.open.forEach((s,i)=>sticks.push({s,kind:'sol',cls:(ph==='win'&&T.animKey==='win')||anim?'in':'',delay:(ph==='win'?80:120+x.clues.length*90)+i*110}));
- else for(const k in (st.help||{})){const s=x.sol.find(q=>q.k===k);sticks.push({s,kind:st.help[k]>=2?'help2':'help1',cls:T.animKey===k||anim?'in':'',delay:anim?120+x.clues.length*90:0})}
+function taskBoard(x,anim,only){const ph=taskPhase(x),st=ts(x),sticks=[];
+ if(ph==='setup'){const n=st.setup|0;x.order.slice(0,n+1).forEach((s,i)=>sticks.push({s,kind:'given',cls:i===n&&(anim||T.animKey==='step')?'in':'',delay:anim?260:0}));return boardSVG({sticks,hl:x.order[n].k,real:T.xray})}
+ const cl=only?x.clues.filter(s=>only.has(s.k)):x.clues,pc=anim?dropPlan(cl,only?60:240,105):null;
+ x.clues.forEach(s=>sticks.push({s,kind:'given',cls:pc&&pc.has(s)?'in':'',delay:pc&&pc.has(s)?pc.get(s):0}));
+ if(ph==='win'||ph==='done'){const on=(ph==='win'&&T.animKey==='win')||anim,po=on?dropPlan(x.open,ph==='win'?80:(pc?pc.end+160:240),130):null;x.open.forEach(s=>sticks.push({s,kind:'sol',cls:po?'in':'',delay:po?po.get(s):0}))}
+ else for(const k in (st.help||{})){const s=x.sol.find(q=>q.k===k);sticks.push({s,kind:st.help[k]>=2?'help2':'help1',cls:T.animKey===k||anim?'in':'',delay:anim?(pc?pc.end+160:240):0})}
  return boardSVG({sticks,tap:ph==='solve',hl:T.hl,real:T.xray})}
 function clueRow(s,big){const c=colorOf(s.rod),vis=s.ax==='V'?s.side:1-s.side,end=s.ax==='H'?(s.flip?'numLeft':'numRight'):(s.flip?'numTop':'numBottom');
  return `<div class="srow${big?' big':''}"><span class="chip" style="background:${c};color:${ink(c)}">${s.rod}</span><span><b>${t('setupItem',{n:s.rod,slot:slotName(s.k)})}</b><small>${t('symUp',{sym:symName(vis)})}, ${t(end)}</small></span></div>`}
@@ -768,12 +815,12 @@ function taskPanel(x){const ph=taskPhase(x),st=ts(x),d=P().done[x.id];
   <div class="cta"><button class="btn ton" data-act="tip">${ic('bulb')}${t('tip')}</button><button class="btn pri" data-act="check">${ic('check')}${t('check')}</button></div>`}
  const nx=nextAfter(x);
  if(ph==='win'){const s=R.win.stars;return `<div class="win"><div class="banner">${s>0?t('winH')[x.n%3]:t('seen')}</div>${s>0?starRow(s,'big'):''}<p style="color:var(--ink2);margin-top:6px">${t(R.win.miss?'winMiss':'win'+s)}</p>
-  <div class="cta col">${nx?`<button class="btn pri" data-act="next">${t('next')}</button>`:''}<button class="btn ${nx?'txt':'pri'}" data-act="overview">${t('overview')}</button></div></div>`}
+  <div class="cta col">${R.win.lvUp?`<button class="btn pri" data-act="lvdone">${t('onward')}</button>`:`${nx?`<button class="btn pri" data-act="next">${t('next')}</button>`:''}<button class="btn ${nx?'txt':'pri'}" data-act="overview">${t('overview')}</button>`}</div></div>`}
  return `<div class="banner">${d.stars>0?t('solved'):t('seen')}${d.stars>0?starRow(d.stars):''}</div><div class="cta col">${nx?`<button class="btn pri" data-act="next">${t('next')}</button>`:''}<button class="btn ton" data-act="again">${t('again')}</button></div>`}
 function nextAfter(x){return TASKS.slice(x.n).find(y=>!P().done[y.id]&&isOpen(y))||nextTask()}
 function viewTask(anim){const x=TASKS[R.i],ph=taskPhase(x),si=ph==='setup'?0:ph==='solve'?(T.check?2:1):3;
  return `<main class="view full task"><header class="tbar"><button class="ib" data-act="overview" aria-label="${esc(t('back'))}">${ic('back')}</button><h1>${t('task',{n:x.n})}</h1><span class="starchip" style="background:${isDark()?LV[x.lv].dc:LV[x.lv].c};color:${isDark()?LV[x.lv].dci:LV[x.lv].ci}">${t('lv')[x.lv]}</span><button class="ib" data-act="share" aria-label="${esc(t('share'))}">${ic('share')}</button></header>
- <div class="steps" id="steps">${stepsHTML(si)}</div>
+ <div class="steps" id="steps" data-si="${si}">${stepsHTML(si)}</div>
  <div class="thead" id="thead">${taskHead(x)}</div>
  <div class="bbox"><div class="bwrap"><div id="bd">${taskBoard(x,anim)}</div><button class="xr${T.xray?' on':''}" data-act="xray" aria-label="${esc(t('realView'))}" aria-pressed="${T.xray}">${ic('eye')}</button></div></div>
  <div class="legend" id="legend">${legendHTML()}</div>
@@ -810,15 +857,25 @@ function draw(anim){const el=document.getElementById('app');let h;
  else if(R.view==='level')h=viewLevel();
  else if(R.view==='sticks')h=viewSticks();
  else if(R.view==='rules')h=viewRules();
+ else if(R.view==='lvdone')h=viewLvDone();
  else h=viewHome(anim);
- el.innerHTML=h}
+ el.innerHTML=h;if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'&&anim)landFx();if(R.view==='lvdone')lvDoneFx()}
 function render(anim){if(anim&&document.startViewTransition&&!RM){try{const vt=document.startViewTransition(()=>{draw(true);scrollTo(0,0)});['ready','finished','updateCallbackDone'].forEach(k=>vt[k]&&vt[k].catch(()=>{}));return}catch(e){}}draw(anim);if(anim)scrollTo(0,0)}
 function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.animKey=null;T.check=null;if(view!=='task')T.xray=false;
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
  render(true)}
 window.addEventListener('popstate',e=>{if(document.getElementById('pov')){ACT.printClose();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}if(sheetOpen()){closeSheet();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}R=Object.assign({view:'home'},e.state||{});T.hl=null;T.check=null;render(true)});
-function redrawTask(){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}b.innerHTML=taskBoard(x,false);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
- const ph=taskPhase(x);document.getElementById('steps').innerHTML=stepsHTML(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null}
+/* weiche Übergänge: Elemente gleiten an ihre neue Position, geänderte Inhalte blenden ein */
+const FLQ=['.task .bwrap','#legend','#panel','#thead'];
+function flipStart(){if(RM)return null;return FLQ.map(q=>{const e=document.querySelector(q);return e?{e,r:e.getBoundingClientRect(),kids:q[0]==='#'&&q!=='#legend'?[...e.children].map(c=>c.outerHTML):null}:null})}
+function flipEnd(fl){if(!fl)return;const E='cubic-bezier(.2,.8,.2,1)';fl.forEach(o=>{if(!o||!o.e.isConnected)return;const e=o.e,a=o.r,b=e.getBoundingClientRect();
+ if(b.width&&a.width){const dx=a.left-b.left,dy=a.top-b.top,sc=e.classList.contains('bwrap')?a.width/b.width:1;
+  if(Math.abs(dx)>.5||Math.abs(dy)>.5||Math.abs(sc-1)>.004)e.animate([{transformOrigin:'0 0',transform:`translate(${dx}px,${dy}px) scale(${sc})`},{transformOrigin:'0 0',transform:'none'}],{duration:420,easing:E})}
+ if(o.kids)[...e.children].forEach((c,i)=>{if(o.kids[i]!==c.outerHTML)c.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:340,easing:E,delay:Math.min(i,3)*45,fill:'backwards'})})})}
+function setSteps(si){const el=document.getElementById('steps');if(el&&el.dataset.si!==String(si)){el.dataset.si=si;el.innerHTML=stepsHTML(si)}}
+function redrawTask(only){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}const fl=flipStart();
+ b.innerHTML=taskBoard(x,!!only,only);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
+ const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx()}
 
 /* ---------- Teilen: Bildkarte ---------- */
 let shareImg=null;
@@ -857,7 +914,21 @@ function bindDrag(sc,g){let y0=null,dy=0,t0=0;
  const end=()=>{if(y0==null)return;y0=null;const v=dy/Math.max(1,Date.now()-t0);sc.style.transition='';sc.style.transform='';
   if(dy>90||(dy>30&&v>.5)){if(sc.classList.contains('full')&&dy<260)sc.classList.remove('full');else closeSheet()}
   else if(dy<-28&&(sc.scrollHeight>sc.clientHeight+2||sc.classList.contains('full')))sc.classList.add('full')};
- g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end)}
+ g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end)
+ /* auch am Inhalt ziehen: oben angekommen fährt das Fenster mit dem Finger zu, nach oben klappt es erst auf und scrollt dann */
+ let ty=null,tx=0,mode=null,h0=0,fullH=0,d=0,tt=0;
+ sc.addEventListener('touchstart',e=>{if(e.touches.length!==1||e.target.closest('input,.pview,#grabz')){ty=null;return}ty=e.touches[0].clientY;tx=e.touches[0].clientX;mode=null;d=0;tt=Date.now()},{passive:true});
+ sc.addEventListener('touchmove',e=>{if(ty==null||e.touches.length!==1)return;const y=e.touches[0].clientY,dy=y-ty,dx=e.touches[0].clientX-tx;
+  if(!mode){if(Math.abs(dy)<7)return;if(Math.abs(dx)>Math.abs(dy)){mode='x';return}
+   if(dy>0&&sc.scrollTop<=0)mode='down';else if(dy<0&&!sc.classList.contains('full')&&sc.scrollHeight>sc.clientHeight+2){mode='up';h0=sc.getBoundingClientRect().height;fullH=window.innerHeight-36}else mode='scroll';
+   if(mode==='down'||mode==='up'){sc.style.transition='none';ty=y;return}}
+  if(mode==='down'){if(e.cancelable)e.preventDefault();d=Math.max(0,y-ty);sc.style.transform='translateY('+d+'px)'}
+  else if(mode==='up'){if(e.cancelable)e.preventDefault();d=Math.max(0,ty-y);const h=h0+d;if(h<fullH){sc.style.minHeight=sc.style.maxHeight=h+'px';sc.scrollTop=0}else{sc.style.minHeight=sc.style.maxHeight=fullH+'px';sc.scrollTop=h-fullH}}},{passive:false});
+ const tend=()=>{if(ty==null)return;ty=null;const v=d/Math.max(1,Date.now()-tt);
+  if(mode==='down'){sc.style.transition='';sc.style.transform='';if(d>110||(d>36&&v>.55)){if(sc.classList.contains('full')&&d<260)sc.classList.remove('full');else closeSheet()}}
+  else if(mode==='up'){const st=sc.scrollTop;if(d>46){sc.classList.add('full');sc.style.transition='';sc.style.minHeight=sc.style.maxHeight='';if(st)sc.scrollTop=st}else{sc.style.transition='';sc.style.minHeight=sc.style.maxHeight=''}}
+  mode=null;d=0};
+ sc.addEventListener('touchend',tend);sc.addEventListener('touchcancel',tend)}
 function closeSheet(now){const el=document.getElementById('sheet');stopCam();if(!el.classList.contains('open')&&!el.innerHTML)return;el.classList.remove('open');clearTimeout(sheetTimer);
  if(T.check){T.check=null;if(R.view==='task'&&document.getElementById('steps'))redrawTask()}
  if(now)el.innerHTML='';else sheetTimer=setTimeout(()=>{el.innerHTML=''},400)}
@@ -948,23 +1019,23 @@ document.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]
 
 /* ---------- Aktionen ---------- */
 function win(stars){const x=TASKS[R.i],p=P(),prev=p.done[x.id],byMiss=stars>0&&stars<3&&helpCount(x)===0;p.done[x.id]={stars:Math.max(stars,prev?prev.stars:0)};delete p.task[x.id];save();
- R.win={stars,miss:byMiss};R.replay=false;T.hl=null;T.check=null;T.animKey='win';closeSheet();
+ R.win={stars,miss:byMiss,lvUp:!prev&&lvDone(x.lv)===byLv[x.lv].length};T.just=x.id;R.replay=false;T.hl=null;T.check=null;T.animKey='win';closeSheet();
  document.getElementById('panel')?redrawTask():render(false);
- if(stars>0){sfx.ok();buzz([20,60,30]);confetti()}
+ if(stars>0){sfx.stars(stars);if(!R.win.lvUp)confetti()}
  const pn=document.getElementById('panel');if(pn&&pn.scrollIntoView)setTimeout(()=>pn.scrollIntoView({behavior:RM?'auto':'smooth',block:'end'}),350)}
 function newPlayer(name,av){const p={id:'p'+Date.now().toString(36)+Math.floor(Math.random()*1e3),name:(name||'').trim().slice(0,14)||t('player')+' '+(S.players.length+1),av:av||0,done:{},task:{}};
  if(S.old){for(const id in S.old)if(TASKS.some(x=>x.id===id))p.done[id]={stars:Math.max(0,Math.min(3,Number(S.old[id]&&S.old[id].stars)||0))};delete S.old}
  S.players.push(p);S.active=p.id;save();return p}
 const ACT={
- tab(d){go(d.v)},
+ tab(d){if(d.v!==R.view)sfx.tap();go(d.v)},
  level(d){go('level',{lv:+d.l})},
  open(d){const x=TASKS[+d.i];if(!isOpen(x)){toast(t(lvDone(0)<5&&x.lv>0?'lvLocked':'lockedTask'));sfx.no();return}sfx.tap();go('task',{i:x.n-1},R.view==='task')},
  overview(){const x=TASKS[R.i];if(R.from==='level'&&history.length>1){history.back();return}go('level',{lv:x.lv},true)},
  up(){if(R.from==='home'&&history.length>1){history.back();return}go('home',null,true)},
  next(){const x=nextAfter(TASKS[R.i]);if(x)go('task',{i:x.n-1},true);else go('home',null,true)},
  again(){const x=TASKS[R.i];delete P().task[x.id];save();R.replay=true;R.win=null;render(true)},
- placed(){const x=TASKS[R.i],st=ts(x);st.setup=(st.setup|0)+1;save();T.animKey='step';if(st.setup>=x.order.length){T.animKey=null;sfx.step()}else sfx.place();buzz(12);redrawTask()},
- showAll(){const x=TASKS[R.i];ts(x).setup=x.order.length;save();sfx.step();redrawTask();document.getElementById('bd').innerHTML=taskBoard(x,true)},
+ placed(){const x=TASKS[R.i],st=ts(x);st.setup=(st.setup|0)+1;save();T.animKey='step';if(st.setup>=x.order.length){T.animKey=null;sfx.step();buzz(12)}else sfx.tap();redrawTask()},
+ showAll(){const x=TASKS[R.i],st=ts(x),only=new Set(x.order.slice((st.setup|0)+1).map(s=>s.k));st.setup=x.order.length;save();sfx.step();redrawTask(only)},
  showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div>`)},
  xray(){T.xray=!T.xray;sfx.tap();const x=TASKS[R.i];document.getElementById('bd').innerHTML=taskBoard(x,false);const b=document.querySelector('.xr');b.classList.toggle('on',T.xray);b.setAttribute('aria-pressed',T.xray);document.getElementById('legend').innerHTML=legendHTML()},
  slot(d){T.hl=d.k;sfx.tap();redrawTask();slotSheet(d.k)},
@@ -980,6 +1051,9 @@ const ACT={
   ACT.copyLink()},
  copyLink(){const x=TASKS[R.i],u=shareURL(x),txt=t('shareText',{n:x.n,lv:t('lv')[x.lv]});try{navigator.clipboard.writeText(txt+' '+u).then(()=>toast(t('copied')),()=>toast(u))}catch(e){toast(u)}},
  saveImg(){const x=TASKS[R.i];if(!shareImg||shareImg.n!==x.n)return;const a=document.createElement('a');a.href=URL.createObjectURL(shareImg.blob);a.download='alignstix-aufgabe-'+x.n+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)},
+ lvdone(){const x=TASKS[R.i];sfx.tap();go('lvdone',{lv:x.lv},true)},
+ lvGo(d){sfx.tap();go('level',{lv:+d.l},true)},
+ lvHome(){sfx.tap();go('home',null,true)},
  solution(){const x=TASKS[R.i];closeSheet();win(0)},
  check(){const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
   for(let i=ask.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ask[i],ask[j]]=[ask[j],ask[i]]}
@@ -1033,6 +1107,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();if((e.k
  if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&e.target.closest&&e.target.closest('.flipw')){e.preventDefault();turnStick(e.target.closest('.flipw'),e.key==='ArrowRight'?1:-1)}
  if(e.key==='Enter'&&e.target.id==='nm')ACT.start();if(e.key==='Enter'&&e.target.id==='nm2')ACT.addPlayer()});
 if(window.matchMedia)try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{applyTheme();render(false)})}catch(e){}
+
+/* kein Aktualisieren durch Herunterziehen */
+{let py=0;const top=e=>{for(let n=e.target;n&&n!==document.body&&n.nodeType===1;n=n.parentNode){if(n.scrollTop>0)return false}return (window.scrollY||document.documentElement.scrollTop||0)<=0};
+ document.addEventListener('touchstart',e=>{py=e.touches.length===1?e.touches[0].clientY:0},{passive:true});
+ document.addEventListener('touchmove',e=>{if(!py||e.touches.length!==1||!e.cancelable)return;if(e.target.tagName==='INPUT')return;if(e.touches[0].clientY-py>6&&top(e))e.preventDefault()},{passive:false})}
 
 /* ---------- Druckheft ---------- */
 const BKS={

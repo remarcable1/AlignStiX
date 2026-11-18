@@ -677,6 +677,23 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 @media (prefers-reduced-motion:reduce){.xw .fly.h.stay{animation:none}}
 #print .xw .fly.h.stay{animation:none}
 
+/* Prüfen: Brett über dem Fenster sichtbar halten */
+.task .bwrap{transition:transform .38s cubic-bezier(.2,.8,.2,1),background-color .5s ease}
+.task .bwrap.peek{position:relative;z-index:51;pointer-events:none;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion:reduce){.task .bwrap{transition:none}}
+
+/* Unteren Stab unter liegende obere Stäbe schieben */
+.fly.v.slide .flb{animation:vSlide .75s cubic-bezier(.3,.75,.3,1) both!important;animation-delay:calc(var(--d,0ms) + 260ms)!important}
+.fly.v.slide .lift,.fly.v.slide .flip{animation:none!important}
+.fly.v.slide .flsh{visibility:hidden}
+@keyframes vSlide{0%{transform:translateY(-62cqw);opacity:0}22%{opacity:1}100%{transform:none;opacity:1}}
+.fly.h.hup{z-index:4;animation:hLift var(--hd,1300ms) cubic-bezier(.4,0,.2,1) var(--hs,0ms) both!important}
+.fly.h.hup .flsh{animation:hLiftSh var(--hd,1300ms) cubic-bezier(.4,0,.2,1) var(--hs,0ms) both!important}
+@keyframes hLift{0%{scale:1}16%,80%{scale:1.1}100%{scale:1}}
+@keyframes hLiftSh{0%{translate:0 0}16%,80%{translate:0 2.6cqw}100%{translate:0 0}}
+.bwrap.b3d .fly.h.hup{animation-name:hLift3}
+@keyframes hLift3{0%{translate:0 0 0}16%,80%{translate:0 0 9cqw}100%{translate:0 0 0}}
+
 </style>
 </head>
 <body>
@@ -686,6 +703,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ lvBetterK:'Neuer Bestwert',lvBetterP:'Super, {n} Sterne mehr als bei deinem besten Durchgang.',lvBetter1:'Super, ein Stern mehr als bei deinem besten Durchgang.',lvBetterPerfect:'Perfekt! Jetzt hast du alle {b} Sterne dieser Stufe.',lvReplay:'Stufe neu spielen',lvReplayQ:'{lv} neu spielen?',lvReplayP:'Alle Aufgaben dieser Stufe werden wieder offen. Dein Bestwert von {n} Sternen bleibt gespeichert. Übertriffst du ihn, gibt es eine neue Auszeichnung.',lvReplayGo:'Neu spielen',taskReset:'Aufgabe zurücksetzen',taskResetQ:'Aufgabe zurücksetzen?',taskResetP:'Aufbau, Tipps und Fehlversuche dieser Aufgabe werden gelöscht. Du startest wieder mit allen Sternen.',
  cardsH:'Aufgabenkarten',cardsP:'69 Karten (100 × 100 mm), vorne und hinten bedruckt: 2 Anleitungskarten mit Titelblatt, 53 Aufgabenkarten mit allen 105 Aufgaben und 14 Lösungskarten. Die Karten liegen im Spielfeld unter den Stäben.',printCards:'Karten drucken',cardsReady:'Deine Karten sind bereit',cardsReadyP:'{n} Seiten für {s} Blatt A4. Beidseitig drucken, „an der langen Kante spiegeln“ und Größe 100 % wählen. Danach an den Marken schneiden.',
  rank:'Rangliste',rkSolved:'{n} gelöst',rkPerfect:'{n} mit 3 Sternen',
  wipe:'Alle Spieler löschen',removeQ:'{name} löschen? Der ganze Fortschritt geht verloren. Das lässt sich nicht rückgängig machen.',removeLastQ:'{name} löschen? Der ganze Fortschritt geht verloren. Danach legst du einen neuen Spieler an. Das lässt sich nicht rückgängig machen.',factory:'Alles zurücksetzen',factoryQ:'Alles zurücksetzen? Alle Spieler, ihr Fortschritt, die Stab- und Brettfarben und alle Einstellungen werden gelöscht. Die App startet danach wie neu installiert. Das lässt sich nicht rückgängig machen.',wipeQ:'Alle Spieler und ihren Fortschritt löschen? Stabfarben und Einstellungen bleiben erhalten. Das lässt sich nicht rückgängig machen.',
@@ -741,6 +759,7 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',toHome:'Zur Startseite',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ lvBetterK:'New personal best',lvBetterP:'Great, {n} more stars than your best run.',lvBetter1:'Great, one more star than your best run.',lvBetterPerfect:'Perfect! You now have all {b} stars in this level.',lvReplay:'Play level again',lvReplayQ:'Play {lv} again?',lvReplayP:'All tasks of this level open up again. Your best of {n} stars is kept. Beat it and you’ll get a new award.',lvReplayGo:'Play again',taskReset:'Reset task',taskResetQ:'Reset this task?',taskResetP:'Setup, hints and wrong answers for this task are cleared. You start again with all stars.',
  cardsH:'Task cards',cardsP:'69 cards (100 × 100 mm), printed on both sides: 2 rule cards with a title page, 53 task cards with all 105 tasks and 14 solution cards. The cards are stored in the board, under the sticks.',printCards:'Print cards',cardsReady:'Your cards are ready',cardsReadyP:'{n} pages for {s} sheets of A4. Print double-sided, “flip on long edge”, at 100 % size. Then cut along the marks.',
  rank:'Ranking',rkSolved:'{n} solved',rkPerfect:'{n} with 3 stars',
  wipe:'Delete all players',removeQ:'Delete {name}? All their progress will be lost. This cannot be undone.',removeLastQ:'Delete {name}? All their progress will be lost. You will then create a new player. This cannot be undone.',factory:'Reset everything',factoryQ:'Reset everything? All players, their progress, stick and board colours and all settings will be deleted. The app then starts as if newly installed. This cannot be undone.',wipeQ:'Delete all players and their progress? Stick colours and settings are kept. This cannot be undone.',
@@ -796,6 +815,7 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',toHome:'Home',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ lvBetterK:'Nouveau record',lvBetterP:'Bravo, {n} étoiles de plus que ton meilleur passage.',lvBetter1:'Bravo, une étoile de plus que ton meilleur passage.',lvBetterPerfect:'Parfait ! Tu as maintenant les {b} étoiles de ce niveau.',lvReplay:'Rejouer le niveau',lvReplayQ:'Rejouer {lv} ?',lvReplayP:'Tous les défis de ce niveau sont à nouveau ouverts. Ton record de {n} étoiles est conservé. Bats-le pour une nouvelle récompense.',lvReplayGo:'Rejouer',taskReset:'Réinitialiser le défi',taskResetQ:'Réinitialiser ce défi ?',taskResetP:'Le montage, les indices et les erreurs de ce défi sont effacés. Tu repars avec toutes les étoiles.',
  cardsH:'Cartes de tâches',cardsP:'69 cartes (100 × 100 mm), imprimées recto verso : 2 cartes de règles avec une page de titre, 53 cartes avec les 105 tâches et 14 cartes de solutions. Les cartes se rangent dans le plateau, sous les bâtons.',printCards:'Imprimer les cartes',cardsReady:'Tes cartes sont prêtes',cardsReadyP:'{n} pages pour {s} feuilles A4. Imprime en recto verso, « retourner sur le bord long », à 100 %. Découpe ensuite le long des repères.',
  rank:'Classement',rkSolved:'{n} résolus',rkPerfect:'{n} avec 3 étoiles',
  wipe:'Supprimer tous les joueurs',removeQ:'Supprimer {name} ? Toute sa progression sera perdue. Cette action est définitive.',removeLastQ:'Supprimer {name} ? Toute sa progression sera perdue. Tu créeras ensuite un nouveau joueur. Cette action est définitive.',factory:'Tout réinitialiser',factoryQ:'Tout réinitialiser ? Tous les joueurs, leur progression, les couleurs des bâtons et du plateau et tous les réglages seront supprimés. L’appli redémarre comme si elle venait d’être installée. Cette action est définitive.',wipeQ:'Supprimer tous les joueurs et leur progression ? Les couleurs et les réglages sont conservés. Cette action est définitive.',
@@ -851,6 +871,7 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',toHome:'Accueil',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ lvBetterK:'Nuevo récord',lvBetterP:'¡Genial, {n} estrellas más que en tu mejor intento!',lvBetter1:'¡Genial, una estrella más que en tu mejor intento!',lvBetterPerfect:'¡Perfecto! Ya tienes las {b} estrellas de este nivel.',lvReplay:'Jugar el nivel de nuevo',lvReplayQ:'¿Jugar {lv} de nuevo?',lvReplayP:'Todos los retos de este nivel vuelven a abrirse. Tu récord de {n} estrellas se guarda. Si lo superas, hay un nuevo premio.',lvReplayGo:'Jugar de nuevo',taskReset:'Reiniciar reto',taskResetQ:'¿Reiniciar este reto?',taskResetP:'Se borran el montaje, las pistas y los fallos de este reto. Empiezas de nuevo con todas las estrellas.',
  cardsH:'Tarjetas de tareas',cardsP:'69 tarjetas (100 × 100 mm), impresas por las dos caras: 2 tarjetas de reglas con portada, 53 tarjetas con las 105 tareas y 14 tarjetas de soluciones. Las tarjetas se guardan en el tablero, debajo de los palitos.',printCards:'Imprimir tarjetas',cardsReady:'Tus tarjetas están listas',cardsReadyP:'{n} páginas para {s} hojas A4. Imprime a doble cara, «voltear por el borde largo», al 100 %. Después corta por las marcas.',
  rank:'Clasificación',rkSolved:'{n} resueltos',rkPerfect:'{n} con 3 estrellas',
  wipe:'Borrar todos los jugadores',removeQ:'¿Borrar a {name}? Se perderá todo su progreso. No se puede deshacer.',removeLastQ:'¿Borrar a {name}? Se perderá todo su progreso. Después crearás un jugador nuevo. No se puede deshacer.',factory:'Restablecer todo',factoryQ:'¿Restablecer todo? Se borran todos los jugadores, su progreso, los colores de los palitos y del tablero y todos los ajustes. La app arranca como recién instalada. No se puede deshacer.',wipeQ:'¿Borrar todos los jugadores y su progreso? Los colores y los ajustes se conservan. No se puede deshacer.',
@@ -959,7 +980,10 @@ const lvStyle=i=>{const L=LV[i],d=isDark();return `--lc:${d?L.dc:L.c};--lci:${d?
 /* ---------- Spiellogik ---------- */
 const pat=(rod,side,flip)=>{const p=RODS[rod][side];return flip?p.split('').reverse().join(''):p};
 const lvDone=l=>byLv[l].filter(x=>P().done[x.id]).length;
-function isOpen(x){if(P().done[x.id])return true;const und=byLv[x.lv].filter(y=>!P().done[y.id]),i=und.indexOf(x);if(x.lv===0)return i===0;return lvDone(0)===5&&i<3}
+const lvStars=l=>byLv[l].reduce((n,x)=>n+((P().done[x.id]||{}).stars||0),0);
+/* Einführung gilt als erledigt, sobald sie einmal geschafft wurde, auch wenn sie später neu gespielt wird */
+const introOk=()=>lvDone(0)===byLv[0].length||!!(P().lvBest&&P().lvBest[0]!=null);
+function isOpen(x){if(P().done[x.id])return true;const und=byLv[x.lv].filter(y=>!P().done[y.id]),i=und.indexOf(x);if(x.lv===0)return i===0;return introOk()&&i<3}
 const nextTask=()=>TASKS.find(x=>!P().done[x.id]&&isOpen(x))||null;
 const totalStars=()=>Object.values(P().done).reduce((a,d)=>a+(d.stars||0),0);
 const helpCount=x=>Object.keys(ts(x).help||{}).length;
@@ -1079,11 +1103,11 @@ function viewHome(anim){const p=P(),nt=nextTask(),started=Object.keys(p.done).le
  const hero=nt?`<button class="hero" data-act="open" data-i="${nt.n-1}"><span class="mini">${hb(nt)}</span><span><span class="lvn">${t('lv')[nt.lv]}</span><h2>${t('task',{n:nt.n})}</h2><span class="go">${ic('play')}${t(started?'cont':'begin')}</span></span></button>`
   :`<button class="hero" data-act="level" data-l="4"><span class="mini">${hb(TASKS[104])}</span><span><h2>105 / 105</h2><span class="go">${ic('star')}${totalStars()}</span></span></button>`;
  return `<main class="view home">${topBar()}<div class="ha"><h1 class="hello">${esc(t('hello',{name:p.name}))}</h1><p class="sub">${nt?(started?t('homeNext',{n:nt.n}):t('homeFirst')):t('homeAll')}</p>${hero}${started?'':`<button class="newb" data-act="tab" data-v="rules">${ic('book')}<span>${t('newHere')}</span>${ic('back')}</button>`}</div>
- <div class="hb"><h2 class="sect">${t('levels')}</h2><div class="lvlist">${byLv.map((a,l)=>{const lock=l>0&&lvDone(0)<5;return `<button class="lvcard${lock?' lock':''}" style="${lvStyle(l)}" data-act="level" data-l="${l}"><span class="t"><b>${t('lv')[l]}</b><small>${lock?t('nTasks',{n:a.length}):t('solvedOf',{a:lvDone(l),b:a.length})}</small></span>${lattice(l)}</button>`}).join('')}</div></div><div class="hr">${rankHTML()}</div></main>${navBar()}`}
+ <div class="hb"><h2 class="sect">${t('levels')}</h2><div class="lvlist">${byLv.map((a,l)=>{const lock=l>0&&!introOk();return `<button class="lvcard${lock?' lock':''}" style="${lvStyle(l)}" data-act="level" data-l="${l}"><span class="t"><b>${t('lv')[l]}</b><small>${lock?t('nTasks',{n:a.length}):t('solvedOf',{a:lvDone(l),b:a.length})}</small></span>${lattice(l)}</button>`}).join('')}</div></div><div class="hr">${rankHTML()}</div></main>${navBar()}`}
 function viewLevel(){const l=R.lv,a=byLv[l],dn=lvDone(l),nx=a.find(x=>!P().done[x.id]&&isOpen(x));
  return `<main class="view level"><header class="tbar"><button class="ib" data-act="up" aria-label="${esc(t('back'))}">${ic('back')}</button></header>
- <section class="lvhead" style="${lvStyle(l)}"><h2>${t('lv')[l]}</h2><p>${t('solvedOf',{a:dn,b:a.length})}</p><div class="bar"><i style="width:${dn/a.length*100}%"></i></div></section>${l>0&&lvDone(0)<5?`<p class="note" style="margin:-6px 4px 14px">${t('lvLocked')}.</p>`:''}
- <div class="tiles" style="${lvStyle(l)}">${a.map(x=>{const d=P().done[x.id],op=isOpen(x);return `<button class="tile${d?' done':op?'':' lock'}${x===nx?' next':''}${T.just===x.id?' just':''}" data-act="open" data-i="${x.n-1}" aria-label="${esc(t('task',{n:x.n}))}">${x.n}${d?`<span class="pips">${[0,1,2].map(i=>`<i class="${i<d.stars?'on':''}"></i>`).join('')}</span>`:''}</button>`}).join('')}</div></main>${navBar()}`}
+ <section class="lvhead" style="${lvStyle(l)}"><h2>${t('lv')[l]}</h2><p>${t('solvedOf',{a:dn,b:a.length})}</p><div class="bar"><i style="width:${dn/a.length*100}%"></i></div></section>${l>0&&!introOk()?`<p class="note" style="margin:-6px 4px 14px">${t('lvLocked')}.</p>`:''}
+ <div class="tiles" style="${lvStyle(l)}">${a.map(x=>{const d=P().done[x.id],op=isOpen(x);return `<button class="tile${d?' done':op?'':' lock'}${x===nx?' next':''}${T.just===x.id?' just':''}" data-act="open" data-i="${x.n-1}" aria-label="${esc(t('task',{n:x.n}))}">${x.n}${d?`<span class="pips">${[0,1,2].map(i=>`<i class="${i<d.stars?'on':''}"></i>`).join('')}</span>`:''}</button>`}).join('')}</div>${dn===a.length?`<div class="stack" style="margin-top:22px"><button class="btn ton wide" data-act="askLvReplay" data-l="${l}">${t('lvReplay')}</button><span class="note">${t('lvReplayP',{n:lvStars(l)})}</span></div>`:''}</main>${navBar()}`}
 function dropPlan(list,base,gap){const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
  const v=sh(list.filter(s=>s.ax==='V')),h=sh(list.filter(s=>s.ax==='H')),m=new Map();let d=base;
  v.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});if(v.length&&h.length)d+=gap*1.4;h.forEach(s=>{m.set(s,Math.round(d));d+=gap*(.75+Math.random()*.5)});m.end=d;return m}
@@ -1094,7 +1118,7 @@ const gLane=r=>[40-7*r,560+7*r];
 function guideIn(r,n){const p=cen(r),c=colorOf(n),oy=(44-(p-28))/6;return gLane(r).map((x,k)=>`<i class="gd" style="--c:${c};left:${((x-44)/6).toFixed(3)}cqw;top:${oy.toFixed(3)}cqw;height:${(28/6-oy).toFixed(3)}cqw"></i><i class="gd hz" style="--c:${c};left:${((k?556:x)-44)/6}cqw;top:${(28/6).toFixed(3)}cqw;width:${(k?x-556:44-x)/6}cqw"></i>`).join('')}
 function guideOut(r,n){const p=cen(r),c=colorOf(n);return [68,532].map(x=>`<i class="gz" data-row="${r}" style="--c:${c};--lz:${12+(4-r)*5}cqw;left:${(x/6).toFixed(3)}%;top:${(p/6).toFixed(3)}%"></i>`).join('')}
 function flyOne(g,cls,st){const d=g.dataset,n=+d.r,V=d.ax==='V',p=cen(+d.p),vis=+d.v,tz=(V?90:0)+(+d.f?180:0);
- return `<div class="fly ${V?'v':'h'} ${cls}" data-row="${d.p}" aria-hidden="true" style="left:${V?(p-256)/6:7.3333}%;top:${V?45.3333:(p-28)/6}%;--rx:${vis*180}deg;--oy:${V?0:(44-(p-28))/6}cqw;--lz:${V?0:12+(4-(+d.p))*5}cqw;${st||''}"><i class="flsh" style="rotate:${V?90:0}deg">${V?'<i class="v" style="left:0;width:100%"></i>':(()=>{const pp=pat(n,vis,+d.f);let o='',x0=44;const sg=(a,b,c)=>{o+=`<i class="${c}" style="left:${(a-44)/512*100}%;width:${(b-a)/512*100}%"></i>`};for(let i=0;i<5;i++)if(pp[i]==='1'){sg(x0,cen(i)-NH,'');sg(cen(i)-NH,cen(i)+NH,'n');x0=cen(i)+NH}sg(x0,556,'');return o})()}</i><div class="flb">${flipStick(n,vis,0).replace('--tz:0deg','--tz:'+tz+'deg').replace('<button','<span').replace('</button>','</span>').replace('data-act="flip"','')}</div></div>${V?'':guideOut(+d.p,n)}`}
+ return `<div class="fly ${V?'v':'h'} ${cls}" data-row="${d.p}" data-rod="${n}" aria-hidden="true" style="left:${V?(p-256)/6:7.3333}%;top:${V?45.3333:(p-28)/6}%;--rx:${vis*180}deg;--oy:${V?0:(44-(p-28))/6}cqw;--lz:${V?0:12+(4-(+d.p))*5}cqw;${st||''}"><i class="flsh" style="rotate:${V?90:0}deg">${V?'<i class="v" style="left:0;width:100%"></i>':(()=>{const pp=pat(n,vis,+d.f);let o='',x0=44;const sg=(a,b,c)=>{o+=`<i class="${c}" style="left:${(a-44)/512*100}%;width:${(b-a)/512*100}%"></i>`};for(let i=0;i<5;i++)if(pp[i]==='1'){sg(x0,cen(i)-NH,'');sg(cen(i)-NH,cen(i)+NH,'n');x0=cen(i)+NH}sg(x0,556,'');return o})()}</i><div class="flb">${flipStick(n,vis,0).replace('--tz:0deg','--tz:'+tz+'deg').replace('<button','<span').replace('</button>','</span>').replace('data-act="flip"','')}</div></div>${V?'':guideOut(+d.p,n)}`}
 const real=()=>true;
 function flyFx(root){if(RM||!root)return;const els=root.querySelectorAll('.stk.in[data-r]');if(!els.length)return;const id=++flyId,keep=real();let mx=0;
  els.forEach(g=>{mx=Math.max(mx,parseFloat(g.style.getPropertyValue('--d'))||0);g.classList.add('f3')});const o=Math.round(mx+300+500);let h='';
@@ -1132,14 +1156,27 @@ function board3d(){if(B3D)return B3D;const u=v=>(v/6).toFixed(3),f=[];
 /* Augen-Knopf: echte 3D-Stäbe auf dem Brett */
 function real3d(fade,root){root=root||document.getElementById('bd');if(!root||!real())return;let h='';
  root.querySelectorAll(RM||fade?'.stk[data-r]':'.stk[data-r]:not(.in)').forEach(g=>{h+=flyOne(g,'stay'+(fade?' fin':''))});root.insertAdjacentHTML('beforeend',h)}
+/* Fehlt ein unterer Stab und liegen schon obere: die oberen heben kurz ab, der untere schiebt sich in seine Spalte, dann senken sich die oberen wieder */
+function slideFx(root){if(RM||!root)return;const D=f=>parseFloat(f.style.getPropertyValue('--d'))||0,setD=(f,v)=>{f.style.setProperty('--d',Math.round(v)+'ms');const g=root.querySelector('.stk[data-r="'+f.dataset.rod+'"]');if(g)g.style.setProperty('--d',Math.round(v)+'ms')};
+ const nV=[...root.querySelectorAll('.fly.v.keep')].sort((a,b)=>D(a)-D(b)),nH=[...root.querySelectorAll('.fly.h.keep')].sort((a,b)=>D(a)-D(b)),oH=[...root.querySelectorAll('.fly.h.stay')];
+ const sv=nV.filter(v=>oH.length||nH.some(h=>D(h)<D(v)));if(!sv.length)return;
+ const v0=D(sv[0]),prior=nH.filter(h=>D(h)<v0),later=nH.filter(h=>D(h)>=v0);
+ const t0=Math.max(v0,prior.length?Math.max(...prior.map(D))+470:0);
+ sv.forEach((v,k)=>{setD(v,t0+k*160);v.classList.add('slide');v.classList.remove('spin')});
+ const end=t0+(sv.length-1)*160+260+750;
+ later.forEach((h,k)=>setD(h,end+120+k*110));
+ nV.filter(v=>!sv.includes(v)&&D(v)>=v0).forEach((v,k)=>setD(v,Math.max(D(v),end+60)));
+ const up=oH.concat(prior),hs=Math.max(0,t0-120),hd=end-hs+380;
+ up.forEach(f=>f.style.setProperty('--hd',hd+'ms'));setTimeout(()=>up.forEach(f=>{if(f.isConnected)f.classList.add('hup')}),hs);
+ setTimeout(()=>{up.forEach(f=>{f.classList.add('landed');f.classList.remove('hup')});sv.forEach(f=>{f.classList.add('landed');f.classList.remove('slide')})},hs+hd+80)}
 function landFx(){flyFx(document.getElementById('bd'));if(RM)return;const els=document.querySelectorAll('#bd .stk.in');if(!els.length)return;const ds=[...els].map(e=>parseFloat(e.style.getPropertyValue('--d'))||0).sort((a,b)=>a-b);
  ds.forEach((d,i)=>sfx.land((d+300)/1000,ds.length>1?.7:1));setTimeout(()=>buzz(ds.length>1?[8,70,8]:10),ds[0]+300)}
-function viewLvDone(){const l=R.lv,a=byLv[l],all=TASKS.every(x=>P().done[x.id]),st=a.reduce((n,x)=>n+((P().done[x.id]||{}).stars||0),0),mx=a.length*3,nl=[1,2,3,4,0].map(i=>(l+i)%5).find(i=>i!==l&&lvDone(i)<byLv[i].length);
+function viewLvDone(){const l=R.lv,a=byLv[l],g=R.gain|0,all=!g&&TASKS.every(x=>P().done[x.id]),st=lvStars(l),mx=a.length*3,nl=[1,2,3,4,0].map(i=>(l+i)%5).find(i=>i!==l&&lvDone(i)<byLv[i].length);
  const tot=totalStars(),A=all?tot:st,M=all?315:mx;
  return `<main class="view full lvd" style="${lvStyle(l)}"><div class="lvdc"><div class="lvdgrid${a.length===5?' row':''}" aria-hidden="true">${a.map((x,i)=>`<i style="--i:${i}"></i>`).join('')}</div>
- <p class="lvdk">${t(all?'allDoneK':'lvDoneK')}</p><h1>${all?t('allDoneH'):t('lv')[l]}</h1>
+ <p class="lvdk">${t(all?'allDoneK':g?'lvBetterK':'lvDoneK')}</p><h1>${all?t('allDoneH'):t('lv')[l]}</h1>
  <div class="lvdst">${ic('star')}<span id="lvdn" data-a="${A}">${t('lvDoneStars',{a:0,b:M})}</span></div>
- <p class="lvdp">${all?t('allDoneP'):t(l===0?'lvDone0':'lvDoneP',{n:a.length})} ${A>=M?t('lvDonePerfect'):l===0&&!all?'':t('lvDoneMore')}</p></div>
+ <p class="lvdp">${g?(A>=M?t('lvBetterPerfect',{b:M}):t(g===1?'lvBetter1':'lvBetterP',{n:g})+' '+t('lvDoneMore')):`${all?t('allDoneP'):t(l===0?'lvDone0':'lvDoneP',{n:a.length})} ${A>=M?t('lvDonePerfect'):l===0&&!all?'':t('lvDoneMore')}`}</p></div>
  <div class="cta col">${all||nl==null?`<button class="btn pri" data-act="lvHome">${t('toHome')}</button>`:`<button class="btn pri" data-act="lvGo" data-l="${nl}">${t('lvNext',{lv:t('lv')[nl]})}</button><button class="btn txt" data-act="lvHome">${t('toHome')}</button>`}</div></main>`}
 function lvDoneFx(){const l=R.lv,n=byLv[l].length,gap=n===5?.12:.05,end=.35+n*gap,el=document.getElementById('lvdn');
  if(!RM)for(let i=0;i<n;i++)sfx.tick(i,n,.35+i*gap);sfx.fanfare(RM?.1:end+.1);
@@ -1244,7 +1281,7 @@ function draw(anim){const el=document.getElementById('app');let h;
  else if(R.view==='rules')h=viewRules();
  else if(R.view==='lvdone')h=viewLvDone();
  else h=viewHome(anim);
- el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d()}if(R.view==='lvdone')lvDoneFx();if(R.view==='rules')rulesDemo()}
+ el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d();slideFx(document.getElementById('bd'))}if(R.view==='lvdone')lvDoneFx();if(R.view==='rules')rulesDemo()}
 function render(anim){if(anim&&document.startViewTransition&&!RM){try{const vt=document.startViewTransition(()=>{draw(true);scrollTo(0,0)});['ready','finished','updateCallbackDone'].forEach(k=>vt[k]&&vt[k].catch(()=>{}));return}catch(e){}}draw(anim);if(anim)scrollTo(0,0)}
 function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.boom=false;T.animKey=null;T.check=null;
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
@@ -1260,7 +1297,7 @@ function flipEnd(fl){if(!fl)return;const E='cubic-bezier(.2,.8,.2,1)';fl.forEach
 function setSteps(si){const el=document.getElementById('steps');if(el&&el.dataset.si!==String(si)){el.dataset.si=si;el.innerHTML=stepsHTML(si)}}
 function redrawTask(only){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}const fl=flipStart();const keepH=T.boom?[...b.querySelectorAll('.fly.h')].map(f=>[f.dataset.row,f.style.getPropertyValue('--lz'),f.classList.contains('tilt')]):null;
  b.innerHTML=taskBoard(x,!!only,only);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
- const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx();real3d();if(keepH)boomDrop(b,keepH)}
+ const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx();real3d();slideFx(b);if(keepH)boomDrop(b,keepH)}
 function rulesDemo(){xFill();const b=document.querySelector('.demo3 .bdx');if(!b)return;real3d(false,b);b.querySelectorAll('.fly').forEach(f=>f.classList.add('landed'))}
 /* Höhe der oberen Stäbe im 3D-Modus: beim Aufbauen liegen sie, danach gestaffelt angehoben */
 const dLz=r=>(12+(4-(+r))*5)+'cqw',liftLz=r=>taskPhase(TASKS[R.i])==='setup'?'0cqw':dLz(r);
@@ -1272,7 +1309,7 @@ function liftOut(b){if(!b)return;const fl=[...b.querySelectorAll('.fly.h')].sort
 /* Stab im 3D-Modus gelegt: alte Stäbe behalten Höhe/Kippung, neue fallen von oben ins Brett */
 function boomDrop(b,keepH){const ph=taskPhase(TASKS[R.i]),setup=ph==='setup',wasSetup=T.boomPh==='setup';T.boomPh=ph;const out=wasSetup&&!setup;const lzOf=f=>{const k=keepH.find(q=>q[0]===f.dataset.row);return f.classList.contains('h')?(setup||out?'0cqw':k&&k[1]?k[1]:liftLz(f.dataset.row)):'0cqw'};
  const fl=[...b.querySelectorAll('.fly')],nf=fl.filter(f=>f.classList.contains('keep'));
- fl.forEach(f=>{const isN=nf.includes(f);f.classList.add(isN&&!RM?'drop3':'landed');const k=f.classList.contains('h')&&keepH.find(q=>q[0]===f.dataset.row);if(k&&k[2]&&!isN)f.classList.add('tilt');sLz(f,lzOf(f))});
+ fl.forEach(f=>{const isN=nf.includes(f);f.classList.add(isN&&!RM&&!f.classList.contains('slide')?'drop3':'landed');const k=f.classList.contains('h')&&keepH.find(q=>q[0]===f.dataset.row);if(k&&k[2]&&!isN)f.classList.add('tilt');sLz(f,lzOf(f))});
  b.querySelectorAll('.gz').forEach(g=>{const f=fl.find(q=>q.classList.contains('h')&&q.dataset.row===g.dataset.row);if(f)sLz(g,lzOf(f))});
  const mx=Math.max(0,...nf.map(f=>parseFloat(f.style.getPropertyValue('--d'))||0));
  if(!RM&&nf.length)setTimeout(()=>nf.forEach(f=>{f.classList.remove('drop3');f.classList.add('landed')}),mx+500);
@@ -1334,7 +1371,7 @@ function bindDrag(sc,g){let y0=null,dy=0,t0=0,pb0=0;
   else if(mode==='rub')relax();
   mode=null;d=0};
  sc.addEventListener('touchend',tend);sc.addEventListener('touchcancel',tend)}
-function closeSheet(now){const el=document.getElementById('sheet');stopCam();if(!el.classList.contains('open')&&!el.innerHTML)return;el.classList.remove('open');clearTimeout(sheetTimer);
+function closeSheet(now){unpeek();const el=document.getElementById('sheet');stopCam();if(!el.classList.contains('open')&&!el.innerHTML)return;el.classList.remove('open');clearTimeout(sheetTimer);
  if(T.check){T.check=null;if(R.view==='task'&&document.getElementById('steps'))redrawTask()}
  if(now)el.innerHTML='';else sheetTimer=setTimeout(()=>{el.innerHTML=''},400)}
 let toastTimer=null;
@@ -1351,9 +1388,16 @@ function slotSheet(k,lead){const x=TASKS[R.i],st=ts(x),hp=st.help||{},lvl=hp[k]|
  if(lead)h+=`<div class="stack" style="margin-top:22px;border-top:2px solid var(--line);padding-top:16px"><button class="btn bad wide" data-act="solution">${t('showSolution')}</button><span class="note">${t('showSolutionP')}</span></div>`;
  openSheet(h)}
 function rodSheet(n){T.flips.s=0;T.turns.s=0;openSheet(`<h2>${t('stick',{n})} <span id="sds" style="color:var(--ink2);font-weight:600;font-size:17px">${t('side',{sym:symChar(0)})}</span></h2><div style="margin-top:16px">${flipStick(n,0).replace('data-n="'+n+'"','data-n="s"')}</div><p class="note" style="margin-top:8px">${t('tapFlip')}</p>`)}
+/* Während der Prüf-Abfrage das Brett in den sichtbaren Bereich über dem Fenster schieben, damit man den markierten Platz sieht */
+function peekBoard(){const w=document.querySelector('.task .bwrap'),sc=document.querySelector('#sheet .sc');if(!w||!sc)return;
+ const cur=w.style.transform;w.style.transition='none';w.style.transform='';const r=w.getBoundingClientRect();w.style.transform=cur;void w.offsetWidth;w.style.transition='';const top=8,bot=sc.getBoundingClientRect().top-10,av=bot-top;if(av<80)return;
+ const k=Math.min(1,av/r.height),ty=top+(av-r.height*k)/2-r.top,tx=(window.innerWidth/2)-(r.left+r.width/2);
+ if(k>.995&&r.top>=top&&r.bottom<=bot){w.classList.add('peek');return}
+ w.classList.add('peek');w.style.transformOrigin='50% 0';w.style.transform=`translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${k.toFixed(3)})`}
+function unpeek(){const w=document.querySelector('.task .bwrap.peek');if(w){w.classList.remove('peek');w.style.transform=''}}
 function checkSheet(){const c=T.check,k=c.qs[c.i],x=TASKS[R.i],hp=ts(x).help||{},cand=x.open.filter(s=>!hp[s.k]).map(s=>s.rod).sort((a,b)=>a-b),sel=c.sel||0;
  openSheet(`<p class="note">${t('checkH')}${c.qs.length>1?', '+t('checkOf',{a:c.i+1,b:c.qs.length}):''}</p><h2 style="margin-top:4px">${esc(t('checkQ',{slot:slotName(k)}))}</h2><div class="qchips" id="qch">${cand.map(r=>{const col=colorOf(r);return `<button class="chip${r===sel?' on':''}" style="background:${col};color:${ink(col)}" data-act="pick" data-n="${r}" aria-pressed="${r===sel}">${r}</button>`}).join('')}</div>
- ${sel?`<div class="lbl">${t('stick',{n:sel})} <span id="sds">${t('side',{sym:symChar((T.flips.s|0)%2)})}</span></div><div style="margin-top:6px">${flipStick(sel,T.flips.s,T.turns.s).replace('data-n="'+sel+'"','data-n="s"')}</div><p class="note" style="margin-top:6px">${t('tapFlip')}</p><div class="stack"><button class="btn pri wide" data-act="answer" data-n="${sel}">${ic('check')}${t('checkYes',{n:sel})}</button></div>`:`<p class="note" style="margin-top:16px">${t('checkPick')}</p>`}${(ts(x).miss|0)>=1&&starsFor(x)>1?`<p class="note" style="margin-top:10px;color:var(--bad)">${t('missFree')}</p>`:''}`)}
+ ${sel?`<div class="lbl">${t('stick',{n:sel})} <span id="sds">${t('side',{sym:symChar((T.flips.s|0)%2)})}</span></div><div style="margin-top:6px">${flipStick(sel,T.flips.s,T.turns.s).replace('data-n="'+sel+'"','data-n="s"')}</div><p class="note" style="margin-top:6px">${t('tapFlip')}</p><div class="stack"><button class="btn pri wide" data-act="answer" data-n="${sel}">${ic('check')}${t('checkYes',{n:sel})}</button></div>`:`<p class="note" style="margin-top:16px">${t('checkPick')}</p>`}${(ts(x).miss|0)>=1&&starsFor(x)>1?`<p class="note" style="margin-top:10px;color:var(--bad)">${t('missFree')}</p>`:''}`);setTimeout(peekBoard,60);setTimeout(peekBoard,420)}
 function profileSheet(adding){const act=P();
  let h=`<h2>${t('players')}</h2><div class="plist">${S.players.map(p=>{const n=Object.keys(p.done).length;return `<div class="prow${p.id===act.id?' on':''}"><button data-act="switch" data-id="${p.id}" style="display:flex;align-items:center;gap:12px;flex:1;text-align:left;font-weight:700">${avatar(p)}<span>${esc(p.name)}<small>${t('solvedOf',{a:n,b:105})}</small></span></button><button class="ib x" data-act="askRemove" data-id="${p.id}" aria-label="${esc(t('removePlayer',{name:p.name}))}">${ic('close')}</button></div>`}).join('')}</div>`;
  if(adding)h+=`<div class="field"><input id="nm2" maxlength="14" autocomplete="off" placeholder="${esc(t('namePh'))}"></div>${avatarPick(W.av)}<div class="stack"><button class="btn pri wide" data-act="addPlayer">${t('add')}</button></div>`;
@@ -1423,8 +1467,13 @@ document.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]
  if(e.target.id==='impf'){const rd=new FileReader();rd.onload=()=>{let o=null;try{o=JSON.parse(rd.result)}catch(_){}if(!o||o.app!=='alignstix'||!o.data||!Array.isArray(o.data.players)||!o.data.players.length){toast(t('restoreBad'));return}pendingImport=o.data;confirmSheet(t('restoreQ'),'restoreYes','',t('replaceYes'))};rd.readAsText(f)}});
 
 /* ---------- Aktionen ---------- */
-function win(stars){const x=TASKS[R.i],p=P(),prev=p.done[x.id],byMiss=stars>0&&stars<3&&helpCount(x)===0;p.done[x.id]={stars:Math.max(stars,prev?prev.stars:0)};delete p.task[x.id];save();
- R.win={stars,miss:byMiss,lvUp:!prev&&lvDone(x.lv)===byLv[x.lv].length};T.just=x.id;R.replay=false;T.hl=null;T.check=null;T.animKey='win';closeSheet();
+function win(stars){const x=TASKS[R.i],p=P(),l=x.lv,n=byLv[l].length,prev=p.done[x.id],byMiss=stars>0&&stars<3&&helpCount(x)===0;
+ const was=lvDone(l)===n,s0=lvStars(l);p.lvBest=p.lvBest||{};let best=p.lvBest[l];if(best==null&&was)best=s0;
+ p.done[x.id]={stars:Math.max(stars,prev?prev.stars:0)};delete p.task[x.id];
+ const full=lvDone(l)===n,s1=lvStars(l);let lvUp=false,gain=0;
+ if(full&&best==null)lvUp=true;else if(full&&s1>best){lvUp=true;gain=s1-best}
+ if(full)p.lvBest[l]=Math.max(best==null?0:best,s1);save();
+ R.win={stars,miss:byMiss,lvUp,gain};T.just=x.id;R.replay=false;T.hl=null;T.check=null;T.animKey='win';closeSheet();
  document.getElementById('panel')?redrawTask():render(false);
  if(stars>0){sfx.stars(stars);if(!R.win.lvUp)confetti()}
  const pn=document.getElementById('panel');if(pn&&pn.scrollIntoView)setTimeout(()=>pn.scrollIntoView({behavior:RM?'auto':'smooth',block:'end'}),350)}
@@ -1440,17 +1489,17 @@ const ACT={
  helpGo(){closeSheet();go('rules')},
  tab(d){if(d.v!==R.view)sfx.tap();go(d.v)},
  level(d){go('level',{lv:+d.l})},
- open(d){const x=TASKS[+d.i];if(!isOpen(x)){toast(t(lvDone(0)<5&&x.lv>0?'lvLocked':'lockedTask'));sfx.no();return}sfx.tap();go('task',{i:x.n-1},R.view==='task')},
+ open(d){const x=TASKS[+d.i];if(!isOpen(x)){toast(t(!introOk()&&x.lv>0?'lvLocked':'lockedTask'));sfx.no();return}sfx.tap();go('task',{i:x.n-1},R.view==='task')},
  overview(){const x=TASKS[R.i];if(R.from==='level'&&history.length>1){history.back();return}go('level',{lv:x.lv},true)},
  up(){if(R.from==='home'&&history.length>1){history.back();return}go('home',null,true)},
  next(){const x=nextAfter(TASKS[R.i]);if(x)go('task',{i:x.n-1},true);else go('home',null,true)},
  again(){const x=TASKS[R.i];delete P().task[x.id];save();R.replay=true;R.win=null;render(true)},
  placed(){const x=TASKS[R.i],st=ts(x);st.setup=(st.setup|0)+1;save();T.animKey='step';if(st.setup>=x.order.length){T.animKey=null;sfx.step();buzz(12)}else sfx.tap();redrawTask()},
  showAll(){const x=TASKS[R.i],st=ts(x),only=new Set(x.order.slice((st.setup|0)+1).map(s=>s.k));st.setup=x.order.length;save();sfx.step();redrawTask(only)},
- showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div>`)},
+ showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div><div class="stack" style="margin-top:18px;border-top:2px solid var(--line);padding-top:14px"><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askTaskReset">${t('taskReset')}</button><span class="note">${t('taskResetP')}</span></div>`)},
  viewMode(d){S.real=d.v==='1';save();sfx.tap();render(false);profileSheet(false)},
  slot(d){T.hl=d.k;sfx.tap();redrawTask();slotSheet(d.k)},
- tip(){const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
+ tip(){if(T.boom){ACT.boom();setTimeout(()=>{if(!T.boom)ACT.tip()},RM?0:1000);return}const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
  reveal(d){const x=TASKS[R.i],st=ts(x);st.help=st.help||{};const lv=(st.help[d.k]||0)+1;st.help[d.k]=Math.min(2,lv);save();T.animKey=d.k;T.hl=d.k;sfx.place();buzz(15);redrawTask();
   const s=x.sol.find(q=>q.k===d.k);if(lv>=2){closeSheet();toast(t('rodHereFull',{n:s.rod}))}else slotSheet(d.k)},
  slotNo(){T.hl=null;closeSheet();if(R.view==='task')redrawTask()},
@@ -1462,14 +1511,16 @@ const ACT={
   ACT.copyLink()},
  copyLink(){const x=TASKS[R.i],u=shareURL(x),txt=t('shareText',{n:x.n,lv:t('lv')[x.lv]});try{navigator.clipboard.writeText(txt+' '+u).then(()=>toast(t('copied')),()=>toast(u))}catch(e){toast(u)}},
  saveImg(){const x=TASKS[R.i];if(!shareImg||shareImg.n!==x.n)return;const a=document.createElement('a');a.href=URL.createObjectURL(shareImg.blob);a.download='alignstix-aufgabe-'+x.n+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)},
- lvdone(){const x=TASKS[R.i];sfx.tap();go('lvdone',{lv:x.lv},true)},
+ lvdone(){const x=TASKS[R.i],g=R.win&&R.win.gain||0;sfx.tap();go('lvdone',{lv:x.lv,gain:g},true)},
  lvGo(d){sfx.tap();go('level',{lv:+d.l},true)},
  lvHome(){sfx.tap();go('home',null,true)},
  solution(){const x=TASKS[R.i];closeSheet();win(0)},
- check(){const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
-  for(let i=ask.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ask[i],ask[j]]=[ask[j],ask[i]]}
+ check(){if(T.boom){ACT.boom();setTimeout(()=>{if(!T.boom)ACT.check()},RM?0:1000);return}const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
   if(ask.length<2){win(starsFor(x));return}
-  T.check={qs:ask.slice(0,2),i:0};T.hl=T.check.qs[0];redrawTask();checkSheet()},
+  /* die abgefragten Plätze werden einmal ausgelost und bleiben dann fest, damit man nicht durch erneutes Prüfen auf leichtere Stäbe hoffen kann */
+  const st=ts(x);let q=(st.cq||[]).filter(k=>ask.includes(k));
+  if(q.length<2){const rest=ask.filter(k=>!q.includes(k));for(let i=rest.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[rest[i],rest[j]]=[rest[j],rest[i]]}q=q.concat(rest).slice(0,2);st.cq=q;save()}
+  T.check={qs:q.slice(),i:0};T.hl=T.check.qs[0];redrawTask();checkSheet()},
  pick(d){if(!T.check)return;T.check.sel=+d.n;T.flips.s=0;T.turns.s=0;sfx.tap();checkSheet()},
  answer(d,el){const x=TASKS[R.i],c=T.check;if(!c)return;const k=c.qs[c.i],s=x.sol.find(q=>q.k===k);
   if(+d.n===s.rod){sfx.step();buzz(12);c.i++;c.sel=0;if(c.i>=c.qs.length){win(starsFor(x))}else{T.hl=c.qs[c.i];redrawTask();checkSheet()}}
@@ -1494,6 +1545,10 @@ const ACT={
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast(t('backupDone'))},
  restore(){const i=document.getElementById('impf');if(i)i.click()},
  restoreYes(){if(!pendingImport)return;const d=pendingImport;pendingImport=null;delete d.old;S=normalize(d);save();applyTheme();closeSheet();go('home',null,true);toast(t('restored'))},
+ askLvReplay(d){openSheet(`<h2>${esc(t('lvReplayQ',{lv:t('lv')[+d.l]}))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('lvReplayP',{n:lvStars(+d.l)}))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn pri" style="flex:1" data-act="lvReplay" data-l="${d.l}">${t('lvReplayGo')}</button></div>`)},
+ lvReplay(d){const l=+d.l,p=P();p.lvBest=p.lvBest||{};p.lvBest[l]=Math.max(p.lvBest[l]||0,lvStars(l));byLv[l].forEach(x=>{delete p.done[x.id];delete p.task[x.id]});save();closeSheet(true);sfx.tap();render(true)},
+ askTaskReset(){openSheet(`<h2>${esc(t('taskResetQ'))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('taskResetP'))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn bad" style="flex:1" data-act="taskReset">${t('taskReset')}</button></div>`)},
+ taskReset(){const x=TASKS[R.i];delete P().task[x.id];save();T.hl=null;T.check=null;T.animKey=null;closeSheet(true);sfx.tap();render(true)},
  resetSetup(){const x=TASKS[R.i];ts(x).setup=0;save();T.hl=null;T.animKey='step';closeSheet();sfx.tap();redrawTask()},
  setColor(d){setColorFor(d.n==='b'?'b':+d.n,d.c);closeSheet();render(false)},
  profile(){W.av=S.players.length%AV.length;profileSheet(false)},

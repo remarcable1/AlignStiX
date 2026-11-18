@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>AlignStix</title>
 <meta name="description" content="AlignStix – die App zu deinem Stäbchen-Puzzle">
 <meta name="theme-color" content="#EEF2EE">
@@ -592,7 +592,7 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .bwrap.b3d .fly .flipw{perspective:none}
 .bwrap.b3d .fly .flsh{visibility:hidden}
 .bwrap.boom .fly.drop3 .flb{animation:drop3 .44s both;animation-delay:var(--d,0ms)}
-@keyframes drop3{0%{transform:translateZ(34cqw);animation-timing-function:cubic-bezier(.55,0,.9,.55)}66%{transform:translateZ(0);animation-timing-function:cubic-bezier(.2,.7,.4,1)}80%{transform:translateZ(1.6cqw);animation-timing-function:cubic-bezier(.5,0,.8,.5)}100%{transform:none}}
+@keyframes drop3{0%{transform:translateZ(34cqw);visibility:hidden;animation-timing-function:cubic-bezier(.55,0,.9,.55)}1%{visibility:visible}66%{transform:translateZ(0);animation-timing-function:cubic-bezier(.2,.7,.4,1)}80%{transform:translateZ(1.6cqw);animation-timing-function:cubic-bezier(.5,0,.8,.5)}100%{transform:none}}
 .fly.landed,.fly.landed .flb,.fly.landed .lift,.fly.landed .flip,.fly.landed .flsh{animation:none}
 .task .fly.h{transform-origin:50% 50%}
 .bwrap.boom{--rx:50deg;--rz:-22deg}
@@ -708,6 +708,12 @@ a.newb span,a.newb small{text-decoration:none}
 /* Druck: keine Animationen, sonst druckt z. B. Android das Logo im unsichtbaren Startzustand */
 #print *,#print *::before,#print *::after{animation:none!important;transition:none!important}
 
+/* Schriftgröße (Einstellungen) und Spielfeld-Zoom */
+#app,#sheet,#toast,#pov{zoom:var(--uiz,1)}
+html,body{touch-action:manipulation}
+.task .bbox{touch-action:pan-y}
+.task .bbox.zoomed{overflow:hidden;touch-action:none}
+
 </style>
 </head>
 <body>
@@ -717,6 +723,7 @@ a.newb span,a.newb small{text-decoration:none}
 <script>
 const I18N={
 de:{
+ textSize:'Schriftgröße',
  fmtCards:'Karten',fmtBook:'Heft {f}',
  pfmtL:'Format',bookH:'Heft im Format {f}',bookP:'Anleitung, alle 105 Aufgaben und die Lösungen als Heft. Es passt nicht ins Spielfeld und wird daneben aufbewahrt. A5 ist handlich, A4 am besten lesbar.',
  boomHint:'Tipp: Mit „Auseinanderziehen“ siehst du auch die Unterseiten der oberen Stäbe.',taskResetS:'Zurücksetzen',instH:'Als App aufs Handy',instP:'iPhone: In Safari auf Teilen tippen und „Zum Home-Bildschirm“ wählen. Android: Im Browser-Menü „App installieren“ wählen. Danach startet AlignStix wie eine normale App und funktioniert auch ohne Internet.',mwH:'Brett und Stäbe selbst drucken',mwP:'Die 3D-Druckdateien gibt es auf MakerWorld.',
@@ -776,6 +783,7 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',toHome:'Zur Startseite',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ textSize:'Text size',
  fmtCards:'Cards',fmtBook:'Booklet {f}',
  pfmtL:'Format',bookH:'Booklet in {f}',bookP:'Instructions, all 105 tasks and the solutions as a booklet. It doesn’t fit in the board and is kept next to it. A5 is handy, A4 is easiest to read.',
  boomHint:'Tip: “Pull apart” also shows the undersides of the upper sticks.',taskResetS:'Reset',instH:'Install as an app',instP:'iPhone: in Safari tap Share and choose “Add to Home Screen”. Android: choose “Install app” in the browser menu. AlignStix then starts like a normal app and also works offline.',mwH:'Print the board and sticks yourself',mwP:'The 3D print files are on MakerWorld.',
@@ -835,6 +843,7 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',toHome:'Home',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ textSize:'Taille du texte',
  fmtCards:'Cartes',fmtBook:'Livret {f}',
  pfmtL:'Format',bookH:'Livret au format {f}',bookP:'Règles, les 105 défis et les solutions sous forme de livret. Il ne tient pas dans le plateau et se range à côté. Le A5 est pratique, le A4 le plus lisible.',
  boomHint:'Astuce : « Écarter » montre aussi le dessous des bâtons du dessus.',taskResetS:'Réinitialiser',instH:'Installer comme appli',instP:'iPhone : dans Safari, touche Partager puis « Sur l’écran d’accueil ». Android : choisis « Installer l’application » dans le menu du navigateur. AlignStix démarre alors comme une appli normale et fonctionne aussi hors ligne.',mwH:'Imprimer soi-même plateau et bâtons',mwP:'Les fichiers d’impression 3D sont sur MakerWorld.',
@@ -894,6 +903,7 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',toHome:'Accueil',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ textSize:'Tamaño de letra',
  fmtCards:'Tarjetas',fmtBook:'Cuaderno {f}',
  pfmtL:'Formato',bookH:'Cuaderno en {f}',bookP:'Reglas, los 105 retos y las soluciones en un cuaderno. No cabe en el tablero y se guarda al lado. El A5 es práctico, el A4 se lee mejor.',
  boomHint:'Consejo: «Separar» también muestra la cara inferior de los palitos de arriba.',taskResetS:'Reiniciar',instH:'Instalar como app',instP:'iPhone: en Safari toca Compartir y elige «Añadir a pantalla de inicio». Android: elige «Instalar aplicación» en el menú del navegador. Después AlignStix se abre como una app normal y funciona también sin internet.',mwH:'Imprime tú mismo el tablero y los palitos',mwP:'Los archivos de impresión 3D están en MakerWorld.',
@@ -1004,7 +1014,7 @@ const ink=c=>lum(c)>=150?'#14201B':'#fff';
 const isDark=()=>document.documentElement.classList.contains('dark');
 const heroCol=()=>S.board;
 function applyBoard(){const st=document.documentElement.style,lt=lum(S.board)>=150,hc=heroCol();st.setProperty('--hero',hc||'var(--mat)');st.setProperty('--onhero',hc?(lt?'#14201B':'#fff'):'var(--onmat)');st.setProperty('--board',S.board);st.setProperty('--bi',lt?'14,31,26':'255,255,255');st.setProperty('--boardline',lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)')}
-function applyTheme(){applyBoard();const d=S.theme==='dark'||(S.theme==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.lang=S.lang;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#09120F':'#EEF2EE'}
+function applyTheme(){applyBoard();document.documentElement.style.setProperty('--uiz',[1,1.12,1.25][S.fs|0]||1);const d=S.theme==='dark'||(S.theme==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.lang=S.lang;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#09120F':'#EEF2EE'}
 const lvStyle=i=>{const L=LV[i],d=isDark();return `--lc:${d?L.dc:L.c};--lci:${d?L.dci:L.ci};--ls:${L.s};--lsi:${L.si}`};
 
 /* ---------- Spiellogik ---------- */
@@ -1106,6 +1116,24 @@ document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closes
 document.addEventListener('pointermove',e=>{if(!swp||swp.done)return;const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(Math.abs(dy)>12||Math.abs(dx)>12)swp.moved=true;if(Math.abs(dx)>26&&Math.abs(dx)>Math.abs(dy)*1.300){swp.done=true;swallow=Date.now();turnStick(swp.el,dx>0?1:-1)}});
 document.addEventListener('pointerup',()=>{clearTimeout(lpT);if(swp&&(swp.done||swp.moved))swallow=Date.now();swp=null});
 document.addEventListener('pointercancel',()=>{swp=null});
+/* Seiten-Zoom verhindern (iOS ignoriert user-scalable=no); nur das Spielfeld lässt sich mit zwei Fingern zoomen */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
+/* Spielfeld zoomen: zwei Finger auseinander/zusammen, dabei verschieben */
+const BZ={s:1,x:0,y:0},bzP=new Map();let bzG=null;
+function bzApply(w,anim){w=w||document.querySelector('.task .bwrap');if(!w)return;w.style.transition=anim?'transform .3s cubic-bezier(.2,.8,.2,1)':'none';w.style.transformOrigin='0 0';w.style.transform=BZ.s>1.001?`translate(${BZ.x}px,${BZ.y}px) scale(${BZ.s})`:'';const b=w.closest('.bbox');if(b)b.classList.toggle('zoomed',BZ.s>1.001)}
+function bzReset(anim){BZ.s=1;BZ.x=0;BZ.y=0;bzApply(null,anim)}
+document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest('.task .bbox');if(!b||e.pointerType==='mouse')return;bzP.set(e.pointerId,[e.clientX,e.clientY]);
+ if(bzP.size===2){if(orb){orb.f.classList.remove('drag');orb=null}swp=null;const w=b.querySelector('.bwrap'),[a,c]=[...bzP.values()],r=b.getBoundingClientRect();
+  const zf=(r.width/b.offsetWidth)||1,wr=w.getBoundingClientRect();bzG={w,r,zf,bx:wr.left-BZ.x*zf,by:wr.top-BZ.y*zf,d0:Math.hypot(a[0]-c[0],a[1]-c[1]),m0:[(a[0]+c[0])/2,(a[1]+c[1])/2],s0:BZ.s,x0:BZ.x,y0:BZ.y}}},true);
+document.addEventListener('pointermove',e=>{if(!bzP.has(e.pointerId))return;const pv=bzP.get(e.pointerId);bzP.set(e.pointerId,[e.clientX,e.clientY]);
+ if(!bzG&&bzP.size===1&&BZ.s>1.001&&!orb){const b=e.target.closest&&e.target.closest('.task .bbox');const w=document.querySelector('.task .bwrap');if(w){const zf=(b?b.getBoundingClientRect().width/b.offsetWidth:1)||1;if(!bzPan){bzPan={x:e.clientX,y:e.clientY,on:false}}const dx=e.clientX-bzPan.x,dy=e.clientY-bzPan.y;if(!bzPan.on&&Math.hypot(dx,dy)>8)bzPan.on=true;if(bzPan.on){BZ.x+=(e.clientX-pv[0])/zf;BZ.y+=(e.clientY-pv[1])/zf;const W=w.offsetWidth,H=w.offsetHeight;BZ.x=Math.min(0,Math.max(W-W*BZ.s,BZ.x));BZ.y=Math.min(0,Math.max(H-H*BZ.s,BZ.y));bzApply(w);swallow=Date.now();swp=null}}return}
+ if(!bzG||bzP.size<2)return;
+ const [a,c]=[...bzP.values()],d=Math.hypot(a[0]-c[0],a[1]-c[1]),m=[(a[0]+c[0])/2,(a[1]+c[1])/2],g=bzG,s=Math.max(1,Math.min(3,g.s0*d/g.d0));
+ const z=g.zf,lx=(g.m0[0]-g.bx)/z,ly=(g.m0[1]-g.by)/z,px=(lx-g.x0)/g.s0,py=(ly-g.y0)/g.s0;
+ BZ.s=s;BZ.x=lx-px*s+(m[0]-g.m0[0])/z;BZ.y=ly-py*s+(m[1]-g.m0[1])/z;const W=g.w.offsetWidth,H=g.w.offsetHeight;BZ.x=Math.min(0,Math.max(W-W*s,BZ.x));BZ.y=Math.min(0,Math.max(H-H*s,BZ.y));bzApply(g.w);swallow=Date.now()},true);
+let bzPan=null;const bzEnd=e=>{if(!bzP.has(e.pointerId))return;bzP.delete(e.pointerId);if(!bzP.size)bzPan=null;if(bzG&&bzP.size<2){bzG=null;swallow=Date.now();if(BZ.s<1.08)bzReset(true)}};
+document.addEventListener('pointerup',bzEnd,true);document.addEventListener('pointercancel',bzEnd,true);
 let orb=null;
 document.addEventListener('pointerdown',e=>{const f=e.target.closest&&e.target.closest('.bwrap.boom .fly.h');if(!f)return;const w=f.closest('.bwrap');orb={f,w,id:e.pointerId,y:e.clientY,lz:parseFloat(f.style.getPropertyValue('--lz'))||0,m:false};swp=null;try{f.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()});
 document.addEventListener('pointermove',e=>{if(!orb||e.pointerId!==orb.id)return;const dy=e.clientY-orb.y;if(!orb.m&&Math.abs(dy)<6)return;if(!orb.m){orb.m=true;orb.f.classList.add('drag')}const k=orb.w.getBoundingClientRect().width/100*.55,lz=Math.max(0,Math.min(42,orb.lz-dy/k)).toFixed(2)+'cqw';sLz(orb.f,lz);orb.w.querySelectorAll('.gz[data-row="'+orb.f.dataset.row+'"]').forEach(g=>sLz(g,lz));e.preventDefault()});
@@ -1315,7 +1343,7 @@ function draw(anim){const el=document.getElementById('app');let h;
  else h=viewHome(anim);
  el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d();const bd=document.getElementById('bd');slideFx(bd);if(S.pref3d&&!T.boom){const m=Math.max(0,...[...bd.querySelectorAll('.fly')].map(f=>parseFloat(f.style.getPropertyValue('--d'))||0)),k=R.i;setTimeout(()=>{if(R.view==='task'&&R.i===k&&!T.boom&&!sheetOpen())ACT.boom(null,null,1)},anim&&!RM?m+900:150)}}if(R.view==='lvdone')lvDoneFx();if(R.view==='rules')rulesDemo()}
 function render(anim){if(anim&&document.startViewTransition&&!RM){try{const vt=document.startViewTransition(()=>{draw(true);scrollTo(0,0)});['ready','finished','updateCallbackDone'].forEach(k=>vt[k]&&vt[k].catch(()=>{}));return}catch(e){}}draw(anim);if(anim)scrollTo(0,0)}
-function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.boom=false;T.animKey=null;T.check=null;
+function go(view,par,replace){bzReset(false);const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.boom=false;T.animKey=null;T.check=null;
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
  render(true)}
 window.addEventListener('popstate',e=>{if(document.getElementById('pov')){ACT.printClose();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}if(sheetOpen()){closeSheet();try{history.pushState({view:R.view,i:R.i,lv:R.lv,from:R.from},'')}catch(_){}return}R=Object.assign({view:'home'},e.state||{});T.hl=null;T.check=null;render(true)});
@@ -1421,7 +1449,7 @@ function slotSheet(k,lead){const x=TASKS[R.i],st=ts(x),hp=st.help||{},lvl=hp[k]|
  openSheet(h)}
 function rodSheet(n){T.flips.s=0;T.turns.s=0;openSheet(`<h2>${t('stick',{n})} <span id="sds" style="color:var(--ink2);font-weight:600;font-size:17px">${t('side',{sym:symChar(0)})}</span></h2><div style="margin-top:16px">${flipStick(n,0).replace('data-n="'+n+'"','data-n="s"')}</div><p class="note" style="margin-top:8px">${t('tapFlip')}</p>`)}
 /* Während der Prüf-Abfrage das Brett in den sichtbaren Bereich über dem Fenster schieben, damit man den markierten Platz sieht */
-function peekBoard(){const w=document.querySelector('.task .bwrap'),sc=document.querySelector('#sheet .sc');if(!w||!sc)return;
+function peekBoard(){if(BZ.s>1.001)bzReset(false);const w=document.querySelector('.task .bwrap'),sc=document.querySelector('#sheet .sc');if(!w||!sc)return;
  const cur=w.style.transform;w.style.transition='none';w.style.transform='';const r=w.getBoundingClientRect();w.style.transform=cur;void w.offsetWidth;w.style.transition='';const top=8,bot=sc.getBoundingClientRect().top-10,av=bot-top;if(av<80)return;
  const k=Math.min(1,av/r.height),ty=top+(av-r.height*k)/2-r.top,tx=(window.innerWidth/2)-(r.left+r.width/2);
  if(k>.995&&r.top>=top&&r.bottom<=bot){w.classList.add('peek');return}
@@ -1439,6 +1467,7 @@ function profileSheet(adding){const act=P();
  <div class="setrow"><span>${t('theme')}</span><span class="seg">${['auto','light','dark'].map(m=>`<button class="${S.theme===m?'on':''}" data-act="theme" data-m="${m}">${t(m)}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('sound')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.sound===!!v?'on':''}" data-act="sound" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('haptic')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.haptic===!!v?'on':''}" data-act="haptic" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
+ <div class="setrow"><span>${t('textSize')}</span><span class="seg">${[0,1,2].map(v=>`<button class="${(S.fs|0)===v?'on':''}" data-act="fsz" data-v="${v}" aria-label="${esc(t('textSize'))} ${[100,112,125][v]} %" style="font-size:${[14,16,18][v]}px">A</button>`).join('')}</span></div>
  <div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="helpGo">${ic('book')}${t('helpBtn')}</button>${MW_URL?`<a class="btn txt wide" href="${esc(MW_URL)}" target="_blank" rel="noopener">${t('mwH')}</a>`:''}</div><div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="backup">${t('backup')}</button><button class="btn ton wide" data-act="restore">${t('restore')}</button><span class="note">${t('backupP')}</span><input type="file" accept="application/json,.json" id="impf" hidden></div>
  <div class="stack" style="margin-top:24px"><button class="btn bad wide" data-act="askReset">${esc(t('reset',{name:act.name}))}</button><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askWipe">${t('wipe')}</button><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askFactory">${t('factory')}</button><span class="note" style="text-align:center">AlignStix, ${t('version',{v:APP_VERSION})}</span></div>`;
  openSheet(h)}
@@ -1514,11 +1543,12 @@ function newPlayer(name,av){const p={id:'p'+Date.now().toString(36)+Math.floor(M
  S.players.push(p);S.active=p.id;save();return p}
 const ACT={
  boomHintX(){markSeen('boom');const l=document.getElementById('legend');if(l)l.innerHTML=legendHTML()},
- boom(d,el,auto){const dw=el&&el.closest&&el.closest('.demo3w'),w=dw?dw.querySelector('.bwrap'):document.querySelector('.task .bwrap'),on=w?!w.classList.contains('boom'):!T.boom;if(!dw){T.boom=on;markSeen('boom');if(!auto){S.pref3d=on;save()}}
+ boom(d,el,auto){if(!(el&&el.closest&&el.closest('.demo3w')))bzReset(false);const dw=el&&el.closest&&el.closest('.demo3w'),w=dw?dw.querySelector('.bwrap'):document.querySelector('.task .bwrap'),on=w?!w.classList.contains('boom'):!T.boom;if(!dw){T.boom=on;markSeen('boom');if(!auto){S.pref3d=on;save()}}
   if(w){clearTimeout(w._bt);if(on){const pre=!dw&&taskPhase(TASKS[R.i])==='setup';w.querySelectorAll('.fly').forEach(f=>{f.classList.add('landed');f.classList.remove('tilt');if(f.classList.contains('h'))sLz(f,pre?'0cqw':dLz(f.dataset.row))});w.querySelectorAll('.gz').forEach(g=>sLz(g,pre?'0cqw':dLz(g.dataset.row)));if(!dw)T.boomPh=taskPhase(TASKS[R.i]);w.classList.add('b3d','snap');void w.offsetWidth;w.classList.remove('snap');w.classList.add('boom')}
    else{w.classList.remove('boom');const fin=()=>{clearTimeout(w._bt);if(!w.classList.contains('boom'))w.classList.remove('b3d')};if(RM)fin();else w._bt=setTimeout(fin,950)}}
   if(dw){const bt=dw.querySelector('.boomb');if(bt)bt.outerHTML=boomBtn(on)}else{const l=document.getElementById('legend');if(l)l.innerHTML=legendHTML()}sfx.turn();buzz(10)},
  feat(){sfx.tap();go('rules');setTimeout(()=>{const e=document.getElementById('r3d');if(e)e.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})},350)},
+ fsz(d){S.fs=+d.v;save();applyTheme();sfx.tap();profileSheet(false)},
  helpGo(){closeSheet();go('rules')},
  tab(d){if(d.v!==R.view)sfx.tap();go(d.v)},
  level(d){go('level',{lv:+d.l})},

@@ -694,6 +694,17 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 .bwrap.b3d .fly.h.hup{animation-name:hLift3}
 @keyframes hLift3{0%{translate:0 0 0}16%,80%{translate:0 0 9cqw}100%{translate:0 0 0}}
 
+/* Erster Hinweis auf die 3D-Ansicht */
+.bhint{display:flex;align-items:center;gap:6px;width:100%;justify-content:center;margin-top:6px;padding:8px 6px 8px 14px;border-radius:14px;background:color-mix(in srgb,var(--sun) 22%,transparent);color:var(--ink);font-size:13.5px;font-weight:600;line-height:1.35;text-align:left}
+.bhint .ib{flex:none;width:32px;height:32px}
+.bhint .ib svg{width:16px;height:16px}
+.lnks{display:flex;gap:16px}
+
+a.newb,a.btn{color:var(--ink);text-decoration:none}
+a.newb span,a.newb small{text-decoration:none}
+
+.pfmt{margin-top:16px}.pfmt .seg{display:flex;width:100%}.pfmt .seg button{flex:1;white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -703,6 +714,9 @@ html.dark .swatches button{box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
 <script>
 const I18N={
 de:{
+ fmtCards:'Karten',fmtBook:'Heft {f}',
+ pfmtL:'Format',bookH:'Heft im Format {f}',bookP:'Anleitung, alle 105 Aufgaben und die Lösungen als Heft. Es passt nicht ins Spielfeld und wird daneben aufbewahrt. A5 ist handlich, A4 am besten lesbar.',
+ boomHint:'Tipp: Mit „Auseinanderziehen“ siehst du auch die Unterseiten der oberen Stäbe.',taskResetS:'Zurücksetzen',instH:'Als App aufs Handy',instP:'iPhone: In Safari auf Teilen tippen und „Zum Home-Bildschirm“ wählen. Android: Im Browser-Menü „App installieren“ wählen. Danach startet AlignStix wie eine normale App und funktioniert auch ohne Internet.',mwH:'Brett und Stäbe selbst drucken',mwP:'Die 3D-Druckdateien gibt es auf MakerWorld.',
  lvBetterK:'Neuer Bestwert',lvBetterP:'Super, {n} Sterne mehr als bei deinem besten Durchgang.',lvBetter1:'Super, ein Stern mehr als bei deinem besten Durchgang.',lvBetterPerfect:'Perfekt! Jetzt hast du alle {b} Sterne dieser Stufe.',lvReplay:'Stufe neu spielen',lvReplayQ:'{lv} neu spielen?',lvReplayP:'Alle Aufgaben dieser Stufe werden wieder offen. Dein Bestwert von {n} Sternen bleibt gespeichert. Übertriffst du ihn, gibt es eine neue Auszeichnung.',lvReplayGo:'Neu spielen',taskReset:'Aufgabe zurücksetzen',taskResetQ:'Aufgabe zurücksetzen?',taskResetP:'Aufbau, Tipps und Fehlversuche dieser Aufgabe werden gelöscht. Du startest wieder mit allen Sternen.',
  cardsH:'Aufgabenkarten',cardsP:'69 Karten (100 × 100 mm), vorne und hinten bedruckt: 2 Anleitungskarten mit Titelblatt, 53 Aufgabenkarten mit allen 105 Aufgaben und 14 Lösungskarten. Die Karten liegen im Spielfeld unter den Stäben.',printCards:'Karten drucken',cardsReady:'Deine Karten sind bereit',cardsReadyP:'{n} Seiten für {s} Blatt A4. Beidseitig drucken, „an der langen Kante spiegeln“ und Größe 100 % wählen. Danach an den Marken schneiden.',
  rank:'Rangliste',rkSolved:'{n} gelöst',rkPerfect:'{n} mit 3 Sternen',
@@ -714,11 +728,11 @@ de:{
  askRod:'Willst du wissen, welcher Stab hierhin gehört?',askFull:'Hierhin gehört Stab {n}. Willst du auch sehen, wie er genau liegt?',yesShow:'Ja, zeigen',noSelf:'Nein, ich knoble selbst',share:'Aufgabe teilen',shareText:'Schaffst du AlignStix-Aufgabe {n} ({lv})?',copied:'Link kopiert',shared:'Aufgabe {n} wurde mit dir geteilt',photoP:'Wisch über das Foto, um den Kreis zu verschieben. Mit zwei Fingern zoomst du.',zoomIn:'Vergrößern',zoomOut:'Verkleinern',rebuildS:'Neu aufbauen',showAllS:'Alle zeigen',
  camMeasure:'Farbe messen',adjH:'Farbe anpassen',adjP:'Vergleiche mit deinem echten Stab und justiere nach.',adjPB:'Vergleiche mit deinem echten Spielfeld und justiere nach.',adjOld:'Vorher',adjNew:'Angepasst',adjL:'Helligkeit',adjS:'Farbkraft',adjHu:'Farbton',adjAgain:'Nochmal messen',adjFine:'Aktuelle Farbe fein anpassen',
  boardH:'Dein Spielfeld',boardColorH:'Welche Farbe hat dein Spielfeld?',camBtnB:'Farbe vom echten Spielfeld aufnehmen',camHB:'Halte das Spielfeld in den Kreis',
- printReady:'Dein Heft ist bereit',printReadyP:'{n} Seiten im Format A4. Im nächsten Schritt wählst du deinen Drucker oder „Als PDF speichern“.',printNow:'Drucken oder als PDF speichern',printNo:'Drucken ist hier nicht möglich. Öffne die App im Browser.',
+ printReady:'Dein Heft ist bereit',printReadyP:'{n} Seiten im Format {f}. Im nächsten Schritt wählst du deinen Drucker oder „Als PDF speichern“.',printNow:'Drucken oder als PDF speichern',printNo:'Drucken ist hier nicht möglich. Öffne die App im Browser.',
  missFree:'Der nächste Fehlversuch kostet einen Stern.',missCost:'Das kostet einen Stern.',winMiss:'Gelöst, mit Fehlversuchen beim Prüfen.',
  checkPick:'Tippe eine Nummer an. Du siehst dann den Stab und kannst ihn wenden, bevor du antwortest.',checkYes:'Ja, Stab {n} liegt dort',
- printMine:'In meinen Stabfarben',printMineP:'Das Heft wird direkt in der App erzeugt. Im Druckdialog kannst du es drucken oder als PDF speichern.',printStd:'In den Standardfarben',printOne:'Heft drucken',printWait:'Das Heft wird vorbereitet …',
- rebuild:'Brett leeren und Aufgabe neu aufbauen',camBtn:'Farbe vom echten Stab aufnehmen',camH:'Halte Stab {n} in den Kreis',camP:'Am besten bei Tageslicht. Im Kreis wird die Farbe gemessen.',camTake:'Diese Farbe nehmen',camPhoto:'Foto aufnehmen',camTap:'Tippe im Foto auf den Stab.',camNo:'Die Live-Kamera ist hier nicht verfügbar. Nimm stattdessen ein Foto auf.',backup:'Spielstand sichern',restore:'Spielstand laden',backupP:'Sichert alle Spieler, Sterne und Stabfarben in einer Datei, zum Beispiel für ein neues Handy.',backupDone:'Spielstand gespeichert',restoreQ:'Den Spielstand auf diesem Gerät durch die Datei ersetzen?',replaceYes:'Ja, ersetzen',restoreBad:'Diese Datei ist kein AlignStix-Spielstand.',restored:'Spielstand geladen',printG:'Heft zum Ausdrucken',printP:'Anleitung, alle 105 Aufgaben und die Lösungen als PDF.',
+ printMine:'In meinen Stabfarben',printMineP:'Wähle das Format. Alles wird direkt in der App erzeugt, im Druckdialog kannst du drucken oder als PDF speichern.',printStd:'In den Standardfarben',printOne:'Heft drucken',printWait:'Das Heft wird vorbereitet …',
+ rebuild:'Brett leeren und Aufgabe neu aufbauen',camBtn:'Farbe vom echten Stab aufnehmen',camH:'Halte Stab {n} in den Kreis',camP:'Am besten bei Tageslicht. Im Kreis wird die Farbe gemessen.',camTake:'Diese Farbe nehmen',camPhoto:'Foto aufnehmen',camTap:'Tippe im Foto auf den Stab.',camNo:'Die Live-Kamera ist hier nicht verfügbar. Nimm stattdessen ein Foto auf.',backup:'Spielstand sichern',restore:'Spielstand laden',backupP:'Sichert alle Spieler, Sterne und Stabfarben in einer Datei, zum Beispiel für ein neues Handy.',backupDone:'Spielstand gespeichert',restoreQ:'Den Spielstand auf diesem Gerät durch die Datei ersetzen?',replaceYes:'Ja, ersetzen',restoreBad:'Diese Datei ist kein AlignStix-Spielstand.',restored:'Spielstand geladen',printG:'Zum Ausdrucken',printP:'Anleitung, alle 105 Aufgaben und die Lösungen: als Karten fürs Spielfeld oder als Heft.',
  tagline:'Die App zu deinem Stäbchen-Puzzle',welcomeH:'Willkommen bei AlignStix',welcomeP:'Hol dein Brett und die zehn Stäbe. Die App stellt dir die Aufgaben, hilft beim Aufbauen und feiert jede Lösung mit dir.',
  nameQ:'Wie heißt du?',namePh:'Dein Name',pickShape:'Such dir ein Zeichen aus',start:'Los geht’s',player:'Spieler',
  hello:'Hallo {name}',homeNext:'Aufgabe {n} wartet auf dich.',homeFirst:'Deine erste Aufgabe liegt bereit.',homeAll:'Alle 105 Aufgaben gelöst. Respekt!',
@@ -759,6 +773,9 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',toHome:'Zur Startseite',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ fmtCards:'Cards',fmtBook:'Booklet {f}',
+ pfmtL:'Format',bookH:'Booklet in {f}',bookP:'Instructions, all 105 tasks and the solutions as a booklet. It doesn’t fit in the board and is kept next to it. A5 is handy, A4 is easiest to read.',
+ boomHint:'Tip: “Pull apart” also shows the undersides of the upper sticks.',taskResetS:'Reset',instH:'Install as an app',instP:'iPhone: in Safari tap Share and choose “Add to Home Screen”. Android: choose “Install app” in the browser menu. AlignStix then starts like a normal app and also works offline.',mwH:'Print the board and sticks yourself',mwP:'The 3D print files are on MakerWorld.',
  lvBetterK:'New personal best',lvBetterP:'Great, {n} more stars than your best run.',lvBetter1:'Great, one more star than your best run.',lvBetterPerfect:'Perfect! You now have all {b} stars in this level.',lvReplay:'Play level again',lvReplayQ:'Play {lv} again?',lvReplayP:'All tasks of this level open up again. Your best of {n} stars is kept. Beat it and you’ll get a new award.',lvReplayGo:'Play again',taskReset:'Reset task',taskResetQ:'Reset this task?',taskResetP:'Setup, hints and wrong answers for this task are cleared. You start again with all stars.',
  cardsH:'Task cards',cardsP:'69 cards (100 × 100 mm), printed on both sides: 2 rule cards with a title page, 53 task cards with all 105 tasks and 14 solution cards. The cards are stored in the board, under the sticks.',printCards:'Print cards',cardsReady:'Your cards are ready',cardsReadyP:'{n} pages for {s} sheets of A4. Print double-sided, “flip on long edge”, at 100 % size. Then cut along the marks.',
  rank:'Ranking',rkSolved:'{n} solved',rkPerfect:'{n} with 3 stars',
@@ -770,11 +787,11 @@ en:{
  askRod:'Do you want to know which stick belongs here?',askFull:'Stick {n} belongs here. Do you also want to see exactly how it lies?',yesShow:'Yes, show me',noSelf:'No, I’ll work it out',share:'Share task',shareText:'Can you solve AlignStix task {n} ({lv})?',copied:'Link copied',shared:'Task {n} was shared with you',photoP:'Swipe over the photo to move the circle. Pinch with two fingers to zoom.',zoomIn:'Zoom in',zoomOut:'Zoom out',rebuildS:'Start over',showAllS:'Show all',
  camMeasure:'Measure colour',adjH:'Adjust colour',adjP:'Compare with your real stick and fine-tune.',adjPB:'Compare with your real board and fine-tune.',adjOld:'Before',adjNew:'Adjusted',adjL:'Brightness',adjS:'Vividness',adjHu:'Hue',adjAgain:'Measure again',adjFine:'Fine-tune the current colour',
  boardH:'Your board',boardColorH:'What colour is your board?',camBtnB:'Take the colour from the real board',camHB:'Hold the board inside the circle',
- printReady:'Your booklet is ready',printReadyP:'{n} pages in A4. In the next step you choose your printer or “Save as PDF”.',printNow:'Print or save as PDF',printNo:'Printing is not possible here. Open the app in the browser.',
+ printReady:'Your booklet is ready',printReadyP:'{n} pages in {f}. In the next step you choose your printer or “Save as PDF”.',printNow:'Print or save as PDF',printNo:'Printing is not possible here. Open the app in the browser.',
  missFree:'The next wrong answer costs a star.',missCost:'That costs a star.',winMiss:'Solved, with wrong answers in the check.',
  checkPick:'Tap a number. You then see the stick and can flip it before you answer.',checkYes:'Yes, stick {n} lies there',
- printMine:'In my stick colours',printMineP:'The booklet is created right in the app. In the print dialog you can print it or save it as a PDF.',printStd:'In the standard colours',printOne:'Print booklet',printWait:'Preparing the booklet …',
- rebuild:'Clear the board and set up the task again',camBtn:'Take the colour from the real stick',camH:'Hold stick {n} inside the circle',camP:'Daylight works best. The colour is measured inside the circle.',camTake:'Use this colour',camPhoto:'Take a photo',camTap:'Tap the stick in the photo.',camNo:'The live camera is not available here. Take a photo instead.',backup:'Back up progress',restore:'Load progress',backupP:'Saves all players, stars and stick colours to a file, for example for a new phone.',backupDone:'Progress saved',restoreQ:'Replace the progress on this device with the file?',replaceYes:'Yes, replace',restoreBad:'This file is not an AlignStix backup.',restored:'Progress loaded',printG:'Booklet to print',printP:'Rules, all 105 tasks and the solutions as a PDF.',
+ printMine:'In my stick colours',printMineP:'Choose the format. Everything is created right in the app; in the print dialog you can print or save as PDF.',printStd:'In the standard colours',printOne:'Print booklet',printWait:'Preparing the booklet …',
+ rebuild:'Clear the board and set up the task again',camBtn:'Take the colour from the real stick',camH:'Hold stick {n} inside the circle',camP:'Daylight works best. The colour is measured inside the circle.',camTake:'Use this colour',camPhoto:'Take a photo',camTap:'Tap the stick in the photo.',camNo:'The live camera is not available here. Take a photo instead.',backup:'Back up progress',restore:'Load progress',backupP:'Saves all players, stars and stick colours to a file, for example for a new phone.',backupDone:'Progress saved',restoreQ:'Replace the progress on this device with the file?',replaceYes:'Yes, replace',restoreBad:'This file is not an AlignStix backup.',restored:'Progress loaded',printG:'Print at home',printP:'Rules, all 105 tasks and the solutions: as cards for the board or as a booklet.',
  tagline:'The app for your stick puzzle',welcomeH:'Welcome to AlignStix',welcomeP:'Grab your board and the ten sticks. The app sets the tasks, helps you set up and celebrates every solution with you.',
  nameQ:'What’s your name?',namePh:'Your name',pickShape:'Pick your symbol',start:'Let’s go',player:'Player',
  hello:'Hello {name}',homeNext:'Task {n} is waiting for you.',homeFirst:'Your first task is ready.',homeAll:'All 105 tasks solved. Respect!',
@@ -815,22 +832,25 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',toHome:'Home',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ fmtCards:'Cartes',fmtBook:'Livret {f}',
+ pfmtL:'Format',bookH:'Livret au format {f}',bookP:'Règles, les 105 défis et les solutions sous forme de livret. Il ne tient pas dans le plateau et se range à côté. Le A5 est pratique, le A4 le plus lisible.',
+ boomHint:'Astuce : « Écarter » montre aussi le dessous des bâtons du dessus.',taskResetS:'Réinitialiser',instH:'Installer comme appli',instP:'iPhone : dans Safari, touche Partager puis « Sur l’écran d’accueil ». Android : choisis « Installer l’application » dans le menu du navigateur. AlignStix démarre alors comme une appli normale et fonctionne aussi hors ligne.',mwH:'Imprimer soi-même plateau et bâtons',mwP:'Les fichiers d’impression 3D sont sur MakerWorld.',
  lvBetterK:'Nouveau record',lvBetterP:'Bravo, {n} étoiles de plus que ton meilleur passage.',lvBetter1:'Bravo, une étoile de plus que ton meilleur passage.',lvBetterPerfect:'Parfait ! Tu as maintenant les {b} étoiles de ce niveau.',lvReplay:'Rejouer le niveau',lvReplayQ:'Rejouer {lv} ?',lvReplayP:'Tous les défis de ce niveau sont à nouveau ouverts. Ton record de {n} étoiles est conservé. Bats-le pour une nouvelle récompense.',lvReplayGo:'Rejouer',taskReset:'Réinitialiser le défi',taskResetQ:'Réinitialiser ce défi ?',taskResetP:'Le montage, les indices et les erreurs de ce défi sont effacés. Tu repars avec toutes les étoiles.',
- cardsH:'Cartes de tâches',cardsP:'69 cartes (100 × 100 mm), imprimées recto verso : 2 cartes de règles avec une page de titre, 53 cartes avec les 105 tâches et 14 cartes de solutions. Les cartes se rangent dans le plateau, sous les bâtons.',printCards:'Imprimer les cartes',cardsReady:'Tes cartes sont prêtes',cardsReadyP:'{n} pages pour {s} feuilles A4. Imprime en recto verso, « retourner sur le bord long », à 100 %. Découpe ensuite le long des repères.',
+ cardsH:'Cartes défis',cardsP:'69 cartes (100 × 100 mm), imprimées recto verso : 2 cartes de règles avec une page de titre, 53 cartes avec les 105 défis et 14 cartes de solutions. Les cartes se rangent dans le plateau, sous les bâtons.',printCards:'Imprimer les cartes',cardsReady:'Tes cartes sont prêtes',cardsReadyP:'{n} pages pour {s} feuilles A4. Imprime en recto verso, « retourner sur le bord long », à 100 %. Découpe ensuite le long des repères.',
  rank:'Classement',rkSolved:'{n} résolus',rkPerfect:'{n} avec 3 étoiles',
  wipe:'Supprimer tous les joueurs',removeQ:'Supprimer {name} ? Toute sa progression sera perdue. Cette action est définitive.',removeLastQ:'Supprimer {name} ? Toute sa progression sera perdue. Tu créeras ensuite un nouveau joueur. Cette action est définitive.',factory:'Tout réinitialiser',factoryQ:'Tout réinitialiser ? Tous les joueurs, leur progression, les couleurs des bâtons et du plateau et tous les réglages seront supprimés. L’appli redémarre comme si elle venait d’être installée. Cette action est définitive.',wipeQ:'Supprimer tous les joueurs et leur progression ? Les couleurs et les réglages sont conservés. Cette action est définitive.',
  viewH:'Affichage',
  viewFlat:'Simple',view3d:'Vrais bâtons',
- lvDoneK:'Niveau terminé',lvDoneStars:'{a} étoiles sur {b}',lvDone0:'Tu connais maintenant les règles. Tous les niveaux sont ouverts.',lvDoneP:'Les {n} tâches de ce niveau sont résolues.',lvDoneMore:'Rejoue des tâches pour gagner plus d’étoiles.',lvDonePerfect:'Toutes les étoiles gagnées. Impossible de faire mieux.',lvNext:'Continuer vers {lv}',allDoneK:'Tout est fait',allDoneH:'105 sur 105',allDoneP:'Tu as résolu toutes les tâches d’AlignStix. Quel exploit !',toHome:'Retour à l’accueil',onward:'Continuer',
+ lvDoneK:'Niveau terminé',lvDoneStars:'{a} étoiles sur {b}',lvDone0:'Tu connais maintenant les règles. Tous les niveaux sont ouverts.',lvDoneP:'Les {n} défis de ce niveau sont résolus.',lvDoneMore:'Rejoue des défis pour gagner plus d’étoiles.',lvDonePerfect:'Toutes les étoiles gagnées. Impossible de faire mieux.',lvNext:'Continuer vers {lv}',allDoneK:'Tout est fait',allDoneH:'105 sur 105',allDoneP:'Tu as résolu tous les défis d’AlignStix. Quel exploit !',toHome:'Retour à l’accueil',onward:'Continuer',
  shareQ:'Sauras-tu la résoudre ?',shareMiss:'Il manque encore {n} bâtons',shareMiss1:'Il manque encore un bâton',shareBtn:'Partager',copyLink:'Copier le lien',saveImg:'Enregistrer l’image',shareNote:'L’image montre seulement la position de départ, pas la solution.',
- askRod:'Tu veux savoir quel bâton va ici ?',askFull:'Ici, c’est le bâton {n}. Tu veux aussi voir exactement comment il est posé ?',yesShow:'Oui, montre',noSelf:'Non, je cherche moi-même',share:'Partager la tâche',shareText:'Arriveras-tu à résoudre la tâche AlignStix {n} ({lv}) ?',copied:'Lien copié',shared:'La tâche {n} a été partagée avec toi',photoP:'Glisse sur la photo pour déplacer le cercle. Pince à deux doigts pour zoomer.',zoomIn:'Agrandir',zoomOut:'Réduire',rebuildS:'Recommencer',showAllS:'Tout montrer',
+ askRod:'Tu veux savoir quel bâton va ici ?',askFull:'Ici, c’est le bâton {n}. Tu veux aussi voir exactement comment il est posé ?',yesShow:'Oui, montre',noSelf:'Non, je cherche moi-même',share:'Partager le défi',shareText:'Arriveras-tu à résoudre le défi AlignStix {n} ({lv}) ?',copied:'Lien copié',shared:'Le défi {n} a été partagé avec toi',photoP:'Glisse sur la photo pour déplacer le cercle. Pince à deux doigts pour zoomer.',zoomIn:'Agrandir',zoomOut:'Réduire',rebuildS:'Recommencer',showAllS:'Tout montrer',
  camMeasure:'Mesurer la couleur',adjH:'Ajuster la couleur',adjP:'Compare avec ton vrai bâton et ajuste.',adjPB:'Compare avec ton vrai plateau et ajuste.',adjOld:'Avant',adjNew:'Ajustée',adjL:'Luminosité',adjS:'Intensité',adjHu:'Teinte',adjAgain:'Mesurer à nouveau',adjFine:'Ajuster finement la couleur actuelle',
  boardH:'Ton plateau',boardColorH:'De quelle couleur est ton plateau ?',camBtnB:'Prendre la couleur du vrai plateau',camHB:'Place le plateau dans le cercle',
- printReady:'Ton livret est prêt',printReadyP:'{n} pages au format A4. À l’étape suivante, tu choisis ton imprimante ou « Enregistrer en PDF ».',printNow:'Imprimer ou enregistrer en PDF',printNo:'Impossible d’imprimer ici. Ouvre l’appli dans le navigateur.',
+ printReady:'Ton livret est prêt',printReadyP:'{n} pages au format {f}. À l’étape suivante, tu choisis ton imprimante ou « Enregistrer en PDF ».',printNow:'Imprimer ou enregistrer en PDF',printNo:'Impossible d’imprimer ici. Ouvre l’appli dans le navigateur.',
  missFree:'La prochaine erreur coûte une étoile.',missCost:'Cela coûte une étoile.',winMiss:'Résolu, avec des erreurs à la vérification.',
  checkPick:'Touche un numéro. Tu vois alors le bâton et tu peux le retourner avant de répondre.',checkYes:'Oui, c’est le bâton {n}',
- printMine:'Avec mes couleurs',printMineP:'Le livret est créé directement dans l’appli. Dans la fenêtre d’impression, tu peux l’imprimer ou l’enregistrer en PDF.',printStd:'Avec les couleurs standard',printOne:'Imprimer le livret',printWait:'Préparation du livret …',
- rebuild:'Vider le plateau et reconstruire la tâche',camBtn:'Prendre la couleur du vrai bâton',camH:'Place le bâton {n} dans le cercle',camP:'La lumière du jour convient le mieux. La couleur est mesurée dans le cercle.',camTake:'Prendre cette couleur',camPhoto:'Prendre une photo',camTap:'Touche le bâton sur la photo.',camNo:'La caméra en direct n’est pas disponible ici. Prends plutôt une photo.',backup:'Sauvegarder la progression',restore:'Charger une progression',backupP:'Enregistre tous les joueurs, les étoiles et les couleurs dans un fichier, par exemple pour un nouveau téléphone.',backupDone:'Progression enregistrée',restoreQ:'Remplacer la progression de cet appareil par le fichier ?',replaceYes:'Oui, remplacer',restoreBad:'Ce fichier n’est pas une sauvegarde AlignStix.',restored:'Progression chargée',printG:'Livret à imprimer',printP:'Les règles, les 105 défis et les solutions en PDF.',
+ printMine:'Avec mes couleurs',printMineP:'Choisis le format. Tout est créé directement dans l’appli ; dans la fenêtre d’impression, tu peux imprimer ou enregistrer en PDF.',printStd:'Avec les couleurs standard',printOne:'Imprimer le livret',printWait:'Préparation du livret …',
+ rebuild:'Vider le plateau et reconstruire le défi',camBtn:'Prendre la couleur du vrai bâton',camH:'Place le bâton {n} dans le cercle',camP:'La lumière du jour convient le mieux. La couleur est mesurée dans le cercle.',camTake:'Prendre cette couleur',camPhoto:'Prendre une photo',camTap:'Touche le bâton sur la photo.',camNo:'La caméra en direct n’est pas disponible ici. Prends plutôt une photo.',backup:'Sauvegarder la progression',restore:'Charger une progression',backupP:'Enregistre tous les joueurs, les étoiles et les couleurs dans un fichier, par exemple pour un nouveau téléphone.',backupDone:'Progression enregistrée',restoreQ:'Remplacer la progression de cet appareil par le fichier ?',replaceYes:'Oui, remplacer',restoreBad:'Ce fichier n’est pas une sauvegarde AlignStix.',restored:'Progression chargée',printG:'À imprimer',printP:'Les règles, les 105 défis et les solutions : en cartes pour le plateau ou en livret.',
  tagline:'L’appli de ton puzzle à bâtonnets',welcomeH:'Bienvenue dans AlignStix',welcomeP:'Prends ton plateau et les dix bâtons. L’appli te donne les défis, t’aide à installer et fête chaque solution avec toi.',
  nameQ:'Comment t’appelles-tu ?',namePh:'Ton prénom',pickShape:'Choisis ton symbole',start:'C’est parti',player:'Joueur',
  hello:'Bonjour {name}',homeNext:'Le défi {n} t’attend.',homeFirst:'Ton premier défi est prêt.',homeAll:'Les 105 défis sont résolus. Bravo !',
@@ -871,22 +891,25 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',toHome:'Accueil',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ fmtCards:'Tarjetas',fmtBook:'Cuaderno {f}',
+ pfmtL:'Formato',bookH:'Cuaderno en {f}',bookP:'Reglas, los 105 retos y las soluciones en un cuaderno. No cabe en el tablero y se guarda al lado. El A5 es práctico, el A4 se lee mejor.',
+ boomHint:'Consejo: «Separar» también muestra la cara inferior de los palitos de arriba.',taskResetS:'Reiniciar',instH:'Instalar como app',instP:'iPhone: en Safari toca Compartir y elige «Añadir a pantalla de inicio». Android: elige «Instalar aplicación» en el menú del navegador. Después AlignStix se abre como una app normal y funciona también sin internet.',mwH:'Imprime tú mismo el tablero y los palitos',mwP:'Los archivos de impresión 3D están en MakerWorld.',
  lvBetterK:'Nuevo récord',lvBetterP:'¡Genial, {n} estrellas más que en tu mejor intento!',lvBetter1:'¡Genial, una estrella más que en tu mejor intento!',lvBetterPerfect:'¡Perfecto! Ya tienes las {b} estrellas de este nivel.',lvReplay:'Jugar el nivel de nuevo',lvReplayQ:'¿Jugar {lv} de nuevo?',lvReplayP:'Todos los retos de este nivel vuelven a abrirse. Tu récord de {n} estrellas se guarda. Si lo superas, hay un nuevo premio.',lvReplayGo:'Jugar de nuevo',taskReset:'Reiniciar reto',taskResetQ:'¿Reiniciar este reto?',taskResetP:'Se borran el montaje, las pistas y los fallos de este reto. Empiezas de nuevo con todas las estrellas.',
- cardsH:'Tarjetas de tareas',cardsP:'69 tarjetas (100 × 100 mm), impresas por las dos caras: 2 tarjetas de reglas con portada, 53 tarjetas con las 105 tareas y 14 tarjetas de soluciones. Las tarjetas se guardan en el tablero, debajo de los palitos.',printCards:'Imprimir tarjetas',cardsReady:'Tus tarjetas están listas',cardsReadyP:'{n} páginas para {s} hojas A4. Imprime a doble cara, «voltear por el borde largo», al 100 %. Después corta por las marcas.',
+ cardsH:'Tarjetas de retos',cardsP:'69 tarjetas (100 × 100 mm), impresas por las dos caras: 2 tarjetas de reglas con portada, 53 tarjetas con los 105 retos y 14 tarjetas de soluciones. Las tarjetas se guardan en el tablero, debajo de los palitos.',printCards:'Imprimir tarjetas',cardsReady:'Tus tarjetas están listas',cardsReadyP:'{n} páginas para {s} hojas A4. Imprime a doble cara, «voltear por el borde largo», al 100 %. Después corta por las marcas.',
  rank:'Clasificación',rkSolved:'{n} resueltos',rkPerfect:'{n} con 3 estrellas',
  wipe:'Borrar todos los jugadores',removeQ:'¿Borrar a {name}? Se perderá todo su progreso. No se puede deshacer.',removeLastQ:'¿Borrar a {name}? Se perderá todo su progreso. Después crearás un jugador nuevo. No se puede deshacer.',factory:'Restablecer todo',factoryQ:'¿Restablecer todo? Se borran todos los jugadores, su progreso, los colores de los palitos y del tablero y todos los ajustes. La app arranca como recién instalada. No se puede deshacer.',wipeQ:'¿Borrar todos los jugadores y su progreso? Los colores y los ajustes se conservan. No se puede deshacer.',
  viewH:'Vista',
  viewFlat:'Sencilla',view3d:'Reales',
- lvDoneK:'Nivel completado',lvDoneStars:'{a} de {b} estrellas',lvDone0:'Ya conoces las reglas. Todos los niveles están abiertos.',lvDoneP:'Las {n} tareas de este nivel están resueltas.',lvDoneMore:'Vuelve a jugar tareas para conseguir más estrellas.',lvDonePerfect:'Todas las estrellas conseguidas. Mejor imposible.',lvNext:'Seguir con {lv}',allDoneK:'Todo hecho',allDoneH:'105 de 105',allDoneP:'Has resuelto todas las tareas de AlignStix. ¡Qué logro!',toHome:'Volver al inicio',onward:'Continuar',
+ lvDoneK:'Nivel completado',lvDoneStars:'{a} de {b} estrellas',lvDone0:'Ya conoces las reglas. Todos los niveles están abiertos.',lvDoneP:'Los {n} retos de este nivel están resueltos.',lvDoneMore:'Vuelve a jugar retos para conseguir más estrellas.',lvDonePerfect:'Todas las estrellas conseguidas. Mejor imposible.',lvNext:'Seguir con {lv}',allDoneK:'Todo hecho',allDoneH:'105 de 105',allDoneP:'Has resuelto todos los retos de AlignStix. ¡Qué logro!',toHome:'Volver al inicio',onward:'Continuar',
  shareQ:'¿Puedes resolverla?',shareMiss:'Faltan {n} palitos',shareMiss1:'Falta un palito',shareBtn:'Compartir',copyLink:'Copiar enlace',saveImg:'Guardar imagen',shareNote:'La imagen solo muestra la posición inicial, no la solución.',
- askRod:'¿Quieres saber qué palito va aquí?',askFull:'Aquí va el palito {n}. ¿Quieres ver también exactamente cómo va?',yesShow:'Sí, enséñamelo',noSelf:'No, lo intento yo',share:'Compartir tarea',shareText:'¿Puedes resolver la tarea {n} de AlignStix ({lv})?',copied:'Enlace copiado',shared:'Te han compartido la tarea {n}',photoP:'Desliza sobre la foto para mover el círculo. Pellizca con dos dedos para hacer zoom.',zoomIn:'Ampliar',zoomOut:'Reducir',rebuildS:'Empezar de nuevo',showAllS:'Mostrar todos',
+ askRod:'¿Quieres saber qué palito va aquí?',askFull:'Aquí va el palito {n}. ¿Quieres ver también exactamente cómo va?',yesShow:'Sí, enséñamelo',noSelf:'No, lo intento yo',share:'Compartir reto',shareText:'¿Puedes resolver el reto {n} de AlignStix ({lv})?',copied:'Enlace copiado',shared:'Te han compartido el reto {n}',photoP:'Desliza sobre la foto para mover el círculo. Pellizca con dos dedos para hacer zoom.',zoomIn:'Ampliar',zoomOut:'Reducir',rebuildS:'Empezar de nuevo',showAllS:'Mostrar todos',
  camMeasure:'Medir color',adjH:'Ajustar color',adjP:'Compara con tu palito real y ajusta.',adjPB:'Compara con tu tablero real y ajusta.',adjOld:'Antes',adjNew:'Ajustado',adjL:'Brillo',adjS:'Intensidad',adjHu:'Tono',adjAgain:'Medir otra vez',adjFine:'Ajustar el color actual',
  boardH:'Tu tablero',boardColorH:'¿De qué color es tu tablero?',camBtnB:'Tomar el color del tablero real',camHB:'Pon el tablero dentro del círculo',
- printReady:'Tu cuaderno está listo',printReadyP:'{n} páginas en formato A4. En el siguiente paso eliges tu impresora o «Guardar como PDF».',printNow:'Imprimir o guardar como PDF',printNo:'Aquí no se puede imprimir. Abre la app en el navegador.',
+ printReady:'Tu cuaderno está listo',printReadyP:'{n} páginas en formato {f}. En el siguiente paso eliges tu impresora o «Guardar como PDF».',printNow:'Imprimir o guardar como PDF',printNo:'Aquí no se puede imprimir. Abre la app en el navegador.',
  missFree:'El próximo fallo cuesta una estrella.',missCost:'Eso cuesta una estrella.',winMiss:'Resuelto, con fallos en la comprobación.',
  checkPick:'Toca un número. Verás el palito y podrás darle la vuelta antes de responder.',checkYes:'Sí, es el palito {n}',
- printMine:'Con mis colores',printMineP:'El cuaderno se crea directamente en la app. En el diálogo de impresión puedes imprimirlo o guardarlo como PDF.',printStd:'Con los colores estándar',printOne:'Imprimir el cuaderno',printWait:'Preparando el cuaderno …',
- rebuild:'Vaciar el tablero y montar la tarea de nuevo',camBtn:'Tomar el color del palito real',camH:'Pon el palito {n} dentro del círculo',camP:'Mejor con luz de día. El color se mide dentro del círculo.',camTake:'Usar este color',camPhoto:'Hacer una foto',camTap:'Toca el palito en la foto.',camNo:'La cámara en directo no está disponible aquí. Haz una foto en su lugar.',backup:'Guardar progreso',restore:'Cargar progreso',backupP:'Guarda todos los jugadores, estrellas y colores en un archivo, por ejemplo para un móvil nuevo.',backupDone:'Progreso guardado',restoreQ:'¿Sustituir el progreso de este dispositivo por el archivo?',replaceYes:'Sí, sustituir',restoreBad:'Este archivo no es una copia de AlignStix.',restored:'Progreso cargado',printG:'Cuaderno para imprimir',printP:'Las reglas, los 105 retos y las soluciones en PDF.',
+ printMine:'Con mis colores',printMineP:'Elige el formato. Todo se crea directamente en la app; en el diálogo de impresión puedes imprimir o guardar como PDF.',printStd:'Con los colores estándar',printOne:'Imprimir el cuaderno',printWait:'Preparando el cuaderno …',
+ rebuild:'Vaciar el tablero y montar el reto de nuevo',camBtn:'Tomar el color del palito real',camH:'Pon el palito {n} dentro del círculo',camP:'Mejor con luz de día. El color se mide dentro del círculo.',camTake:'Usar este color',camPhoto:'Hacer una foto',camTap:'Toca el palito en la foto.',camNo:'La cámara en directo no está disponible aquí. Haz una foto en su lugar.',backup:'Guardar progreso',restore:'Cargar progreso',backupP:'Guarda todos los jugadores, estrellas y colores en un archivo, por ejemplo para un móvil nuevo.',backupDone:'Progreso guardado',restoreQ:'¿Sustituir el progreso de este dispositivo por el archivo?',replaceYes:'Sí, sustituir',restoreBad:'Este archivo no es una copia de AlignStix.',restored:'Progreso cargado',printG:'Para imprimir',printP:'Las reglas, los 105 retos y las soluciones: en tarjetas para el tablero o en un cuaderno.',
  tagline:'La app de tu puzle de palitos',welcomeH:'Te damos la bienvenida a AlignStix',welcomeP:'Coge tu tablero y los diez palitos. La app te da los retos, te ayuda a montar y celebra cada solución contigo.',
  nameQ:'¿Cómo te llamas?',namePh:'Tu nombre',pickShape:'Elige tu símbolo',start:'¡Vamos!',player:'Jugador',
  hello:'Hola, {name}',homeNext:'El reto {n} te espera.',homeFirst:'Tu primer reto está listo.',homeAll:'Los 105 retos resueltos. ¡Enhorabuena!',
@@ -928,7 +951,10 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='1.0';
+const APP_VERSION='1.1';
+/* Link zum 3D-Druck-Projekt auf MakerWorld. Leer = wird nirgends angezeigt. */
+const MW_URL='';
+const APP_URL='https://remarcable1.github.io/AlignStiX/';
 const RODS={1:['11011','10011'],2:['00111','01011'],3:['10001','00010'],4:['01010','00101'],5:['10101','01001'],6:['11111','00001'],7:['00110','01101'],8:['01111','10111'],9:['01110','00011'],10:['00100','00000']};
 const RAW=[["A001-M0415",0,[[7,1,1],[8,1,1],[6,0,0],[10,1,0],[2,0,0],[9,1,0],[1,1,0],[3,1,0],[4,0,0],[5,1,1]],1004],["A002-M0127",0,[[9,1,1],[10,1,0],[4,1,1],[6,0,0],[3,1,0],[5,1,0],[7,1,0],[1,1,1],[2,0,1],[8,1,1]],995],["A003-M0671",0,[[5,1,0],[3,1,1],[8,1,1],[9,1,1],[7,1,0],[1,1,1],[10,1,0],[2,1,1],[6,0,0],[4,0,0]],1012],["A004-M0639",0,[[7,0,0],[2,0,0],[9,1,0],[10,0,0],[5,1,1],[8,0,1],[6,0,0],[4,1,0],[3,1,0],[1,1,0]],1011],["A005-M0479",0,[[1,0,0],[5,0,0],[3,1,1],[6,1,0],[8,0,0],[2,0,0],[4,0,0],[7,1,1],[9,0,0],[10,0,0]],1006],["A006-M0031",1,[[1,0,0],[5,0,0],[3,0,0],[2,0,0],[10,0,0],[9,1,0],[8,0,0],[4,1,1],[7,1,0],[6,1,0]],992],["A007-M0031",1,[[2,0,0],[4,1,0],[6,0,0],[8,0,1],[7,1,0],[1,1,1],[9,1,1],[10,1,0],[5,1,0],[3,1,0]],992],["A008-M0222",1,[[5,1,0],[10,1,0],[8,0,0],[9,1,0],[7,1,0],[6,0,0],[4,0,0],[2,1,1],[1,1,1],[3,1,1]],966],["A009-M0861",1,[[7,1,0],[8,0,1],[6,0,0],[10,1,0],[4,0,0],[1,1,0],[3,1,0],[9,1,0],[5,1,1],[2,1,0]],954],["A010-M0687",1,[[6,0,0],[2,0,1],[1,1,1],[4,1,0],[7,0,1],[9,1,0],[3,1,0],[10,0,0],[8,0,0],[5,1,0]],501],["A011-M0445",1,[[3,0,0],[4,1,1],[2,0,1],[1,1,1],[6,0,0],[10,1,0],[9,1,1],[5,1,1],[8,0,1],[7,0,1]],941],["A012-M0719",1,[[2,1,0],[5,1,0],[7,0,0],[8,0,0],[9,1,0],[6,0,0],[4,1,0],[1,1,1],[3,1,1],[10,0,0]],502],["A013-M0446",1,[[1,1,1],[9,1,0],[10,1,0],[4,0,0],[3,1,1],[8,0,0],[7,0,1],[6,0,0],[5,0,0],[2,0,0]],973],["A014-M0923",1,[[4,0,0],[1,0,0],[6,1,1],[8,1,1],[9,0,0],[3,0,0],[10,0,0],[2,0,1],[7,0,0],[5,0,0]],892],["A015-M0815",1,[[9,1,1],[3,1,0],[4,0,0],[2,0,1],[10,1,0],[7,1,0],[5,1,0],[8,1,1],[1,1,0],[6,0,0]],505],["A016-M0111",1,[[1,0,0],[5,0,0],[9,0,0],[8,1,0],[7,1,1],[10,0,0],[2,1,0],[6,1,1],[3,1,1],[4,1,0]],483],["A017-M0667",1,[[6,0,0],[2,1,1],[8,1,0],[10,0,0],[1,1,1],[3,1,0],[7,0,0],[5,1,0],[9,1,0],[4,0,0]],884],["A018-M0311",1,[[7,1,0],[8,1,1],[2,1,1],[5,0,0],[3,0,0],[6,1,1],[9,1,0],[4,1,0],[1,0,0],[10,0,0]],745],["A019-M0221",1,[[5,1,0],[7,0,1],[4,1,1],[3,1,1],[9,1,1],[2,1,1],[10,0,0],[1,1,0],[6,0,0],[8,0,0]],934],["A020-M0798",1,[[4,0,0],[9,0,0],[7,1,0],[8,0,1],[5,1,1],[2,0,1],[6,1,0],[3,0,0],[10,0,0],[1,0,0]],984],["A021-M0315",1,[[9,1,0],[3,0,0],[5,1,0],[1,1,0],[6,0,0],[4,1,1],[2,1,1],[8,0,1],[7,0,1],[10,1,0]],873],["A022-M0399",1,[[7,1,1],[10,0,0],[3,0,0],[6,1,1],[4,0,0],[5,1,0],[8,0,1],[2,0,0],[9,0,0],[1,0,0]],492],["A023-M0663",1,[[2,0,0],[6,0,0],[5,1,0],[3,1,0],[10,0,0],[8,1,0],[1,1,0],[7,0,0],[4,1,0],[9,1,0]],756],["A024-M0125",1,[[8,1,0],[6,1,1],[9,0,0],[5,0,0],[10,0,0],[4,1,0],[1,0,0],[3,1,1],[2,1,0],[7,1,0]],931],["A025-M0797",1,[[3,1,0],[4,0,0],[8,0,1],[7,1,1],[2,1,1],[9,1,1],[5,1,1],[1,1,1],[10,1,0],[6,0,0]],952],["A026-M0187",1,[[10,0,0],[1,0,0],[3,1,1],[2,1,0],[8,1,1],[7,1,1],[6,1,1],[9,0,0],[5,0,0],[4,1,1]],869],["A027-M0382",1,[[7,0,1],[3,1,1],[6,0,0],[5,1,0],[8,0,0],[1,0,0],[10,1,0],[4,0,0],[2,1,1],[9,1,1]],971],["A028-M0731",1,[[10,0,0],[7,1,0],[4,1,0],[1,0,0],[3,0,0],[2,0,1],[5,0,0],[9,1,0],[8,1,1],[6,1,1]],886],["A029-M0631",1,[[6,1,1],[10,0,0],[3,1,0],[7,1,0],[5,0,0],[9,0,0],[8,1,1],[4,1,1],[1,0,0],[2,0,1]],755],["A030-M0254",1,[[8,1,1],[5,0,0],[6,1,0],[7,1,1],[1,0,0],[10,0,0],[9,0,0],[4,1,0],[2,0,1],[3,1,0]],967],["A031-M0283",2,[[9,1,1],[8,0,1],[1,0,0],[7,0,1],[6,0,0],[3,1,0],[10,1,0],[4,1,1],[5,1,1],[2,1,1]],872],["A032-M0542",2,[[7,1,1],[5,0,0],[2,0,0],[3,0,0],[1,0,0],[10,0,0],[8,0,1],[9,1,0],[4,0,0],[6,1,1]],976],["A033-M0151",2,[[3,0,0],[2,0,1],[4,0,0],[8,1,1],[9,1,1],[10,0,0],[6,1,1],[5,0,0],[1,0,0],[7,1,0]],740],["A034-M0087",2,[[5,1,1],[9,1,0],[3,1,1],[6,0,0],[8,1,0],[7,0,1],[1,1,1],[2,0,1],[10,0,0],[4,1,1]],738],["A035-M0542",2,[[10,0,0],[4,0,0],[7,1,1],[9,0,0],[2,0,0],[1,0,0],[5,0,0],[3,1,1],[6,1,1],[8,0,1]],976],["A036-M0143",2,[[8,0,0],[6,0,0],[9,1,0],[5,1,1],[1,0,0],[4,1,1],[7,0,0],[2,0,0],[10,1,0],[3,1,0]],484],["A037-M0093",2,[[9,1,0],[1,1,1],[3,0,0],[2,1,0],[6,0,0],[5,1,1],[4,1,1],[8,0,1],[7,0,1],[10,1,0]],930],["A038-M0143",2,[[4,0,0],[7,1,1],[6,1,0],[10,0,0],[3,1,1],[8,1,0],[9,0,0],[5,0,0],[2,0,0],[1,0,0]],484],["A039-M0339",2,[[6,0,0],[10,1,0],[2,1,1],[1,1,0],[8,1,1],[3,1,1],[4,0,0],[9,0,0],[5,1,0],[7,0,1]],618],["A040-M0110",2,[[10,1,0],[3,1,1],[4,0,0],[7,1,1],[5,1,1],[2,0,1],[1,1,0],[8,1,1],[9,1,1],[6,0,0]],451],["A041-M0790",2,[[7,1,0],[9,0,0],[1,0,0],[8,0,0],[4,1,1],[2,1,1],[6,1,0],[10,0,0],[3,0,0],[5,1,0]],728],["A042-M0668",2,[[4,1,0],[2,1,0],[8,0,0],[10,0,0],[7,0,1],[6,0,0],[5,1,1],[3,1,1],[1,1,0],[9,1,0]],916],["A043-M0409",2,[[5,1,0],[8,0,1],[4,1,1],[2,0,1],[1,0,0],[6,1,1],[10,0,0],[3,0,0],[7,1,1],[9,0,0]],812],["A044-M0123",2,[[6,0,0],[1,1,0],[2,1,0],[8,1,1],[9,1,0],[4,1,0],[5,1,0],[7,1,0],[3,1,0],[10,1,0]],867],["A045-M0591",2,[[3,1,1],[7,0,1],[10,0,0],[5,1,0],[9,1,0],[6,0,0],[4,1,0],[1,1,0],[8,0,1],[2,0,1]],498],["A046-M0317",2,[[1,1,0],[3,1,0],[8,1,0],[9,1,0],[7,1,1],[4,0,0],[6,0,0],[2,1,1],[10,1,0],[5,1,0]],937],["A047-M0795",2,[[9,0,0],[1,0,0],[8,1,0],[2,1,1],[7,1,0],[3,0,0],[10,0,0],[4,0,0],[6,1,0],[5,1,1]],888],["A048-M0411",2,[[2,1,0],[3,0,0],[10,0,0],[6,1,0],[5,1,1],[7,1,1],[8,0,0],[1,0,0],[9,0,0],[4,1,0]],876],["A049-M0126",2,[[2,0,1],[10,1,0],[8,0,0],[6,0,0],[4,0,0],[7,1,0],[3,1,1],[5,1,0],[9,1,1],[1,1,1]],963],["A050-M0783",2,[[1,0,0],[5,0,0],[9,1,1],[3,0,0],[4,1,0],[6,1,0],[2,1,0],[7,1,1],[8,0,0],[10,0,0]],504],["A051-M0175",2,[[8,0,0],[2,1,1],[3,1,1],[1,0,0],[10,0,0],[5,0,0],[6,1,0],[9,0,0],[4,1,0],[7,1,0]],485],["A052-M0061",2,[[1,0,0],[10,0,0],[7,1,0],[4,1,0],[5,0,0],[9,0,0],[2,1,0],[6,1,1],[8,0,0],[3,1,1]],929],["A053-M0551",2,[[5,0,0],[8,1,1],[9,0,0],[7,1,0],[10,1,0],[2,0,0],[3,0,0],[6,1,0],[1,0,0],[4,1,0]],241],["A054-M0406",2,[[10,0,0],[4,1,0],[5,1,0],[3,1,1],[2,0,1],[8,0,1],[9,1,1],[7,0,0],[6,0,0],[1,1,0]],716],["A055-M0185",2,[[2,0,0],[3,1,1],[6,1,1],[4,0,0],[10,0,0],[1,0,0],[5,0,0],[9,0,0],[7,1,0],[8,0,0]],805],["A056-M0135",3,[[2,0,1],[5,0,0],[6,1,1],[10,0,0],[1,0,0],[3,1,0],[9,0,0],[4,1,0],[8,0,1],[7,1,1]],228],["A057-M0055",3,[[2,1,0],[6,0,0],[8,1,1],[9,1,0],[7,1,0],[1,1,0],[3,1,0],[5,1,1],[4,1,0],[10,1,0]],737],["A058-M0105",3,[[2,0,0],[7,0,0],[6,0,0],[5,1,1],[8,1,0],[9,1,1],[1,0,0],[3,1,0],[10,1,0],[4,0,0]],291],["A059-M0401",3,[[4,1,1],[10,0,0],[3,1,0],[1,1,0],[5,1,1],[7,0,1],[6,0,0],[2,0,0],[9,1,1],[8,1,1]],556],["A060-M0782",3,[[5,1,1],[4,1,1],[7,1,1],[3,1,1],[10,1,0],[9,1,0],[8,1,1],[1,1,0],[2,1,0],[6,0,0]],472],["A061-M0122",3,[[2,1,0],[1,1,1],[8,1,0],[10,0,0],[6,0,0],[5,1,1],[7,0,0],[9,1,1],[4,0,0],[3,1,0]],835],["A062-M0450",3,[[1,0,0],[9,1,0],[10,1,0],[5,1,0],[3,1,1],[8,0,0],[7,0,1],[6,0,0],[2,0,0],[4,1,0]],78],["A063-M0030",3,[[1,0,0],[5,1,1],[2,0,0],[6,0,0],[8,0,0],[4,1,0],[7,0,1],[9,1,1],[10,1,0],[3,1,1]],960],["A064-M0027",3,[[10,0,0],[2,1,0],[3,0,0],[8,0,0],[9,1,0],[1,0,0],[5,0,0],[7,1,0],[4,1,1],[6,1,1]],864],["A065-M0058",3,[[6,1,0],[8,0,0],[9,1,1],[2,1,0],[4,1,0],[1,0,0],[3,0,0],[7,1,1],[5,0,0],[10,0,0]],833],["A066-M0093",3,[[1,0,0],[5,1,1],[4,0,0],[7,1,1],[3,0,0],[10,0,0],[2,1,0],[8,1,1],[6,1,0],[9,0,0]],930],["A067-M0841",3,[[4,1,0],[8,0,1],[1,0,0],[7,1,1],[9,0,0],[3,0,0],[5,1,1],[10,0,0],[6,1,1],[2,1,0]],314],["A068-M0425",3,[[9,1,0],[3,1,0],[4,1,0],[10,1,0],[5,1,1],[8,0,1],[6,0,0],[1,0,0],[7,0,0],[2,1,0]],301],["A069-M0960",3,[[7,1,0],[10,1,0],[5,1,0],[9,1,1],[1,1,1],[2,0,1],[3,1,1],[8,0,0],[6,0,0],[4,0,0]],30],["A070-M0866",3,[[3,1,0],[10,1,0],[5,1,0],[8,0,0],[4,1,0],[6,0,0],[1,1,1],[2,0,1],[7,1,0],[9,1,1]],91],["A071-M0023",3,[[4,1,1],[9,0,0],[5,0,0],[10,0,0],[3,1,0],[2,1,0],[8,1,0],[6,1,0],[7,1,1],[1,0,0]],736],["A072-M0928",3,[[6,1,1],[8,1,0],[4,0,0],[1,0,0],[2,0,1],[10,0,0],[9,1,1],[7,1,1],[3,0,0],[5,0,0]],29],["A073-M0540",3,[[5,1,0],[3,1,1],[9,1,0],[4,0,0],[7,0,1],[6,0,0],[10,0,0],[8,0,1],[1,1,1],[2,1,0]],912],["A074-M0653",3,[[10,0,0],[3,1,0],[1,1,0],[4,1,1],[8,1,0],[9,1,1],[6,0,0],[7,0,1],[5,1,1],[2,1,1]],436],["A075-M0802",3,[[7,0,1],[6,0,0],[8,0,0],[2,1,1],[1,1,1],[4,1,1],[10,1,0],[9,1,0],[3,0,0],[5,1,1]],89],["A076-M0549",3,[[8,0,0],[1,0,0],[7,1,1],[3,0,0],[5,0,0],[6,1,1],[2,0,0],[4,0,0],[9,1,0],[10,0,0]],177],["A077-M0708",3,[[9,1,1],[4,1,0],[8,0,0],[5,0,0],[10,0,0],[7,1,0],[2,1,0],[6,1,1],[1,0,0],[3,0,0]],150],["A078-M0279",3,[[8,0,0],[1,0,0],[3,0,0],[2,1,0],[7,1,1],[5,1,1],[4,1,0],[9,0,0],[10,0,0],[6,1,0]],744],["A079-M0736",3,[[3,1,0],[4,0,0],[6,1,0],[9,0,0],[7,1,1],[8,0,1],[5,0,0],[2,0,1],[10,0,0],[1,0,0]],23],["A080-M0936",3,[[5,1,1],[10,0,0],[9,0,0],[4,1,1],[6,1,0],[7,1,0],[1,0,0],[3,0,0],[2,1,0],[8,0,1]],285],["A081-M0688",4,[[5,1,0],[9,1,1],[10,1,0],[3,0,0],[1,1,0],[4,1,1],[2,0,0],[6,0,0],[8,0,1],[7,0,1]],533],["A082-M0029",4,[[1,0,0],[5,1,0],[2,0,0],[6,0,0],[8,1,0],[7,0,1],[4,1,0],[9,1,1],[3,1,1],[10,1,0]],928],["A083-M0353",4,[[10,1,0],[7,0,0],[8,0,1],[2,0,1],[4,0,0],[1,1,1],[9,1,1],[3,0,0],[5,1,1],[6,0,0]],43],["A084-M0712",4,[[6,0,0],[10,1,0],[1,1,1],[2,1,1],[8,0,0],[5,1,0],[3,1,1],[9,0,0],[7,0,1],[4,0,0]],278],["A085-M0204",4,[[6,0,0],[4,0,0],[1,1,0],[8,1,1],[2,0,1],[3,1,1],[10,0,0],[7,0,1],[9,1,0],[5,1,0]],390],["A086-M0778",4,[[4,0,0],[6,0,0],[9,1,1],[10,1,0],[1,1,1],[5,1,1],[3,1,0],[8,1,0],[2,0,0],[7,1,1]],344],["A087-M0556",4,[[8,1,1],[10,0,0],[6,0,0],[9,1,0],[7,0,1],[2,1,0],[4,0,0],[3,1,0],[1,1,1],[5,1,0]],401],["A088-M0170",4,[[7,0,0],[4,0,0],[8,0,0],[10,0,0],[9,1,0],[6,0,0],[1,1,0],[5,1,0],[3,1,0],[2,1,1]],325],["A089-M0014",4,[[2,0,0],[8,1,0],[1,0,0],[4,0,0],[6,0,0],[5,1,1],[9,1,1],[7,0,0],[10,1,0],[3,1,0]],448],["A090-M0672",4,[[6,1,0],[9,0,0],[2,0,0],[10,0,0],[1,0,0],[8,0,1],[7,1,1],[3,0,0],[5,1,1],[4,0,0]],21],["A091-M0013",4,[[3,1,0],[5,1,1],[4,1,1],[10,0,0],[2,0,0],[1,1,0],[6,0,0],[9,1,1],[7,0,0],[8,0,1]],416],["A092-M0448",4,[[4,1,1],[2,1,0],[6,1,0],[1,1,1],[10,0,0],[7,1,0],[5,0,0],[9,0,0],[8,1,0],[3,0,0]],14],["A093-M0276",4,[[7,1,1],[4,1,1],[8,0,0],[5,0,0],[3,0,0],[10,0,0],[1,0,0],[6,1,0],[2,1,0],[9,1,1]],648],["A094-M0021",4,[[1,0,0],[5,1,0],[3,0,0],[7,1,0],[2,1,1],[4,0,0],[10,0,0],[8,1,1],[9,0,0],[6,1,0]],672],["A095-M0011",4,[[10,0,0],[1,0,0],[5,1,1],[2,1,1],[8,0,0],[3,0,0],[4,1,1],[9,0,0],[6,1,1],[7,1,1]],352],["A096-M0800",4,[[2,0,1],[3,0,0],[7,1,1],[6,1,0],[10,0,0],[9,1,0],[8,0,0],[4,0,0],[1,0,0],[5,0,0]],25],["A097-M0112",4,[[5,1,1],[6,1,1],[9,0,0],[3,0,0],[7,1,1],[10,0,0],[1,0,0],[2,1,1],[4,0,0],[8,1,1]],515],["A098-M0384",4,[[3,0,0],[10,0,0],[6,1,1],[7,0,0],[1,0,0],[4,0,0],[8,0,1],[5,0,0],[2,0,1],[9,0,0]],12],["A099-M0006",4,[[3,0,0],[8,1,1],[9,0,0],[4,1,0],[7,1,0],[2,0,0],[5,1,1],[6,1,1],[1,0,0],[10,0,0]],192],["A100-M0068",4,[[5,0,0],[6,1,0],[4,0,0],[3,0,0],[9,1,0],[7,1,0],[1,0,0],[8,0,0],[2,1,1],[10,0,0]],130],["A101-M0320",4,[[10,0,0],[9,1,1],[5,0,0],[6,1,1],[4,0,0],[3,0,0],[7,1,1],[2,1,0],[8,0,1],[1,0,0]],10],["A102-M0003",4,[[10,0,0],[1,0,0],[2,0,1],[9,1,1],[5,0,0],[6,1,1],[3,0,0],[4,0,0],[8,1,0],[7,1,1]],96],["A103-M0024",4,[[8,1,0],[2,1,0],[3,1,0],[1,0,0],[10,0,0],[7,1,0],[5,0,0],[9,0,0],[6,1,0],[4,1,0]],768],["A104-M0003",4,[[5,0,0],[7,1,1],[2,1,1],[8,0,1],[4,1,0],[6,1,0],[1,1,1],[10,0,0],[3,0,0],[9,0,0]],96],["A105-M0576",4,[[10,0,0],[7,0,0],[3,0,0],[9,0,0],[6,1,1],[2,1,1],[8,1,1],[4,1,0],[5,0,0],[1,0,0]],18]];
 const TASKS=RAW.map((r,i)=>({id:r[0],lv:r[1],n:i+1,mask:r[3],sol:r[2].map((s,j)=>({k:(j<5?'H':'V')+(j%5),ax:j<5?'H':'V',pos:j%5,rod:s[0],side:s[1],flip:s[2]}))}));
@@ -1202,7 +1228,7 @@ function taskPanel(x){const ph=taskPhase(x),st=ts(x),d=P().done[x.id];
   return `<div class="lrow"><span class="lbl">${t('setupStep',{a:n+1,b:x.order.length})}</span>${n>0?`<button class="lnk" data-act="resetSetup">${t('rebuildS')}</button>`:''}</div><div class="slist">${clueRow(s,true)}</div>
   <div class="cta">${x.order.length-n>1?`<button class="btn ton" data-act="showAll">${t('showAllS')}</button>`:''}<button class="btn pri" data-act="placed">${ic('check')}${t('placed')}</button></div>`}
  if(ph==='solve'){const hp=st.help||{},rest=x.open.filter(s=>!hp[s.k]).map(s=>s.rod).sort((a,b)=>a-b),n=x.open.filter(s=>!(hp[s.k]>=2)).length;
-  return `<div class="lrow"><span class="lbl">${rest.length?t('left'):''}</span><button class="lnk" data-act="showSetup">${t('showSetup')}</button></div>${rest.length?`<div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
+  return `<div class="lrow"><span class="lbl">${rest.length?t('left'):''}</span><span class="lnks"><button class="lnk" data-act="askTaskReset">${t('taskResetS')}</button><button class="lnk" data-act="showSetup">${t('showSetup')}</button></span></div>${rest.length?`<div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
   <div class="cta"><button class="btn ton" data-act="tip">${ic('bulb')}${t('tip')}</button><button class="btn pri" data-act="check">${ic('check')}${t('check')}</button></div>`}
  const nx=nextAfter(x);
  if(ph==='win'){const s=R.win.stars;return `<div class="win"><div class="banner">${s>0?t('winH')[x.n%3]:t('seen')}</div>${s>0?starRow(s,'big'):''}<p style="color:var(--ink2);margin-top:6px">${t(R.win.miss?'winMiss':'win'+s)}</p>
@@ -1217,7 +1243,7 @@ function viewTask(anim){const x=TASKS[R.i],ph=taskPhase(x),si=ph==='setup'?0:ph=
  <div class="legend" id="legend">${legendHTML()}</div>
  <section class="panel" id="panel">${taskPanel(x)}</section></main>${navBar()}`}
 function boomBtn(on){return `<button class="boomb${on?' on':''}" data-act="boom" aria-pressed="${on?'true':'false'}">${ic('boom')}<span>${t(on?'boomOff':'boomOn')}</span></button>`}
-function legendHTML(){if(R.view==='task')return `${boomBtn(T.boom)}${T.boom?`<span class="boomh">${ic('rot')}${t('boomDrag')}</span>`:''}`;
+function legendHTML(){if(R.view==='task')return `${boomBtn(T.boom)}${!seen('boom')&&!T.boom?`<span class="bhint" role="note">${t('boomHint')}<button class="ib" data-act="boomHintX" aria-label="${esc(t('close'))}">${ic('close')}</button></span>`:''}${T.boom?`<span class="boomh">${ic('rot')}${t('boomDrag')}</span>`:''}`;
  return `<span><svg viewBox="0 0 30 18"><rect x="1" y="1" width="28" height="16" rx="4" fill="var(--ink2)" opacity=".35"/><rect x="9" y="1" width="12" height="16" fill="var(--ink)" opacity=".6"/></svg>${t('legTop')}</span>`}
 const stepsHTML=si=>t('ph').map((s,i)=>`<span class="${i===si?'on':i<si?'past':''}">${s}</span>`).join('');
 function viewSticks(){return `<main class="view sticks">${topBar()}<div class="pagehead"><h1>${t('sticksH')}</h1><p>${t('sticksP')}</p></div><div class="rodlist"><div class="rodcard"><div class="meta"><b>${t('boardH')}</b><button class="ib" data-act="color" data-n="b" aria-label="${esc(t('color'))}">${ic('palette')}</button></div><button class="bprev" data-act="color" data-n="b" aria-label="${esc(t('color'))}">${boardSVG({mini:true,sticks:[]})}</button></div>${[1,2,3,4,5,6,7,8,9,10].map(n=>`<div class="rodcard"><div class="meta"><b>${t('stick',{n})} <span id="sd${n}">${t('side',{sym:symChar((T.flips[n]|0)%2)})}</span></b><button class="ib" data-act="color" data-n="${n}" aria-label="${esc(t('color'))}">${ic('palette')}</button></div>${flipStick(n,T.flips[n],T.turns[n]).replace('class="flipw"',T.sideOf&&T.sideOf[n]?'class="flipw side"':'class="flipw"')}</div>`).join('')}</div></main>${navBar()}`}
@@ -1265,6 +1291,8 @@ function viewRules(){const x=TASKS[0];
  <section class="rule"><h2>${t('r3h')}</h2><p>${t('r3p')}</p><div class="fits">${[['lo',1],['up',1],['none',0],['both',0]].map(([k,ok])=>`<div class="fit ${ok?'ok':'no'}">${fitIMG(k)}<span class="fk">${t('fitK')[k]}</span>${t(ok?'fitOk':'fitNo')}</div>`).join('')}</div></section>
 
  <section class="rule"><h2>${t('r4h')}</h2><p>${t('r4p')}</p><div class="flow">${[['sticks',0],['bulb',1],['check',2]].map(([i,n])=>`<div>${ic(i)}${t('ph')[n]}</div>`).join('')}</div></section>
+ <section class="rule"><h2>${t('instH')}</h2><p>${t('instP')}</p></section>
+ ${MW_URL?`<a class="newb" style="margin-top:14px" href="${esc(MW_URL)}" target="_blank" rel="noopener">${ic('sticks')}<span>${t('mwH')}<small style="display:block;font-weight:500;color:var(--ink2);font-size:14px">${t('mwP')}</small></span>${ic('back')}</a>`:''}
  <button class="newb" style="margin-top:14px" data-act="printSheet">${ic('print')}<span>${t('printG')}<small style="display:block;font-weight:500;color:var(--ink2);font-size:14px">${t('printP')}</small></span>${ic('back')}</button></main>${navBar()}`}
 function avatarPick(sel){return `<div class="shapes" id="avpick">${AV.map((c,i)=>`<button type="button" class="${i===sel?'on':''}" data-act="av" data-i="${i}" aria-label="${esc(t(i%2?'triangle':'circle'))}">${avatar({name:' ',av:i})}</button>`).join('')}</div>`}
 function viewWelcome(){return `<main class="welcome">${logo('logo')}<h1>${t('welcomeH')}</h1><p>${t('welcomeP')}</p>
@@ -1281,7 +1309,7 @@ function draw(anim){const el=document.getElementById('app');let h;
  else if(R.view==='rules')h=viewRules();
  else if(R.view==='lvdone')h=viewLvDone();
  else h=viewHome(anim);
- el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d();slideFx(document.getElementById('bd'))}if(R.view==='lvdone')lvDoneFx();if(R.view==='rules')rulesDemo()}
+ el.innerHTML=h;if(R.view==='home'){const m=document.querySelector('.hero .mini');if(anim)flyFx(m);real3d(false,m)}if(R.view==='level'&&T.just)setTimeout(()=>{T.just=null},1600);if(R.view==='task'){if(anim)landFx();real3d();const bd=document.getElementById('bd');slideFx(bd);if(S.pref3d&&!T.boom){const m=Math.max(0,...[...bd.querySelectorAll('.fly')].map(f=>parseFloat(f.style.getPropertyValue('--d'))||0)),k=R.i;setTimeout(()=>{if(R.view==='task'&&R.i===k&&!T.boom&&!sheetOpen())ACT.boom(null,null,1)},anim&&!RM?m+900:150)}}if(R.view==='lvdone')lvDoneFx();if(R.view==='rules')rulesDemo()}
 function render(anim){if(anim&&document.startViewTransition&&!RM){try{const vt=document.startViewTransition(()=>{draw(true);scrollTo(0,0)});['ready','finished','updateCallbackDone'].forEach(k=>vt[k]&&vt[k].catch(()=>{}));return}catch(e){}}draw(anim);if(anim)scrollTo(0,0)}
 function go(view,par,replace){const prev=R;R=Object.assign({view},par||{});R.from=replace?prev.from:prev.view;T.hl=null;T.boom=false;T.animKey=null;T.check=null;
  const st={view:R.view,i:R.i,lv:R.lv,from:R.from};try{(replace||(TABS.includes(prev.view)&&TABS.includes(view)))?history.replaceState(st,''):history.pushState(st,'')}catch(e){}
@@ -1407,7 +1435,7 @@ function profileSheet(adding){const act=P();
  <div class="setrow"><span>${t('theme')}</span><span class="seg">${['auto','light','dark'].map(m=>`<button class="${S.theme===m?'on':''}" data-act="theme" data-m="${m}">${t(m)}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('sound')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.sound===!!v?'on':''}" data-act="sound" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('haptic')}</span><span class="seg">${[1,0].map(v=>`<button class="${!!S.haptic===!!v?'on':''}" data-act="haptic" data-v="${v}">${t(v?'on':'off')}</button>`).join('')}</span></div>
- <div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="helpGo">${ic('book')}${t('helpBtn')}</button></div><div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="backup">${t('backup')}</button><button class="btn ton wide" data-act="restore">${t('restore')}</button><span class="note">${t('backupP')}</span><input type="file" accept="application/json,.json" id="impf" hidden></div>
+ <div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="helpGo">${ic('book')}${t('helpBtn')}</button>${MW_URL?`<a class="btn txt wide" href="${esc(MW_URL)}" target="_blank" rel="noopener">${t('mwH')}</a>`:''}</div><div class="stack" style="margin-top:24px"><button class="btn ton wide" data-act="backup">${t('backup')}</button><button class="btn ton wide" data-act="restore">${t('restore')}</button><span class="note">${t('backupP')}</span><input type="file" accept="application/json,.json" id="impf" hidden></div>
  <div class="stack" style="margin-top:24px"><button class="btn bad wide" data-act="askReset">${esc(t('reset',{name:act.name}))}</button><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askWipe">${t('wipe')}</button><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askFactory">${t('factory')}</button><span class="note" style="text-align:center">AlignStix, ${t('version',{v:APP_VERSION})}</span></div>`;
  openSheet(h)}
 function confirmSheet(text,act,data,yes){const k=text.search(/[?¿]\s|\?$/),q=k>0?text.slice(0,k+1):text,rest=k>0?text.slice(k+1).trim():'';openSheet(`<h2>${esc(q)}</h2>${rest?`<p class="note" style="margin-top:8px;font-size:16px">${esc(rest)}</p>`:''}<div class="cta"><button class="btn ton" data-act="profile">${t('cancel')}</button><button class="btn bad" style="flex:1" data-act="${act}" data-id="${data||''}">${yes||t('yes')}</button></div>`)}
@@ -1481,7 +1509,8 @@ function newPlayer(name,av){const p={id:'p'+Date.now().toString(36)+Math.floor(M
  if(S.old){for(const id in S.old)if(TASKS.some(x=>x.id===id))p.done[id]={stars:Math.max(0,Math.min(3,Number(S.old[id]&&S.old[id].stars)||0))};delete S.old}
  S.players.push(p);S.active=p.id;save();return p}
 const ACT={
- boom(d,el){const dw=el&&el.closest&&el.closest('.demo3w'),w=dw?dw.querySelector('.bwrap'):document.querySelector('.task .bwrap'),on=w?!w.classList.contains('boom'):!T.boom;if(!dw){T.boom=on;markSeen('boom')}
+ boomHintX(){markSeen('boom');const l=document.getElementById('legend');if(l)l.innerHTML=legendHTML()},
+ boom(d,el,auto){const dw=el&&el.closest&&el.closest('.demo3w'),w=dw?dw.querySelector('.bwrap'):document.querySelector('.task .bwrap'),on=w?!w.classList.contains('boom'):!T.boom;if(!dw){T.boom=on;markSeen('boom');if(!auto){S.pref3d=on;save()}}
   if(w){clearTimeout(w._bt);if(on){const pre=!dw&&taskPhase(TASKS[R.i])==='setup';w.querySelectorAll('.fly').forEach(f=>{f.classList.add('landed');f.classList.remove('tilt');if(f.classList.contains('h'))sLz(f,pre?'0cqw':dLz(f.dataset.row))});w.querySelectorAll('.gz').forEach(g=>sLz(g,pre?'0cqw':dLz(g.dataset.row)));if(!dw)T.boomPh=taskPhase(TASKS[R.i]);w.classList.add('b3d','snap');void w.offsetWidth;w.classList.remove('snap');w.classList.add('boom')}
    else{w.classList.remove('boom');const fin=()=>{clearTimeout(w._bt);if(!w.classList.contains('boom'))w.classList.remove('b3d')};if(RM)fin();else w._bt=setTimeout(fin,950)}}
   if(dw){const bt=dw.querySelector('.boomb');if(bt)bt.outerHTML=boomBtn(on)}else{const l=document.getElementById('legend');if(l)l.innerHTML=legendHTML()}sfx.turn();buzz(10)},
@@ -1496,10 +1525,10 @@ const ACT={
  again(){const x=TASKS[R.i];delete P().task[x.id];save();R.replay=true;R.win=null;render(true)},
  placed(){const x=TASKS[R.i],st=ts(x);st.setup=(st.setup|0)+1;save();T.animKey='step';if(st.setup>=x.order.length){T.animKey=null;sfx.step();buzz(12)}else sfx.tap();redrawTask()},
  showAll(){const x=TASKS[R.i],st=ts(x),only=new Set(x.order.slice((st.setup|0)+1).map(s=>s.k));st.setup=x.order.length;save();sfx.step();redrawTask(only)},
- showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div><div class="stack" style="margin-top:18px;border-top:2px solid var(--line);padding-top:14px"><button class="btn txt wide" style="color:var(--bad,#C9412D)" data-act="askTaskReset">${t('taskReset')}</button><span class="note">${t('taskResetP')}</span></div>`)},
+ showSetup(){const x=TASKS[R.i];openSheet(`<h2>${t('showSetup')}</h2><div class="stack" style="margin-top:12px"><button class="btn ton wide" data-act="resetSetup">${t('rebuild')}</button></div><div class="slist">${x.order.map(s=>clueRow(s)).join('')}</div>`)},
  viewMode(d){S.real=d.v==='1';save();sfx.tap();render(false);profileSheet(false)},
  slot(d){T.hl=d.k;sfx.tap();redrawTask();slotSheet(d.k)},
- tip(){if(T.boom){ACT.boom();setTimeout(()=>{if(!T.boom)ACT.tip()},RM?0:1000);return}const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
+ tip(){if(T.boom){ACT.boom(null,null,1);setTimeout(()=>{if(!T.boom)ACT.tip()},RM?0:1000);return}const x=TASKS[R.i],b=bestSlot(x);if(!b){ACT.check();return}T.hl=b.s.k;redrawTask();slotSheet(b.s.k,cap(t(b.k>=2?'tipBest':'tipAny',{slot:slotName(b.s.k),k:b.k})))},
  reveal(d){const x=TASKS[R.i],st=ts(x);st.help=st.help||{};const lv=(st.help[d.k]||0)+1;st.help[d.k]=Math.min(2,lv);save();T.animKey=d.k;T.hl=d.k;sfx.place();buzz(15);redrawTask();
   const s=x.sol.find(q=>q.k===d.k);if(lv>=2){closeSheet();toast(t('rodHereFull',{n:s.rod}))}else slotSheet(d.k)},
  slotNo(){T.hl=null;closeSheet();if(R.view==='task')redrawTask()},
@@ -1515,7 +1544,7 @@ const ACT={
  lvGo(d){sfx.tap();go('level',{lv:+d.l},true)},
  lvHome(){sfx.tap();go('home',null,true)},
  solution(){const x=TASKS[R.i];closeSheet();win(0)},
- check(){if(T.boom){ACT.boom();setTimeout(()=>{if(!T.boom)ACT.check()},RM?0:1000);return}const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
+ check(){if(T.boom){ACT.boom(null,null,1);setTimeout(()=>{if(!T.boom)ACT.check()},RM?0:1000);return}const x=TASKS[R.i],hp=ts(x).help||{},ask=x.open.filter(s=>!hp[s.k]).map(s=>s.k);if(!ask.length){win(starsFor(x));return}
   if(ask.length<2){win(starsFor(x));return}
   /* die abgefragten Plätze werden einmal ausgelost und bleiben dann fest, damit man nicht durch erneutes Prüfen auf leichtere Stäbe hoffen kann */
   const st=ts(x);let q=(st.cq||[]).filter(k=>ask.includes(k));
@@ -1527,10 +1556,11 @@ const ACT={
   else{const st=ts(x),b4=starsFor(x);st.miss=(st.miss|0)+1;save();const extra=st.miss===1?(b4>1?' '+t('missFree'):''):(starsFor(x)<b4?' '+t('missCost'):'');sfx.no();buzz([30,40,30]);el.classList.add('shake');setTimeout(()=>{T.check=null;T.hl=k;closeSheet();redrawTask();toast(cap(t('checkWrong',{slot:slotName(k)}))+extra)},420)}},
  rod(d){sfx.tap();rodSheet(+d.n)},
  flip(d,el){if(Date.now()-swallow<450)return;const cnt=(T.flips[d.n]|0)+1,on=cnt%2;T.flips[d.n]=cnt;el.querySelector('.flip').style.transform='rotateX('+cnt*180+'deg)';sfx.tap();buzz(8);const lab=document.getElementById(d.n==='s'?'sds':'sd'+d.n);if(lab)lab.textContent=t('side',{sym:symChar(on?1:0)})},
- printSheet(){const same=S.colors.every((c,i)=>String(c).toLowerCase()===DEF_COLORS[i]),btn=k=>same?`<button class="btn ${k?'ton':'pri'} wide" data-act="print" data-std="1" data-k="${k}">${ic('print')}${t(k?'printCards':'printOne')}</button>`:`<button class="btn ${k?'ton':'pri'} wide" data-act="print" data-std="0" data-k="${k}">${ic('print')}${t('printMine')}</button><button class="btn txt wide" data-act="print" data-std="1" data-k="${k}">${t('printStd')}</button>`;
-  openSheet(`<h2>${t('printG')}</h2><p>${t('printMineP')}</p><div class="stack">${btn('')}</div><h2 style="margin-top:26px">${t('cardsH')}</h2><p>${t('cardsP')}</p><div class="stack">${btn('c')}</div>`)},
- print(d){const std=d.std==='1',cards=d.k==='c';closeSheet(true);try{const el=cards?printCards(std):printBook(std),n=el.querySelectorAll(cards?'.cpage':'.page').length;T.title=document.title;document.title='AlignStix – '+(BKS[S.lang]||BKS.en)[cards?'cardsT':'sub'];
-   const ov=document.createElement('div');ov.id='pov';ov.innerHTML=`<div class="povc">${logo('povl')}<h1>${t(cards?'cardsReady':'printReady')}</h1><p>${t(cards?'cardsReadyP':'printReadyP',{n,s:n/2})}</p><div class="stack"><button class="btn pri wide" data-act="printNow">${ic('print')}${t('printNow')}</button><button class="btn txt wide" data-act="printClose">${t('close')}</button></div></div>`;document.body.appendChild(ov)}catch(e){toast('Error')}},
+ printSheet(){const f=T.pfmt||'c',same=S.colors.every((c,i)=>String(c).toLowerCase()===DEF_COLORS[i]),btn=k=>same?`<button class="btn pri wide" data-act="print" data-std="1" data-k="${k}">${ic('print')}${t(k==='c'?'printCards':'printOne')}</button>`:`<button class="btn pri wide" data-act="print" data-std="0" data-k="${k}">${ic('print')}${t('printMine')}</button><button class="btn txt wide" data-act="print" data-std="1" data-k="${k}">${t('printStd')}</button>`;
+  openSheet(`<h2>${t('printG')}</h2><p>${t('printMineP')}</p><div class="pfmt" role="group" aria-label="${esc(t('pfmtL'))}"><span class="seg">${[['c',t('fmtCards')],['a5',t('fmtBook',{f:'A5'})],['a4',t('fmtBook',{f:'A4'})]].map(([k,l])=>`<button class="${f===k?'on':''}" data-act="pfmt" data-f="${k}" aria-pressed="${f===k}">${l}</button>`).join('')}</span></div><h2 style="margin-top:18px;font-size:19px">${t(f==='c'?'cardsH':'bookH',{f:f.toUpperCase()})}</h2><p>${t(f==='c'?'cardsP':'bookP',{f:f.toUpperCase()})}</p><div class="stack">${btn(f)}</div>`)},
+ pfmt(d){T.pfmt=d.f;sfx.tap();ACT.printSheet()},
+ print(d){const std=d.std==='1',cards=d.k==='c',fmt=cards?'':d.k==='a5'?'A5':'A4';closeSheet(true);try{const el=cards?printCards(std):printBook(std,fmt),n=el.querySelectorAll(cards?'.cpage':'.page').length;T.title=document.title;document.title='AlignStix – '+(BKS[S.lang]||BKS.en)[cards?'cardsT':'sub'];
+   const ov=document.createElement('div');ov.id='pov';ov.innerHTML=`<div class="povc">${logo('povl')}<h1>${t(cards?'cardsReady':'printReady')}</h1><p>${t(cards?'cardsReadyP':'printReadyP',{n,s:n/2,f:fmt})}</p><div class="stack"><button class="btn pri wide" data-act="printNow">${ic('print')}${t('printNow')}</button><button class="btn txt wide" data-act="printClose">${t('close')}</button></div></div>`;document.body.appendChild(ov)}catch(e){toast('Error')}},
  printNow(){if(typeof window.print!=='function'){toast(t('printNo'));return}window.print()},
  printClose(){const a=document.getElementById('print'),b=document.getElementById('pov');if(a)a.remove();if(b)b.remove();document.body.classList.remove('printing');if(T.title)document.title=T.title},
  color(d){colorSheet(d.n==='b'?'b':+d.n)},
@@ -1584,24 +1614,1273 @@ if(window.matchMedia)try{matchMedia('(prefers-color-scheme:dark)').addEventListe
  document.addEventListener('touchstart',e=>{py=e.touches.length===1?e.touches[0].clientY:0},{passive:true});
  document.addEventListener('touchmove',e=>{if(!py||e.touches.length!==1||!e.cancelable)return;if(e.target.tagName==='INPUT')return;if(e.touches[0].clientY-py>6&&top(e))e.preventDefault()},{passive:false})}
 
+/* QR-Code-Erzeugung: QRCode for JavaScript, (c) 2009 Kazuhiko Arase, MIT-Lizenz. "QR Code" ist eine Marke der DENSO WAVE INCORPORATED. */
+const QRLIB=(()=>{const M={};const req=n=>M[n.replace('./','')];
+(()=>{const module={exports:{}};const require=req;module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+M['QRMode']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+M['QRErrorCorrectLevel']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+M['QRMaskPattern']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+M['QRMath']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;var QRMath = require('./QRMath');
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+M['QRPolynomial']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;var QRMode = require('./QRMode');
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+M['QR8bitByte']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+M['QRBitBuffer']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+M['QRRSBlock']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;var QRMode = require('./QRMode');
+var QRPolynomial = require('./QRPolynomial');
+var QRMath = require('./QRMath');
+var QRMaskPattern = require('./QRMaskPattern');
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+M['QRUtil']=module.exports;})();
+(()=>{const module={exports:{}};const require=req;//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = require('./QR8bitByte');
+var QRUtil = require('./QRUtil');
+var QRPolynomial = require('./QRPolynomial');
+var QRRSBlock = require('./QRRSBlock');
+var QRBitBuffer = require('./QRBitBuffer');
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+M['index']=module.exports;})();
+return M['index'];})();
+function qrSVG(text,cls){try{const Q=new QRLIB(-1,0);Q.addData(text);Q.make();const n=Q.getModuleCount();let d='';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(Q.isDark(r,c))d+=`M${c+4} ${r+4}h1v1h-1z`;return `<svg class="${cls||'qr'}" viewBox="0 0 ${n+8} ${n+8}" shape-rendering="crispEdges" aria-hidden="true"><rect width="${n+8}" height="${n+8}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`}catch(e){return ''}}
 /* ---------- Druckheft ---------- */
 const BKS={
-de:{cSol:'Lösungen {a}–{b}',cSolHint:'Die Lösungen stehen auf den Karten ganz hinten.',cLvH:'Die Stufen',cRange:'Aufgaben {a}–{b}',cCnt:'105 Aufgaben in 5 Stufen',cardsT:'Aufgabenkarten',cGoH:'So geht’s',cGo:[['Aufbauen','Lege die Stäbe so aufs Brett, wie die Karte sie zeigt. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Fertig','Liegen alle zehn Stäbe flach, ist die Aufgabe gelöst. Es gibt immer genau eine Lösung.']],cReadH:'So liest du eine Karte',cRead:['Die Stäbe sind so gezeichnet, wie sie von oben aussehen.','Zahl und Symbol zeigen, welche Seite oben liegt und wie herum der Stab liegt.','Gestrichelte Plätze sind noch frei.'],cApp:'Lösungen, Tipps und Sterne gibt es in der App.',cTask:'Aufgabe {n}',simple:'Im Heft sind die Stäbe vereinfacht gezeichnet. Wie sie wirklich aussehen, zeigen das Titelblatt und die App.',sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
+de:{qrApp:'Die App',qrMw:'3D-Druckdateien',cSol:'Lösungen {a}–{b}',cSolHint:'Die Lösungen stehen auf den Karten ganz hinten.',cLvH:'Die Stufen',cRange:'Aufgaben {a}–{b}',cCnt:'105 Aufgaben in 5 Stufen',cardsT:'Aufgabenkarten',cGoH:'So geht’s',cGo:[['Aufbauen','Lege die Stäbe so aufs Brett, wie die Karte sie zeigt. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Fertig','Liegen alle zehn Stäbe flach, ist die Aufgabe gelöst. Es gibt immer genau eine Lösung.']],cReadH:'So liest du eine Karte',cRead:['Die Stäbe sind so gezeichnet, wie sie von oben aussehen.','Zahl und Symbol zeigen, welche Seite oben liegt und wie herum der Stab liegt.','Gestrichelte Plätze sind noch frei.'],cApp:'Lösungen, Tipps und Sterne gibt es in der App.',cTask:'Aufgabe {n}',simple:'Im Heft sind die Stäbe vereinfacht gezeichnet. Wie sie wirklich aussehen, zeigen das Titelblatt und die App.',sub:'Das Heft',sub2:'Anleitung, 105 Aufgaben und alle Lösungen',readH:'So liest du eine Aufgabe',
  read:['Die Zahl ist die Stabnummer. Sie steht an einem Ende des Stabs.','Am anderen Ende zeigt Kreis oder Dreieck, welche Seite oben liegt.','Dunkle Stelle: Hier hat der Stab oben eine Kerbe. Bei den unteren Stäben zählt genau diese Seite.','Bei den oberen Stäben zählt die Unterseite. Die siehst du von oben nicht, aber an deinem echten Stab.','Leere Plätze füllst du mit den übrigen Stäben.'],
  playH:'So spielst du mit dem Heft',play:[['Aufbauen','Lege die gezeigten Stäbe aufs Brett. Die senkrechten zuerst, sie liegen unten.'],['Knobeln','Finde den Platz für die übrigen Stäbe. An jeder Kreuzung sitzt genau eine Kerbe.'],['Vergleichen','Die Lösungen stehen hinten im Heft, ab Seite {p}.']],
  sticksNote:'Oben siehst du jeweils die Seite mit dem Kreis, darunter die Seite mit dem Dreieck.',colorNote:'Deine Stäbe haben andere Farben? Dann halte dich an die Nummern.',
  rest:'Übrig',solKey:'Kräftig: von dir gelegt. Blass: Startstellung.',solutions:'Lösungen',range:'Aufgaben {a} bis {b}',one:'Es gibt immer genau eine Lösung.',backH:'Lieber mit dem Handy?',backP:'Die App baut jede Aufgabe Schritt für Schritt mit dir auf, gibt Tipps und zählt deine Sterne.',done:'geschafft'},
-en:{cSol:'Solutions {a}–{b}',cSolHint:'The solutions are on the cards at the very back.',cLvH:'The levels',cRange:'Tasks {a}–{b}',cCnt:'105 tasks in 5 levels',cardsT:'Task cards',cGoH:'How it works',cGo:[['Set up','Place the sticks on the board as the card shows. The vertical ones first, they lie at the bottom.'],['Puzzle','Find the place for the remaining sticks. Exactly one notch sits at every crossing.'],['Done','When all ten sticks lie flat, the task is solved. There is always exactly one solution.']],cReadH:'How to read a card',cRead:['The sticks are drawn the way they look from above.','The number and symbol show which side is up and which way round the stick lies.','Dashed places are still free.'],cApp:'Solutions, hints and stars are in the app.',cTask:'Task {n}',simple:'In this booklet the sticks are drawn in a simplified way. The cover and the app show how they really look.',sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
+en:{qrApp:'The app',qrMw:'3D print files',cSol:'Solutions {a}–{b}',cSolHint:'The solutions are on the cards at the very back.',cLvH:'The levels',cRange:'Tasks {a}–{b}',cCnt:'105 tasks in 5 levels',cardsT:'Task cards',cGoH:'How it works',cGo:[['Set up','Place the sticks on the board as the card shows. The vertical ones first, they lie at the bottom.'],['Puzzle','Find the place for the remaining sticks. Exactly one notch sits at every crossing.'],['Done','When all ten sticks lie flat, the task is solved. There is always exactly one solution.']],cReadH:'How to read a card',cRead:['The sticks are drawn the way they look from above.','The number and symbol show which side is up and which way round the stick lies.','Dashed places are still free.'],cApp:'Solutions, hints and stars are in the app.',cTask:'Task {n}',simple:'In this booklet the sticks are drawn in a simplified way. The cover and the app show how they really look.',sub:'The booklet',sub2:'Rules, 105 tasks and all solutions',readH:'How to read a task',
  read:['The number is the stick number. It sits at one end of the stick.','At the other end, the circle or triangle shows which side faces up.','Dark spot: the stick has a notch on top here. For the lower sticks this is the side that counts.','For the upper sticks the underside counts. You can’t see it from above, but you can on your real stick.','Fill the empty places with the remaining sticks.'],
  playH:'How to play with the booklet',play:[['Set up','Place the sticks shown on the board. The upright ones first, they lie at the bottom.'],['Solve','Find the place for the remaining sticks. Every crossing has exactly one notch.'],['Compare','The solutions are at the back of the booklet, from page {p}.']],
  sticksNote:'The upper picture shows the side with the circle, the lower one the side with the triangle.',colorNote:'Your sticks have different colours? Then go by the numbers.',
  rest:'Left',solKey:'Bold: placed by you. Pale: starting position.',solutions:'Solutions',range:'Tasks {a} to {b}',one:'There is always exactly one solution.',backH:'Rather play with your phone?',backP:'The app sets up every task with you step by step, gives hints and counts your stars.',done:'solved'},
-fr:{cSol:'Solutions {a}–{b}',cSolHint:'Les solutions sont sur les dernières cartes.',cLvH:'Les niveaux',cRange:'Tâches {a}–{b}',cCnt:'105 défis en 5 niveaux',cardsT:'Cartes de tâches',cGoH:'Comment ça marche',cGo:[['Installer','Pose les bâtons sur le plateau comme sur la carte. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. À chaque croisement, il y a exactement une encoche.'],['Terminé','Quand les dix bâtons sont à plat, la tâche est résolue. Il y a toujours une seule solution.']],cReadH:'Comment lire une carte',cRead:['Les bâtons sont dessinés tels qu’on les voit de dessus.','Le numéro et le symbole indiquent quelle face est en haut et dans quel sens est posé le bâton.','Les places en pointillés sont encore libres.'],cApp:'Solutions, indices et étoiles sont dans l’appli.',cTask:'Tâche {n}',simple:'Dans ce livret, les bâtons sont dessinés de façon simplifiée. La couverture et l’appli les montrent tels qu’ils sont vraiment.',sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
+fr:{qrApp:'L’appli',qrMw:'Fichiers 3D',cSol:'Solutions {a}–{b}',cSolHint:'Les solutions sont sur les dernières cartes.',cLvH:'Les niveaux',cRange:'Défis {a}–{b}',cCnt:'105 défis en 5 niveaux',cardsT:'Cartes défis',cGoH:'Comment ça marche',cGo:[['Installer','Pose les bâtons sur le plateau comme sur la carte. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. À chaque croisement, il y a exactement une encoche.'],['Terminé','Quand les dix bâtons sont à plat, le défi est résolu. Il y a toujours une seule solution.']],cReadH:'Comment lire une carte',cRead:['Les bâtons sont dessinés tels qu’on les voit de dessus.','Le numéro et le symbole indiquent quelle face est en haut et dans quel sens est posé le bâton.','Les places en pointillés sont encore libres.'],cApp:'Solutions, indices et étoiles sont dans l’appli.',cTask:'Défi {n}',simple:'Dans ce livret, les bâtons sont dessinés de façon simplifiée. La couverture et l’appli les montrent tels qu’ils sont vraiment.',sub:'Le livret',sub2:'Les règles, 105 défis et toutes les solutions',readH:'Comment lire un défi',
  read:['Le chiffre est le numéro du bâton. Il se trouve à un bout du bâton.','À l’autre bout, le cercle ou le triangle montre quel côté est vers le haut.','Zone foncée : ici, le bâton a une encoche sur le dessus. Pour les bâtons du dessous, c’est ce côté qui compte.','Pour les bâtons du dessus, c’est le dessous qui compte. On ne le voit pas d’en haut, mais sur ton vrai bâton.','Remplis les places vides avec les bâtons restants.'],
  playH:'Comment jouer avec le livret',play:[['Installer','Pose les bâtons montrés sur le plateau. Les verticaux d’abord, ils sont en dessous.'],['Chercher','Trouve la place des bâtons restants. Chaque croisement a exactement une encoche.'],['Comparer','Les solutions sont à la fin du livret, à partir de la page {p}.']],
  sticksNote:'En haut, tu vois le côté avec le cercle ; en dessous, le côté avec le triangle.',colorNote:'Tes bâtons ont d’autres couleurs ? Fie-toi aux numéros.',
  rest:'Restent',solKey:'Vif : posé par toi. Pâle : position de départ.',solutions:'Solutions',range:'Défis {a} à {b}',one:'Il y a toujours exactement une solution.',backH:'Plutôt avec le téléphone ?',backP:'L’appli installe chaque défi avec toi pas à pas, donne des indices et compte tes étoiles.',done:'résolu'},
-es:{cSol:'Soluciones {a}–{b}',cSolHint:'Las soluciones están en las últimas tarjetas.',cLvH:'Los niveles',cRange:'Tareas {a}–{b}',cCnt:'105 retos en 5 niveles',cardsT:'Tarjetas de tareas',cGoH:'Cómo funciona',cGo:[['Montar','Coloca los palitos en el tablero como muestra la tarjeta. Primero los verticales, van debajo.'],['Pensar','Busca el sitio de los palitos que faltan. En cada cruce hay exactamente una muesca.'],['Listo','Cuando los diez palitos quedan planos, la tarea está resuelta. Siempre hay una sola solución.']],cReadH:'Cómo leer una tarjeta',cRead:['Los palitos están dibujados tal como se ven desde arriba.','El número y el símbolo indican qué cara está arriba y en qué sentido está el palito.','Los sitios con línea discontinua aún están libres.'],cApp:'Las soluciones, pistas y estrellas están en la app.',cTask:'Tarea {n}',simple:'En este cuaderno los palitos están dibujados de forma sencilla. La portada y la app los muestran como son de verdad.',sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
+es:{qrApp:'La app',qrMw:'Archivos 3D',cSol:'Soluciones {a}–{b}',cSolHint:'Las soluciones están en las últimas tarjetas.',cLvH:'Los niveles',cRange:'Retos {a}–{b}',cCnt:'105 retos en 5 niveles',cardsT:'Tarjetas de retos',cGoH:'Cómo funciona',cGo:[['Montar','Coloca los palitos en el tablero como muestra la tarjeta. Primero los verticales, van debajo.'],['Pensar','Busca el sitio de los palitos que faltan. En cada cruce hay exactamente una muesca.'],['Listo','Cuando los diez palitos quedan planos, el reto está resuelto. Siempre hay una sola solución.']],cReadH:'Cómo leer una tarjeta',cRead:['Los palitos están dibujados tal como se ven desde arriba.','El número y el símbolo indican qué cara está arriba y en qué sentido está el palito.','Los sitios con línea discontinua aún están libres.'],cApp:'Las soluciones, pistas y estrellas están en la app.',cTask:'Reto {n}',simple:'En este cuaderno los palitos están dibujados de forma sencilla. La portada y la app los muestran como son de verdad.',sub:'El cuaderno',sub2:'Las reglas, 105 retos y todas las soluciones',readH:'Cómo leer un reto',
  read:['El número es el número del palito. Está en un extremo del palito.','En el otro extremo, el círculo o el triángulo muestra qué cara queda arriba.','Zona oscura: aquí el palito tiene una muesca arriba. En los palitos de abajo cuenta justo esa cara.','En los palitos de arriba cuenta la cara de abajo. No se ve desde arriba, pero sí en tu palito real.','Rellena los huecos con los palitos que quedan.'],
  playH:'Cómo jugar con el cuaderno',play:[['Montar','Coloca en el tablero los palitos que se muestran. Primero los verticales, que van debajo.'],['Pensar','Encuentra el sitio de los palitos que quedan. En cada cruce hay exactamente una muesca.'],['Comparar','Las soluciones están al final del cuaderno, desde la página {p}.']],
  sticksNote:'Arriba ves la cara con el círculo y debajo la cara con el triángulo.',colorNote:'¿Tus palitos son de otros colores? Guíate por los números.',
@@ -1673,6 +2952,7 @@ h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .kc.lvls p{font-size:8.4pt;line-height:1.32;margin-top:1mm;opacity:.92}
 .kc.lvls .url{margin-top:2.4mm;display:inline-block;align-self:flex-start;background:#FFC533;color:#221A00;font-weight:800;font-size:8.6pt;padding:1.6mm 3.4mm;border-radius:99mm}
 .kc.logo .gridbg{position:absolute;inset:0;width:100%;height:100%}
+.kc.logo .kqrs{position:absolute;bottom:5mm;left:0;right:0;display:flex;justify-content:center;gap:7mm}.kc.logo .kqrs div{display:flex;flex-direction:column;align-items:center;gap:1.2mm}.kc.logo .kqrs svg{width:16mm;height:16mm;border-radius:1.2mm}.kc.logo .kqrs span{font-size:7pt;font-weight:700;opacity:.85}
 .kc.logo .u{position:absolute;bottom:6mm;left:0;right:0;text-align:center;font-size:8pt;font-weight:700;opacity:.75}
 .kc.sol{background:#F4F2EC;color:#1E2B26;padding:5mm}
 .kc.sol .sh{display:flex;align-items:center;justify-content:space-between;height:6mm;flex:none}
@@ -1757,6 +3037,7 @@ h2{font-size:15pt;line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .back{background:var(--cv,#0F4F41);color:var(--cvi,#EAF6F1);display:flex;flex-direction:column;justify-content:flex-end;padding:22mm}
 .back h1{color:var(--cvh,#fff);font-size:32pt}
 .back p{font-size:13pt;margin-top:4mm;max-width:120mm;opacity:.92}
+.back .qrs{display:flex;gap:12mm;margin-top:9mm;flex-wrap:nowrap}.back .qrb{display:flex;align-items:center;gap:4mm}.back .qrb svg{width:30mm;height:30mm;border-radius:2mm;flex:none}.back .qrb b{white-space:nowrap}.back .qrb span{font-size:11pt;line-height:1.35;opacity:.95}.back .qrb b{display:block;font-size:13pt;color:var(--cvh,#fff)}
 .back .url{margin-top:9mm;display:inline-block;background:#FFC533;color:#221A00;font-weight:800;font-size:14pt;padding:4mm 7mm;border-radius:99mm;align-self:flex-start}
 .back>*{position:relative}.back>.gridbg{position:absolute}
 .p2{display:flex;flex-direction:column}.p2 .band{margin-top:auto;margin-bottom:6mm}.p2 .cols{font-size:11.500pt;gap:11mm;margin-top:10mm}.p2 h2{font-size:17pt}.p2 .brule{margin-bottom:9mm}.p2 .fit{font-size:8.500pt;padding:3mm 1.500mm}
@@ -1809,7 +3090,7 @@ byLv.forEach((a,l)=>{for(let i=0;i<a.length;i+=5){const ch=a.slice(i,i+5);
 for(let i=0;i<TASKS.length;i+=12){const ch=TASKS.slice(i,i+12);
  add(`<div class="sh1"><h1>${BK.solutions}</h1><span class="muted" style="font-weight:700;text-align:right">${BK.range.replace('{a}',ch[0].n).replace('{b}',ch[ch.length-1].n)}<small class="solkey">${BK.solKey}</small></span></div><div class="grid12">${ch.map(x=>`<div class="solc"><b><i style="background:${LV[x.lv].s}"></i>${x.n}</b><div class="bw">${boardSVG({sticks:x.sol.map((q,j)=>({s:q,kind:(x.mask>>j&1)?'given':'sol'}))})}</div></div>`).join('')}</div>`,'',BK.solutions)}
 /* Rückseite */
-add(`${gridbg}<div style="width:34mm;margin-bottom:auto">${logo()}</div><h1>${BK.backH}</h1><p>${BK.backP}</p><span class="url">${URL}</span>`,'back',false);
+add(`${gridbg}<div style="width:34mm;margin-bottom:auto">${logo()}</div><h1>${BK.backH}</h1><p>${BK.backP}</p><div class="qrs"><div class="qrb">${qrSVG(APP_URL)}<span><b>${BK.qrApp}</b>${URL}</span></div>${MW_URL?`<div class="qrb">${qrSVG(MW_URL)}<span><b>${BK.qrMw}</b>MakerWorld</span></div>`:''}</div>`,'back',false);
 return pages.join('')}
 function cardPages(std){const BK=BKS[S.lang]||BKS.en,cvc=!std&&heroCol()||null,cvl=!!cvc&&lum(cvc)>=150,cvs=cvc?`--cv:${cvc};--cvi:${cvl?'#14201B':'#F2F5F3'};--cvh:${cvl?'#0E1F1A':'#fff'};--cva:${cvl?'#0B5D4B':'#FFC533'}`:'';
  const lvs=i=>`--lc:${LV[i].c};--lci:${LV[i].ci};--ls:${LV[i].s};--lsi:${LV[i].si}`;
@@ -1829,7 +3110,7 @@ function cardPages(std){const BK=BKS[S.lang]||BKS.en,cvc=!std&&heroCol()||null,c
  const rng=i=>{const n=TASKS.filter(x=>x.lv===i).map(x=>x.n);return BK.cRange.replace('{a}',Math.min(...n)).replace('{b}',Math.max(...n))};
  const lvls=`<div class="kc lvls"${cvs?` style="${cvs}"`:''}><h3>${BK.cLvH}</h3>${LV.map((L,i)=>`<div class="lr"><i style="background:${L.s};color:${L.si}">${t('lv')[i]}</i><span>${rng(i)}</span></div>`).join('')}<h4>${BK.backH}</h4><p>${BK.backP}</p><span class="url">remarcable1.github.io/AlignStiX</span></div>`;
  const grid=(()=>{let d='';for(let i=10;i<100;i+=10)d+=`M${i} 0V100M0 ${i}H100`;return `<svg class="gridbg" viewBox="0 0 100 100"><path d="${d}" stroke="${cvl?'#000':'#fff'}" stroke-opacity=".08" stroke-width=".3" fill="none"/></svg>`})();
- const back=`<div class="kc logo"${cvs?` style="${cvs}"`:''}>${grid}${logo()}<b>AlignStix</b><span class="u">remarcable1.github.io/AlignStiX</span></div>`;
+ const back=`<div class="kc logo"${cvs?` style="${cvs}"`:''}>${grid}${logo()}<b>AlignStix</b><div class="kqrs"><div>${qrSVG(APP_URL)}<span>${BK.qrApp}</span></div>${MW_URL?`<div>${qrSVG(MW_URL)}<span>${BK.qrMw}</span></div>`:''}</div></div>`;
  const cover=`<div class="kc cover"${cvs?` style="${cvs}"`:''}>${grid}<div class="art">${coverArt(TASKS[104].sol)}</div><div class="tt"><div class="wm">${logo()}AlignStix</div><div class="s1">${BK.cardsT}</div><div class="s2">${BK.cCnt}</div></div></div>`;
  const sides=[cover,rules,rules2,lvls].concat(TASKS.map(task),[back],sols),cards=[];for(let i=0;i<sides.length;i+=2)cards.push([sides[i],sides[i+1]||back]);
  const none='<div class="kc none"></div>';let m='';[5,105,205].forEach(x=>{m+=`M${x} 38V45M${x} 252V259`});[48.5,148.5,248.5].forEach(y=>{m+=`M0 ${y}H3M207 ${y}H210`});
@@ -1837,10 +3118,12 @@ function cardPages(std){const BK=BKS[S.lang]||BKS.en,cvc=!std&&heroCol()||null,c
  for(let i=0;i<cards.length;i+=4){const c=[0,1,2,3].map(k=>cards[i+k]||[none,none]);
   out+=`<section class="cpage"><div class="cgrid">${c[0][0]}${c[1][0]}${c[2][0]}${c[3][0]}</div>${cut}</section><section class="cpage"><div class="cgrid">${c[1][1]}${c[0][1]}${c[3][1]}${c[2][1]}</div>${cut}</section>`}
  return out}
-function printCards(std){let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
+function printCards(std){{const ps=document.getElementById('printpage');if(ps)ps.textContent=''}let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
  el=document.createElement('div');el.id='print';const keep=S.colors;if(std)S.colors=DEF_COLORS.slice();try{el.innerHTML=cardPages(std)}finally{S.colors=keep}document.body.appendChild(el);document.body.classList.add('printing');return el}
-function printBook(std){let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
- el=document.createElement('div');el.id='print';const keep=S.colors;if(std)S.colors=DEF_COLORS.slice();try{el.innerHTML=bookPages(std);document.body.appendChild(el);xFill(el)}finally{S.colors=keep}document.body.classList.add('printing');return el}
+function printBook(std,fmt){let el=document.getElementById('print');if(el)el.remove();let st=document.getElementById('printcss');if(!st){st=document.createElement('style');st.id='printcss';document.head.appendChild(st)}st.textContent=bookCSS();
+ el=document.createElement('div');el.id='print';const keep=S.colors;if(std)S.colors=DEF_COLORS.slice();try{el.innerHTML=bookPages(std);document.body.appendChild(el);xFill(el)}finally{S.colors=keep}
+ let ps=document.getElementById('printpage');if(!ps){ps=document.createElement('style');ps.id='printpage';document.head.appendChild(ps)}
+ ps.textContent=fmt==='A5'?'@page{size:A5;margin:0}#print.a5 .page{zoom:.70711}':'';el.classList.toggle('a5',fmt==='A5');document.body.classList.add('printing');return el}
 /* ---------- Start ---------- */
 applyTheme();
 try{history.replaceState({view:'home'},'')}catch(e){}
@@ -1848,8 +3131,9 @@ let sharedN=0;{const m=/^#a(\d{1,3})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+
 function openShared(){if(!sharedN||!S.players.length)return false;const n=sharedN;sharedN=0;R={view:'task',i:n-1,from:'home'};try{history.pushState({view:'task',i:n-1,from:'home'},'')}catch(e){}render(true);setTimeout(()=>toast(t('shared',{n})),500);return true}
 window.addEventListener('hashchange',()=>{const m=/^#a(\d{1,3})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=TASKS.length){sharedN=+m[1];try{history.replaceState(history.state,'',location.pathname+location.search)}catch(e){}closeSheet(true);openShared()}});
 if(!openShared())render(true);
+try{if(localStorage.getItem('as2new')){localStorage.removeItem('as2new');setTimeout(()=>toast(t('updated')),900)}}catch(e){}
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{});
- fetch('./version.json?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(v=>{if(v&&v.version&&String(v.version)!==APP_VERSION&&!sessionStorage.getItem('as2upd')){sessionStorage.setItem('as2upd','1');
+ fetch('./version.json?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(v=>{if(v&&v.version&&String(v.version)!==APP_VERSION&&!sessionStorage.getItem('as2upd')){sessionStorage.setItem('as2upd','1');try{localStorage.setItem('as2new','1')}catch(e){}
   (window.caches?caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('alignstix2-')).map(k=>caches.delete(k)))):Promise.resolve()).then(()=>navigator.serviceWorker.getRegistration()).then(r=>r&&r.update()).then(()=>location.reload())}}).catch(()=>{})}
 
 </script>

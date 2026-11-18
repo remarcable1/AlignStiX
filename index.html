@@ -705,6 +705,9 @@ a.newb span,a.newb small{text-decoration:none}
 
 .pfmt{margin-top:16px}.pfmt .seg{display:flex;width:100%}.pfmt .seg button{flex:1;white-space:nowrap}
 
+/* Druck: keine Animationen, sonst druckt z. B. Android das Logo im unsichtbaren Startzustand */
+#print *,#print *::before,#print *::after{animation:none!important;transition:none!important}
+
 </style>
 </head>
 <body>

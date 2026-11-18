@@ -714,6 +714,20 @@ html,body{touch-action:manipulation}
 .task .bbox{touch-action:pan-y}
 .task .bbox.zoomed{overflow:hidden;touch-action:none}
 
+/* Spielstand sichern/laden */
+.prow.pk{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-weight:700;padding:10px 12px;border-radius:20px;background:var(--card2);margin-top:8px;border:2px solid transparent}
+.prow.pk.on{border-color:var(--pri)}
+.prow.pk>span:nth-child(2){flex:1;display:flex;flex-direction:column}
+.prow.pk small{font-weight:500;color:var(--ink2);font-size:13.5px}
+.ck{flex:none;width:28px;height:28px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center}
+.ck.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.ck svg{width:18px;height:18px}
+.gearic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);flex:none;color:var(--ink)}
+.gearic svg{width:22px;height:22px}
+.rsseg{display:flex;margin:8px 0 2px}.rsseg button{flex:1}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.prow.pk.del.on{border-color:var(--bad)}.prow.pk.del .ck.on{background:var(--bad);border-color:var(--bad)}
+
 </style>
 </head>
 <body>
@@ -723,6 +737,8 @@ html,body{touch-action:manipulation}
 <script>
 const I18N={
 de:{
+ rsFullH:'Alle 6 Plätze sind belegt',rsFull1:'Wähle einen Spieler, der dafür gelöscht wird.',rsFullN:'Wähle {n} Spieler, die dafür gelöscht werden.',rsFullOk:'Diese Spieler werden beim Laden gelöscht.',rsDelOn:'Wird gelöscht',fullP:'Alle 6 Plätze sind belegt. Lösche einen Spieler mit ✕, um einen neuen anzulegen.',
+ bkWho:'Was soll gesichert werden?',bkSet:'Einstellungen',bkSetP:'Sprache, Aussehen, Stab- und Brettfarben',bkSave:'Als Datei speichern',bkShare:'Teilen …',bkCopy:'Als Text kopieren',bkCopied:'Spielstand als Text kopiert. Füge ihn zum Beispiel in eine Notiz oder Nachricht ein.',bkNone:'Wähle mindestens einen Spieler aus.',bkFail:'Das hat hier nicht geklappt. Versuche „Teilen“ oder „Als Text kopieren“.',bkAllF:'alle',bkPlF:'Spieler',rsP:'Wähle die gesicherte Datei aus oder füge den kopierten Text ein. Danach entscheidest du für jeden Spieler, was übernommen wird.',rsFile:'Datei auswählen',rsPaste:'Text einfügen',rsPasteP:'Füge hier den Text ein, den du mit „Als Text kopieren“ gesichert hast.',rsCheck:'Weiter',rsFrom:'Gesichert am {d}',rsNew:'Neu auf diesem Gerät · {b} gelöst',rsSame:'Gibt es hier schon · hier {a} gelöst, in der Sicherung {b}',rsReplace:'Ersetzen',rsAsNew:'Als zweiten Spieler',rsOlder:'Achtung: In der Sicherung sind weniger Aufgaben gelöst als auf diesem Gerät.',rsSet:'Einstellungen übernehmen',rsGo:'Laden',
  textSize:'Schriftgröße',
  fmtCards:'Karten',fmtBook:'Heft {f}',
  pfmtL:'Format',bookH:'Heft im Format {f}',bookP:'Anleitung, alle 105 Aufgaben und die Lösungen als Heft. Es passt nicht ins Spielfeld und wird daneben aufbewahrt. A5 ist handlich, A4 am besten lesbar.',
@@ -742,7 +758,7 @@ de:{
  missFree:'Der nächste Fehlversuch kostet einen Stern.',missCost:'Das kostet einen Stern.',winMiss:'Gelöst, mit Fehlversuchen beim Prüfen.',
  checkPick:'Tippe eine Nummer an. Du siehst dann den Stab und kannst ihn wenden, bevor du antwortest.',checkYes:'Ja, Stab {n} liegt dort',
  printMine:'In meinen Stabfarben',printMineP:'Wähle das Format. Alles wird direkt in der App erzeugt, im Druckdialog kannst du drucken oder als PDF speichern.',printStd:'In den Standardfarben',printOne:'Heft drucken',printWait:'Das Heft wird vorbereitet …',
- rebuild:'Brett leeren und Aufgabe neu aufbauen',camBtn:'Farbe vom echten Stab aufnehmen',camH:'Halte Stab {n} in den Kreis',camP:'Am besten bei Tageslicht. Im Kreis wird die Farbe gemessen.',camTake:'Diese Farbe nehmen',camPhoto:'Foto aufnehmen',camTap:'Tippe im Foto auf den Stab.',camNo:'Die Live-Kamera ist hier nicht verfügbar. Nimm stattdessen ein Foto auf.',backup:'Spielstand sichern',restore:'Spielstand laden',backupP:'Sichert alle Spieler, Sterne und Stabfarben in einer Datei, zum Beispiel für ein neues Handy.',backupDone:'Spielstand gespeichert',restoreQ:'Den Spielstand auf diesem Gerät durch die Datei ersetzen?',replaceYes:'Ja, ersetzen',restoreBad:'Diese Datei ist kein AlignStix-Spielstand.',restored:'Spielstand geladen',printG:'Zum Ausdrucken',printP:'Anleitung, alle 105 Aufgaben und die Lösungen: als Karten fürs Spielfeld oder als Heft.',
+ rebuild:'Brett leeren und Aufgabe neu aufbauen',camBtn:'Farbe vom echten Stab aufnehmen',camH:'Halte Stab {n} in den Kreis',camP:'Am besten bei Tageslicht. Im Kreis wird die Farbe gemessen.',camTake:'Diese Farbe nehmen',camPhoto:'Foto aufnehmen',camTap:'Tippe im Foto auf den Stab.',camNo:'Die Live-Kamera ist hier nicht verfügbar. Nimm stattdessen ein Foto auf.',backup:'Spielstand sichern',restore:'Spielstand laden',backupP:'Sichert Spieler, Sterne und Einstellungen, zum Beispiel für ein neues Handy. Du wählst aus, was gesichert und was geladen wird.',backupDone:'Spielstand gespeichert',restoreQ:'Den Spielstand auf diesem Gerät durch die Datei ersetzen?',replaceYes:'Ja, ersetzen',restoreBad:'Diese Datei ist kein AlignStix-Spielstand.',restored:'Spielstand geladen',printG:'Zum Ausdrucken',printP:'Anleitung, alle 105 Aufgaben und die Lösungen: als Karten fürs Spielfeld oder als Heft.',
  tagline:'Die App zu deinem Stäbchen-Puzzle',welcomeH:'Willkommen bei AlignStix',welcomeP:'Hol dein Brett und die zehn Stäbe. Die App stellt dir die Aufgaben, hilft beim Aufbauen und feiert jede Lösung mit dir.',
  nameQ:'Wie heißt du?',namePh:'Dein Name',pickShape:'Such dir ein Zeichen aus',start:'Los geht’s',player:'Spieler',
  hello:'Hallo {name}',homeNext:'Aufgabe {n} wartet auf dich.',homeFirst:'Deine erste Aufgabe liegt bereit.',homeAll:'Alle 105 Aufgaben gelöst. Respekt!',
@@ -783,6 +799,8 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',toHome:'Zur Startseite',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ rsFullH:'All 6 places are taken',rsFull1:'Choose one player to delete for it.',rsFullN:'Choose {n} players to delete for it.',rsFullOk:'These players will be deleted when loading.',rsDelOn:'Will be deleted',fullP:'All 6 places are taken. Delete a player with ✕ to add a new one.',
+ bkWho:'What should be backed up?',bkSet:'Settings',bkSetP:'Language, appearance, stick and board colours',bkSave:'Save as file',bkShare:'Share …',bkCopy:'Copy as text',bkCopied:'Progress copied as text. Paste it into a note or message, for example.',bkNone:'Choose at least one player.',bkFail:'That didn’t work here. Try “Share” or “Copy as text”.',bkAllF:'all',bkPlF:'players',rsP:'Choose the backup file or paste the copied text. Then decide for each player what to take over.',rsFile:'Choose file',rsPaste:'Paste text',rsPasteP:'Paste the text you saved with “Copy as text” here.',rsCheck:'Next',rsFrom:'Saved on {d}',rsNew:'New on this device · {b} solved',rsSame:'Already here · {a} solved here, {b} in the backup',rsReplace:'Replace',rsAsNew:'As a second player',rsOlder:'Careful: the backup has fewer solved tasks than this device.',rsSet:'Take over settings',rsGo:'Load',
  textSize:'Text size',
  fmtCards:'Cards',fmtBook:'Booklet {f}',
  pfmtL:'Format',bookH:'Booklet in {f}',bookP:'Instructions, all 105 tasks and the solutions as a booklet. It doesn’t fit in the board and is kept next to it. A5 is handy, A4 is easiest to read.',
@@ -802,7 +820,7 @@ en:{
  missFree:'The next wrong answer costs a star.',missCost:'That costs a star.',winMiss:'Solved, with wrong answers in the check.',
  checkPick:'Tap a number. You then see the stick and can flip it before you answer.',checkYes:'Yes, stick {n} lies there',
  printMine:'In my stick colours',printMineP:'Choose the format. Everything is created right in the app; in the print dialog you can print or save as PDF.',printStd:'In the standard colours',printOne:'Print booklet',printWait:'Preparing the booklet …',
- rebuild:'Clear the board and set up the task again',camBtn:'Take the colour from the real stick',camH:'Hold stick {n} inside the circle',camP:'Daylight works best. The colour is measured inside the circle.',camTake:'Use this colour',camPhoto:'Take a photo',camTap:'Tap the stick in the photo.',camNo:'The live camera is not available here. Take a photo instead.',backup:'Back up progress',restore:'Load progress',backupP:'Saves all players, stars and stick colours to a file, for example for a new phone.',backupDone:'Progress saved',restoreQ:'Replace the progress on this device with the file?',replaceYes:'Yes, replace',restoreBad:'This file is not an AlignStix backup.',restored:'Progress loaded',printG:'Print at home',printP:'Rules, all 105 tasks and the solutions: as cards for the board or as a booklet.',
+ rebuild:'Clear the board and set up the task again',camBtn:'Take the colour from the real stick',camH:'Hold stick {n} inside the circle',camP:'Daylight works best. The colour is measured inside the circle.',camTake:'Use this colour',camPhoto:'Take a photo',camTap:'Tap the stick in the photo.',camNo:'The live camera is not available here. Take a photo instead.',backup:'Back up progress',restore:'Load progress',backupP:'Saves players, stars and settings, for example for a new phone. You choose what is saved and what is loaded.',backupDone:'Progress saved',restoreQ:'Replace the progress on this device with the file?',replaceYes:'Yes, replace',restoreBad:'This file is not an AlignStix backup.',restored:'Progress loaded',printG:'Print at home',printP:'Rules, all 105 tasks and the solutions: as cards for the board or as a booklet.',
  tagline:'The app for your stick puzzle',welcomeH:'Welcome to AlignStix',welcomeP:'Grab your board and the ten sticks. The app sets the tasks, helps you set up and celebrates every solution with you.',
  nameQ:'What’s your name?',namePh:'Your name',pickShape:'Pick your symbol',start:'Let’s go',player:'Player',
  hello:'Hello {name}',homeNext:'Task {n} is waiting for you.',homeFirst:'Your first task is ready.',homeAll:'All 105 tasks solved. Respect!',
@@ -843,6 +861,8 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',toHome:'Home',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ rsFullH:'Les 6 places sont prises',rsFull1:'Choisis un joueur à supprimer pour cela.',rsFullN:'Choisis {n} joueurs à supprimer pour cela.',rsFullOk:'Ces joueurs seront supprimés au chargement.',rsDelOn:'Sera supprimé',fullP:'Les 6 places sont prises. Supprime un joueur avec ✕ pour en ajouter un nouveau.',
+ bkWho:'Que faut-il sauvegarder ?',bkSet:'Réglages',bkSetP:'Langue, apparence, couleurs des bâtons et du plateau',bkSave:'Enregistrer comme fichier',bkShare:'Partager …',bkCopy:'Copier comme texte',bkCopied:'Progression copiée comme texte. Colle-la par exemple dans une note ou un message.',bkNone:'Choisis au moins un joueur.',bkFail:'Ça n’a pas marché ici. Essaie « Partager » ou « Copier comme texte ».',bkAllF:'tous',bkPlF:'joueurs',rsP:'Choisis le fichier de sauvegarde ou colle le texte copié. Ensuite, tu décides pour chaque joueur ce qui est repris.',rsFile:'Choisir un fichier',rsPaste:'Coller le texte',rsPasteP:'Colle ici le texte sauvegardé avec « Copier comme texte ».',rsCheck:'Suivant',rsFrom:'Sauvegardé le {d}',rsNew:'Nouveau sur cet appareil · {b} résolus',rsSame:'Déjà ici · {a} résolus ici, {b} dans la sauvegarde',rsReplace:'Remplacer',rsAsNew:'Comme 2ᵉ joueur',rsOlder:'Attention : la sauvegarde contient moins de défis résolus que cet appareil.',rsSet:'Reprendre les réglages',rsGo:'Charger',
  textSize:'Taille du texte',
  fmtCards:'Cartes',fmtBook:'Livret {f}',
  pfmtL:'Format',bookH:'Livret au format {f}',bookP:'Règles, les 105 défis et les solutions sous forme de livret. Il ne tient pas dans le plateau et se range à côté. Le A5 est pratique, le A4 le plus lisible.',
@@ -862,7 +882,7 @@ fr:{
  missFree:'La prochaine erreur coûte une étoile.',missCost:'Cela coûte une étoile.',winMiss:'Résolu, avec des erreurs à la vérification.',
  checkPick:'Touche un numéro. Tu vois alors le bâton et tu peux le retourner avant de répondre.',checkYes:'Oui, c’est le bâton {n}',
  printMine:'Avec mes couleurs',printMineP:'Choisis le format. Tout est créé directement dans l’appli ; dans la fenêtre d’impression, tu peux imprimer ou enregistrer en PDF.',printStd:'Avec les couleurs standard',printOne:'Imprimer le livret',printWait:'Préparation du livret …',
- rebuild:'Vider le plateau et reconstruire le défi',camBtn:'Prendre la couleur du vrai bâton',camH:'Place le bâton {n} dans le cercle',camP:'La lumière du jour convient le mieux. La couleur est mesurée dans le cercle.',camTake:'Prendre cette couleur',camPhoto:'Prendre une photo',camTap:'Touche le bâton sur la photo.',camNo:'La caméra en direct n’est pas disponible ici. Prends plutôt une photo.',backup:'Sauvegarder la progression',restore:'Charger une progression',backupP:'Enregistre tous les joueurs, les étoiles et les couleurs dans un fichier, par exemple pour un nouveau téléphone.',backupDone:'Progression enregistrée',restoreQ:'Remplacer la progression de cet appareil par le fichier ?',replaceYes:'Oui, remplacer',restoreBad:'Ce fichier n’est pas une sauvegarde AlignStix.',restored:'Progression chargée',printG:'À imprimer',printP:'Les règles, les 105 défis et les solutions : en cartes pour le plateau ou en livret.',
+ rebuild:'Vider le plateau et reconstruire le défi',camBtn:'Prendre la couleur du vrai bâton',camH:'Place le bâton {n} dans le cercle',camP:'La lumière du jour convient le mieux. La couleur est mesurée dans le cercle.',camTake:'Prendre cette couleur',camPhoto:'Prendre une photo',camTap:'Touche le bâton sur la photo.',camNo:'La caméra en direct n’est pas disponible ici. Prends plutôt une photo.',backup:'Sauvegarder la progression',restore:'Charger une progression',backupP:'Sauvegarde joueurs, étoiles et réglages, par exemple pour un nouveau téléphone. Tu choisis ce qui est sauvegardé et ce qui est chargé.',backupDone:'Progression enregistrée',restoreQ:'Remplacer la progression de cet appareil par le fichier ?',replaceYes:'Oui, remplacer',restoreBad:'Ce fichier n’est pas une sauvegarde AlignStix.',restored:'Progression chargée',printG:'À imprimer',printP:'Les règles, les 105 défis et les solutions : en cartes pour le plateau ou en livret.',
  tagline:'L’appli de ton puzzle à bâtonnets',welcomeH:'Bienvenue dans AlignStix',welcomeP:'Prends ton plateau et les dix bâtons. L’appli te donne les défis, t’aide à installer et fête chaque solution avec toi.',
  nameQ:'Comment t’appelles-tu ?',namePh:'Ton prénom',pickShape:'Choisis ton symbole',start:'C’est parti',player:'Joueur',
  hello:'Bonjour {name}',homeNext:'Le défi {n} t’attend.',homeFirst:'Ton premier défi est prêt.',homeAll:'Les 105 défis sont résolus. Bravo !',
@@ -903,6 +923,8 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',toHome:'Accueil',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ rsFullH:'Los 6 puestos están ocupados',rsFull1:'Elige un jugador que se borrará para ello.',rsFullN:'Elige {n} jugadores que se borrarán para ello.',rsFullOk:'Estos jugadores se borrarán al cargar.',rsDelOn:'Se borrará',fullP:'Los 6 puestos están ocupados. Borra un jugador con ✕ para añadir uno nuevo.',
+ bkWho:'¿Qué quieres guardar?',bkSet:'Ajustes',bkSetP:'Idioma, aspecto, colores de palitos y tablero',bkSave:'Guardar como archivo',bkShare:'Compartir …',bkCopy:'Copiar como texto',bkCopied:'Progreso copiado como texto. Pégalo, por ejemplo, en una nota o un mensaje.',bkNone:'Elige al menos un jugador.',bkFail:'Aquí no ha funcionado. Prueba «Compartir» o «Copiar como texto».',bkAllF:'todos',bkPlF:'jugadores',rsP:'Elige el archivo guardado o pega el texto copiado. Después decides para cada jugador qué se carga.',rsFile:'Elegir archivo',rsPaste:'Pegar texto',rsPasteP:'Pega aquí el texto que guardaste con «Copiar como texto».',rsCheck:'Siguiente',rsFrom:'Guardado el {d}',rsNew:'Nuevo en este dispositivo · {b} resueltos',rsSame:'Ya está aquí · {a} resueltos aquí, {b} en la copia',rsReplace:'Reemplazar',rsAsNew:'Como segundo jugador',rsOlder:'Atención: en la copia hay menos retos resueltos que en este dispositivo.',rsSet:'Cargar ajustes',rsGo:'Cargar',
  textSize:'Tamaño de letra',
  fmtCards:'Tarjetas',fmtBook:'Cuaderno {f}',
  pfmtL:'Formato',bookH:'Cuaderno en {f}',bookP:'Reglas, los 105 retos y las soluciones en un cuaderno. No cabe en el tablero y se guarda al lado. El A5 es práctico, el A4 se lee mejor.',
@@ -922,7 +944,7 @@ es:{
  missFree:'El próximo fallo cuesta una estrella.',missCost:'Eso cuesta una estrella.',winMiss:'Resuelto, con fallos en la comprobación.',
  checkPick:'Toca un número. Verás el palito y podrás darle la vuelta antes de responder.',checkYes:'Sí, es el palito {n}',
  printMine:'Con mis colores',printMineP:'Elige el formato. Todo se crea directamente en la app; en el diálogo de impresión puedes imprimir o guardar como PDF.',printStd:'Con los colores estándar',printOne:'Imprimir el cuaderno',printWait:'Preparando el cuaderno …',
- rebuild:'Vaciar el tablero y montar el reto de nuevo',camBtn:'Tomar el color del palito real',camH:'Pon el palito {n} dentro del círculo',camP:'Mejor con luz de día. El color se mide dentro del círculo.',camTake:'Usar este color',camPhoto:'Hacer una foto',camTap:'Toca el palito en la foto.',camNo:'La cámara en directo no está disponible aquí. Haz una foto en su lugar.',backup:'Guardar progreso',restore:'Cargar progreso',backupP:'Guarda todos los jugadores, estrellas y colores en un archivo, por ejemplo para un móvil nuevo.',backupDone:'Progreso guardado',restoreQ:'¿Sustituir el progreso de este dispositivo por el archivo?',replaceYes:'Sí, sustituir',restoreBad:'Este archivo no es una copia de AlignStix.',restored:'Progreso cargado',printG:'Para imprimir',printP:'Las reglas, los 105 retos y las soluciones: en tarjetas para el tablero o en un cuaderno.',
+ rebuild:'Vaciar el tablero y montar el reto de nuevo',camBtn:'Tomar el color del palito real',camH:'Pon el palito {n} dentro del círculo',camP:'Mejor con luz de día. El color se mide dentro del círculo.',camTake:'Usar este color',camPhoto:'Hacer una foto',camTap:'Toca el palito en la foto.',camNo:'La cámara en directo no está disponible aquí. Haz una foto en su lugar.',backup:'Guardar progreso',restore:'Cargar progreso',backupP:'Guarda jugadores, estrellas y ajustes, por ejemplo para un móvil nuevo. Tú eliges qué se guarda y qué se carga.',backupDone:'Progreso guardado',restoreQ:'¿Sustituir el progreso de este dispositivo por el archivo?',replaceYes:'Sí, sustituir',restoreBad:'Este archivo no es una copia de AlignStix.',restored:'Progreso cargado',printG:'Para imprimir',printP:'Las reglas, los 105 retos y las soluciones: en tarjetas para el tablero o en un cuaderno.',
  tagline:'La app de tu puzle de palitos',welcomeH:'Te damos la bienvenida a AlignStix',welcomeP:'Coge tu tablero y los diez palitos. La app te da los retos, te ayuda a montar y celebra cada solución contigo.',
  nameQ:'¿Cómo te llamas?',namePh:'Tu nombre',pickShape:'Elige tu símbolo',start:'¡Vamos!',player:'Jugador',
  hello:'Hola, {name}',homeNext:'El reto {n} te espera.',homeFirst:'Tu primer reto está listo.',homeAll:'Los 105 retos resueltos. ¡Enhorabuena!',
@@ -1458,10 +1480,42 @@ function unpeek(){const w=document.querySelector('.task .bwrap.peek');if(w){w.cl
 function checkSheet(){const c=T.check,k=c.qs[c.i],x=TASKS[R.i],hp=ts(x).help||{},cand=x.open.filter(s=>!hp[s.k]).map(s=>s.rod).sort((a,b)=>a-b),sel=c.sel||0;
  openSheet(`<p class="note">${t('checkH')}${c.qs.length>1?', '+t('checkOf',{a:c.i+1,b:c.qs.length}):''}</p><h2 style="margin-top:4px">${esc(t('checkQ',{slot:slotName(k)}))}</h2><div class="qchips" id="qch">${cand.map(r=>{const col=colorOf(r);return `<button class="chip${r===sel?' on':''}" style="background:${col};color:${ink(col)}" data-act="pick" data-n="${r}" aria-pressed="${r===sel}">${r}</button>`}).join('')}</div>
  ${sel?`<div class="lbl">${t('stick',{n:sel})} <span id="sds">${t('side',{sym:symChar((T.flips.s|0)%2)})}</span></div><div style="margin-top:6px">${flipStick(sel,T.flips.s,T.turns.s).replace('data-n="'+sel+'"','data-n="s"')}</div><p class="note" style="margin-top:6px">${t('tapFlip')}</p><div class="stack"><button class="btn pri wide" data-act="answer" data-n="${sel}">${ic('check')}${t('checkYes',{n:sel})}</button></div>`:`<p class="note" style="margin-top:16px">${t('checkPick')}</p>`}${(ts(x).miss|0)>=1&&starsFor(x)>1?`<p class="note" style="margin-top:10px;color:var(--bad)">${t('missFree')}</p>`:''}`);setTimeout(peekBoard,60);setTimeout(peekBoard,420)}
+/* ---------- Spielstand sichern / laden ---------- */
+let BK2=null,RS2=null;
+const solvedN=p=>Object.keys(p.done||{}).length,starsN=p=>Object.values(p.done||{}).reduce((n,x)=>n+((x&&x.stars)||0),0);
+function backupData(){const ps=S.players.filter(p=>BK2&&BK2.sel[p.id]);if(!ps.length){toast(t('bkNone'));return null}
+ const st=BK2.set?{lang:S.lang,theme:S.theme,sound:S.sound,haptic:S.haptic,colors:S.colors,board:S.board,fs:S.fs,pref3d:S.pref3d,seen:S.seen}:null;
+ const d=new Date(),ds=d.toISOString().slice(0,10),nm=ps.length===1?ps[0].name.replace(/[^\wäöüÄÖÜß-]+/g,'_'):(ps.length===S.players.length?t('bkAllF'):ps.length+'_'+t('bkPlF'));
+ return {name:`AlignStix_${nm}_${ds}.json`,txt:JSON.stringify({app:'alignstix',v:2,saved:d.toISOString(),players:ps,settings:st})}}
+function backupSheet(){const n=S.players.filter(p=>BK2.sel[p.id]).length,chk=on=>`<span class="ck${on?' on':''}">${on?ic('check'):''}</span>`;
+ openSheet(`<h2>${t('backup')}</h2><p class="note" style="margin-top:6px">${t('bkWho')}</p><div class="plist" style="margin-top:10px">${S.players.map(p=>`<button class="prow pk${BK2.sel[p.id]?' on':''}" data-act="bkTog" data-id="${p.id}" aria-pressed="${!!BK2.sel[p.id]}">${avatar(p)}<span>${esc(p.name)}<small>${t('solvedOf',{a:solvedN(p),b:105})}</small></span>${chk(BK2.sel[p.id])}</button>`).join('')}
+ <button class="prow pk${BK2.set?' on':''}" data-act="bkSet" aria-pressed="${BK2.set}"><span class="gearic">${ic('palette')}</span><span>${t('bkSet')}<small>${t('bkSetP')}</small></span>${chk(BK2.set)}</button></div>
+ <div class="stack" style="margin-top:14px">${n?'':`<p class="note" style="color:var(--bad)">${t('bkNone')}</p>`}<button class="btn pri wide" data-act="bkSave"${n?'':' disabled'}>${t('bkSave')}</button>${navigator.share?`<button class="btn ton wide" data-act="bkShare"${n?'':' disabled'}>${t('bkShare')}</button>`:''}<button class="btn txt wide" data-act="bkCopy"${n?'':' disabled'}>${t('bkCopy')}</button></div>`)}
+function importText(txt){let o=null;try{o=JSON.parse(String(txt||'').trim())}catch(_){}
+ let players=null,settings=null,saved=o&&o.saved;
+ if(o&&o.app==='alignstix'&&o.v===2&&Array.isArray(o.players)){players=o.players;settings=o.settings||null}
+ else if(o&&o.app==='alignstix'&&o.data&&Array.isArray(o.data.players)){players=o.data.players;settings=o.data}
+ players=(players||[]).filter(p=>p&&p.id&&typeof p.name==='string').map(p=>Object.assign({av:0,done:{},task:{}},p));
+ if(!players.length){toast(t('restoreBad'));return}
+ const rows=players.map(p=>{const m=S.players.find(x=>x.id===p.id)||S.players.find(x=>x.name.trim().toLowerCase()===p.name.trim().toLowerCase());return {p,match:m||null,take:true,asNew:false}});
+ RS2={rows,settings,saved,set:!S.players.length&&!!settings,del:{}};restoreSheet()}
+function restoreSheet(){const R2=RS2,ds=R2.saved?new Date(R2.saved).toLocaleDateString(S.lang,{day:'numeric',month:'long',year:'numeric'}):'',chk=on=>`<span class="ck${on?' on':''}">${on?ic('check'):''}</span>`;
+ const added=R2.rows.filter(r=>r.take&&(!r.match||r.asNew)).length,keep=R2.rows.filter(r=>r.take&&r.match&&!r.asNew).map(r=>r.match.id),dels=S.players.filter(p=>R2.del[p.id]&&!keep.includes(p.id)).length,over=S.players.length-dels+added-6,full=over>0;
+ const cand=S.players.filter(p=>!keep.includes(p.id));
+ let h=`<h2>${t('restore')}</h2>${ds?`<p class="note" style="margin-top:6px">${t('rsFrom',{d:ds})}</p>`:''}<div class="plist" style="margin-top:10px">`;
+ R2.rows.forEach((r,i)=>{const a=r.match?solvedN(r.match):0,b=solvedN(r.p),older=r.match&&!r.asNew&&b<a;
+  h+=`<div class="rsrow${r.take?' on':''}"><button class="prow pk${r.take?' on':''}" data-act="rsTog" data-i="${i}" aria-pressed="${r.take}">${avatar(r.p)}<span>${esc(r.p.name)}<small>${r.match?t('rsSame',{a,b}):t('rsNew',{b})}</small></span>${chk(r.take)}</button>
+  ${r.match&&r.take?`<div class="seg rsseg"><button class="${r.asNew?'':'on'}" data-act="rsMode" data-i="${i}" data-v="rep">${t('rsReplace')}</button><button class="${r.asNew?'on':''}" data-act="rsMode" data-i="${i}" data-v="new">${t('rsAsNew')}</button></div>`:''}
+  ${older&&r.take?`<p class="note" style="color:var(--bad);margin:6px 4px 0">${t('rsOlder')}</p>`:''}</div>`});
+ if(R2.settings)h+=`<button class="prow pk${R2.set?' on':''}" data-act="rsSet" aria-pressed="${R2.set}"><span class="gearic">${ic('palette')}</span><span>${t('rsSet')}<small>${t('bkSetP')}</small></span>${chk(R2.set)}</button>`;
+ const any=R2.rows.some(r=>r.take)||(R2.set&&R2.settings);
+ h+=`</div>${(S.players.length+added>6)&&cand.length?`<h3 style="margin-top:18px;font-size:17px">${t('rsFullH')}</h3><p class="note" style="margin-top:4px;${full?'color:var(--bad)':''}">${full?t(over===1?'rsFull1':'rsFullN',{n:over}):t('rsFullOk')}</p><div class="plist">${cand.map(p=>`<button class="prow pk del${R2.del[p.id]?' on':''}" data-act="rsDel" data-id="${p.id}" aria-pressed="${!!R2.del[p.id]}">${avatar(p)}<span>${esc(p.name)}<small>${R2.del[p.id]?t('rsDelOn'):t('solvedOf',{a:solvedN(p),b:105})}</small></span>${chk(R2.del[p.id])}</button>`).join('')}</div>`:''}<div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn pri" style="flex:1" data-act="restoreYes"${any&&!full?'':' disabled'}>${t('rsGo')}</button></div>`;
+ openSheet(h)}
 function profileSheet(adding){const act=P();
  let h=`<h2>${t('players')}</h2><div class="plist">${S.players.map(p=>{const n=Object.keys(p.done).length;return `<div class="prow${p.id===act.id?' on':''}"><button data-act="switch" data-id="${p.id}" style="display:flex;align-items:center;gap:12px;flex:1;text-align:left;font-weight:700">${avatar(p)}<span>${esc(p.name)}<small>${t('solvedOf',{a:n,b:105})}</small></span></button><button class="ib x" data-act="askRemove" data-id="${p.id}" aria-label="${esc(t('removePlayer',{name:p.name}))}">${ic('close')}</button></div>`}).join('')}</div>`;
  if(adding)h+=`<div class="field"><input id="nm2" maxlength="14" autocomplete="off" placeholder="${esc(t('namePh'))}"></div>${avatarPick(W.av)}<div class="stack"><button class="btn pri wide" data-act="addPlayer">${t('add')}</button></div>`;
  else if(S.players.length<6)h+=`<div class="stack" style="margin-top:8px"><button class="btn ton wide" data-act="addForm">${ic('plus')}${t('addPlayer')}</button></div>`;
+ else h+=`<p class="note" style="margin-top:10px">${t('fullP')}</p>`;
  h+=`<h2 style="margin-top:28px">${t('settings')}</h2>
  <div class="setrow"><span>${t('language')}</span><span class="seg">${LANGS.map(l=>`<button class="${S.lang===l?'on':''}" data-act="lang" data-l="${l}">${l.toUpperCase()}</button>`).join('')}</span></div>
  <div class="setrow"><span>${t('theme')}</span><span class="seg">${['auto','light','dark'].map(m=>`<button class="${S.theme===m?'on':''}" data-act="theme" data-m="${m}">${t(m)}</button>`).join('')}</span></div>
@@ -1525,7 +1579,7 @@ function camSheet(n){openSheet(`<h2>${n==='b'?t('camHB'):t('camH',{n})}</h2><p i
   cam.iv=setInterval(()=>{const w=v.videoWidth,h=v.videoHeight;if(!w||cam!==me)return;const sz=Math.max(8,Math.round(Math.min(w,h)*.07));camShow(avgColor(v,(w-sz)/2,(h-sz)/2,sz))},250)}).catch(fallback)}
 document.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
  if(e.target.id==='camf'&&cam){const n=cam.n,img=new Image();img.onload=()=>{const c=snapCanvas(img,img.naturalWidth||img.width,img.naturalHeight||img.height);URL.revokeObjectURL(img.src);const d=Math.max(2,Math.round(Math.min(c.width,c.height)*.05));adjSheet(n,avgColor(c,(c.width-d)/2,(c.height-d)/2,d),c)};img.src=URL.createObjectURL(f)}
- if(e.target.id==='impf'){const rd=new FileReader();rd.onload=()=>{let o=null;try{o=JSON.parse(rd.result)}catch(_){}if(!o||o.app!=='alignstix'||!o.data||!Array.isArray(o.data.players)||!o.data.players.length){toast(t('restoreBad'));return}pendingImport=o.data;confirmSheet(t('restoreQ'),'restoreYes','',t('replaceYes'))};rd.readAsText(f)}});
+ if(e.target.id==='impf'){const rd=new FileReader();rd.onload=()=>{e.target.value='';importText(rd.result)};rd.readAsText(f)}});
 
 /* ---------- Aktionen ---------- */
 function win(stars){const x=TASKS[R.i],p=P(),l=x.lv,n=byLv[l].length,prev=p.done[x.id],byMiss=stars>0&&stars<3&&helpCount(x)===0;
@@ -1604,11 +1658,32 @@ const ACT={
  zoom(d){if(pv)pvZoom(+d.d>0?1.5:1/1.5)},
  adjFine(d){const n=d.n==='b'?'b':+d.n;adjSheet(n,(n==='b'?S.board:colorOf(n)).toLowerCase())},
  adjTake(){if(!adj)return;const hex=adjHex();setColorFor(adj.n,hex);adj=null;pv=null;sfx.step();closeSheet();render(false)},
- backup(){const data=JSON.stringify({app:'alignstix',v:1,saved:new Date().toISOString(),data:S}),name='alignstix-spielstand.json';
-  try{const f=new File([data],name,{type:'application/json'});if(window.matchMedia&&matchMedia('(pointer:coarse)').matches&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'AlignStix'}).catch(()=>{});return}}catch(e){}
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast(t('backupDone'))},
- restore(){const i=document.getElementById('impf');if(i)i.click()},
- restoreYes(){if(!pendingImport)return;const d=pendingImport;pendingImport=null;delete d.old;S=normalize(d);save();applyTheme();closeSheet();go('home',null,true);toast(t('restored'))},
+ backup(){BK2={sel:Object.fromEntries(S.players.map(p=>[p.id,true])),set:true};backupSheet()},
+ bkTog(d){BK2.sel[d.id]=!BK2.sel[d.id];sfx.tap();backupSheet()},
+ bkSet(){BK2.set=!BK2.set;sfx.tap();backupSheet()},
+ bkSave(){const b=backupData();if(!b)return;try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([b.txt],{type:'application/json'}));a.download=b.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);closeSheet();toast(t('backupDone'))}catch(e){toast(t('bkFail'))}},
+ bkShare(){const b=backupData();if(!b)return;let f=null;try{f=new File([b.txt],b.name,{type:'text/plain'})}catch(e){}
+  const go2=o=>navigator.share(o).then(()=>{closeSheet();toast(t('backupDone'))}).catch(e=>{if(!e||e.name!=='AbortError')toast(t('bkFail'))});
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]}))go2({files:[f],title:'AlignStix'});else if(navigator.share)go2({title:'AlignStix',text:b.txt});else toast(t('bkFail'))},
+ bkCopy(){const b=backupData();if(!b)return;const ok=()=>{closeSheet();toast(t('bkCopied'))};
+  const old=()=>{const ta=document.createElement('textarea');ta.value=b.txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let r=false;try{r=document.execCommand('copy')}catch(e){}ta.remove();r?ok():toast(t('bkFail'))};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(b.txt).then(ok,old);else old()},
+ restore(){openSheet(`<h2>${t('restore')}</h2><p class="note" style="margin-top:6px">${t('rsP')}</p><div class="stack" style="margin-top:14px"><button class="btn pri wide" data-act="rsFile">${t('rsFile')}</button><button class="btn ton wide" data-act="rsPaste">${t('rsPaste')}</button></div>`)},
+ rsFile(){const i=document.getElementById('impf');if(i)i.click()},
+ rsPaste(){openSheet(`<h2>${t('rsPaste')}</h2><p class="note" style="margin-top:6px">${t('rsPasteP')}</p><div class="field" style="margin-top:12px"><textarea id="rstxt" rows="5" style="width:100%;font:13px/1.35 ui-monospace,monospace;border-radius:14px;padding:10px;border:2px solid var(--line);background:var(--card2);color:var(--ink)"></textarea></div><div class="stack"><button class="btn pri wide" data-act="rsPasteGo">${t('rsCheck')}</button></div>`);
+  if(navigator.clipboard&&navigator.clipboard.readText)navigator.clipboard.readText().then(x=>{const el=document.getElementById('rstxt');if(el&&!el.value&&/alignstix/.test(x||''))el.value=x}).catch(()=>{})},
+ rsPasteGo(){const el=document.getElementById('rstxt');importText(el?el.value:'')},
+ rsTog(d){const r=RS2&&RS2.rows[+d.i];if(!r)return;r.take=!r.take;sfx.tap();restoreSheet()},
+ rsMode(d){const r=RS2&&RS2.rows[+d.i];if(!r)return;r.asNew=d.v==='new';sfx.tap();restoreSheet()},
+ rsDel(d){if(!RS2)return;RS2.del[d.id]=!RS2.del[d.id];sfx.tap();restoreSheet()},
+ rsSet(){if(!RS2)return;RS2.set=!RS2.set;sfx.tap();restoreSheet()},
+ restoreYes(){if(!RS2)return;const R2=RS2;let add=0;const keep=R2.rows.filter(r=>r.take&&r.match&&!r.asNew).map(r=>r.match.id),need=S.players.length+R2.rows.filter(r=>r.take&&(!r.match||r.asNew)).length>6;if(need)S.players=S.players.filter(p=>!(R2.del[p.id]&&!keep.includes(p.id)));
+  R2.rows.forEach(r=>{if(!r.take)return;const q=JSON.parse(JSON.stringify(r.p));
+   if(r.match&&!r.asNew){const k=S.players.findIndex(x=>x.id===r.match.id);q.id=r.match.id;if(k>=0)S.players[k]=q}
+   else{if(S.players.length>=6)return;if(S.players.some(x=>x.id===q.id))q.id='p'+Date.now().toString(36)+Math.floor(Math.random()*1e4);if(r.match&&r.asNew)q.name=(q.name+' ²').slice(0,14);S.players.push(q);add++}});
+  if(R2.set&&R2.settings){const st=R2.settings;['lang','theme','sound','haptic','colors','board','fs','pref3d','seen'].forEach(k=>{if(st[k]!==undefined)S[k]=st[k]})}
+  const first=R2.rows.find(r=>r.take);if(first&&!S.players.some(x=>x.id===S.active))S.active=S.players[0].id;
+  RS2=null;S=normalize(S);save();applyTheme();closeSheet();go('home',null,true);toast(t('restored'))},
  askLvReplay(d){openSheet(`<h2>${esc(t('lvReplayQ',{lv:t('lv')[+d.l]}))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('lvReplayP',{n:lvStars(+d.l)}))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn pri" style="flex:1" data-act="lvReplay" data-l="${d.l}">${t('lvReplayGo')}</button></div>`)},
  lvReplay(d){const l=+d.l,p=P();p.lvBest=p.lvBest||{};p.lvBest[l]=Math.max(p.lvBest[l]||0,lvStars(l));byLv[l].forEach(x=>{delete p.done[x.id];delete p.task[x.id]});save();closeSheet(true);sfx.tap();render(true)},
  askTaskReset(){openSheet(`<h2>${esc(t('taskResetQ'))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('taskResetP'))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn bad" style="flex:1" data-act="taskReset">${t('taskReset')}</button></div>`)},

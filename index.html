@@ -1008,7 +1008,7 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='1.2';
+const APP_VERSION='1.4';
 /* Link zum 3D-Druck-Projekt auf MakerWorld. Leer = wird nirgends angezeigt. */
 const MW_URL='';
 const APP_URL='https://remarcable1.github.io/AlignStiX/';
@@ -1161,8 +1161,7 @@ document.addEventListener('pointermove',e=>{if(!swp||swp.done)return;const dx=e.
 document.addEventListener('pointerup',()=>{clearTimeout(lpT);if(swp&&(swp.done||swp.moved))swallow=Date.now();swp=null});
 document.addEventListener('pointercancel',()=>{swp=null});
 /* Seiten-Zoom verhindern (iOS ignoriert user-scalable=no); nur das Spielfeld lässt sich mit zwei Fingern zoomen */
-['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
-document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
+
 /* Spielfeld zoomen: zwei Finger auseinander/zusammen, dabei verschieben */
 const BZ={s:1,x:0,y:0},bzP=new Map();let bzG=null;
 function bzApply(w,anim){w=w||document.querySelector('.task .bwrap');if(!w)return;w.style.transition=anim?'transform .3s cubic-bezier(.2,.8,.2,1)':'none';w.style.transformOrigin='0 0';w.style.transform=BZ.s>1.001?`translate(${BZ.x}px,${BZ.y}px) scale(${BZ.s})`:'';const b=w.closest('.bbox');if(b)b.classList.toggle('zoomed',BZ.s>1.001)}
@@ -1401,8 +1400,13 @@ function flipEnd(fl){if(!fl)return;const E='cubic-bezier(.2,.8,.2,1)';fl.forEach
  if(o.kids)[...e.children].forEach((c,i)=>{if(o.kids[i]!==c.outerHTML)c.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:340,easing:E,delay:Math.min(i,3)*45,fill:'backwards'})})})}
 function setSteps(si){const el=document.getElementById('steps');if(el&&el.dataset.si!==String(si)){el.dataset.si=si;el.innerHTML=stepsHTML(si)}}
 function redrawTask(only){const x=TASKS[R.i];const b=document.getElementById('bd');if(!b){render(false);return}const fl=flipStart();const keepH=T.boom?[...b.querySelectorAll('.fly.h')].map(f=>[f.dataset.row,f.style.getPropertyValue('--lz'),f.classList.contains('tilt')]):null;
- b.innerHTML=taskBoard(x,!!only,only);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
- const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx();real3d();slideFx(b);if(keepH)boomDrop(b,keepH)}
+ /* 3D: liegende Stäbe nicht neu erzeugen – sonst zeichnet das Handy sie einen Moment lang leer/dunkel */
+ const oldF=T.boom?[...b.children].filter(f=>f.classList.contains('fly')&&(!f.classList.contains('keep')||f.classList.contains('landed'))):[];
+ if(oldF.length){[...b.childNodes].forEach(n=>{if(!oldF.includes(n))n.remove()});b.insertAdjacentHTML('afterbegin',taskBoard(x,!!only,only))}else b.innerHTML=taskBoard(x,!!only,only);document.getElementById('panel').innerHTML=taskPanel(x);const th=document.getElementById('thead');if(th)th.innerHTML=taskHead(x);
+ const ph=taskPhase(x);setSteps(ph==='setup'?0:ph==='solve'?(T.check?2:1):3);T.animKey=null;flipEnd(fl);landFx();real3d();
+ if(oldF.length){const ol=oldF.slice();[...b.querySelectorAll('.fly.stay')].filter(f=>!ol.includes(f)).forEach(nf=>{const fb=nf.querySelector('.flb'),i=oldF.findIndex(o=>o.dataset.rod===nf.dataset.rod&&o.dataset.row===nf.dataset.row&&o.classList.contains('v')===nf.classList.contains('v')&&o.querySelector('.flb').innerHTML===fb.innerHTML);if(i<0)return;const o=oldF.splice(i,1)[0];o.className=nf.className;o.setAttribute('style',nf.getAttribute('style'));nf.remove()});
+ oldF.forEach(o=>o.remove())}
+ slideFx(b);if(keepH)boomDrop(b,keepH)}
 function rulesDemo(){xFill();const b=document.querySelector('.demo3 .bdx');if(!b)return;real3d(false,b);b.querySelectorAll('.fly').forEach(f=>f.classList.add('landed'))}
 /* Höhe der oberen Stäbe im 3D-Modus: beim Aufbauen liegen sie, danach gestaffelt angehoben */
 const dLz=r=>(12+(4-(+r))*5)+'cqw',liftLz=r=>taskPhase(TASKS[R.i])==='setup'?'0cqw':dLz(r);
@@ -1754,6 +1758,13 @@ if(window.matchMedia)try{matchMedia('(prefers-color-scheme:dark)').addEventListe
  document.addEventListener('touchstart',e=>{py=e.touches.length===1?e.touches[0].clientY:0},{passive:true});
  document.addEventListener('touchmove',e=>{if(!py||e.touches.length!==1||!e.cancelable)return;if(e.target.tagName==='INPUT')return;if(e.touches[0].clientY-py>6&&top(e))e.preventDefault()},{passive:false})}
 
+/* Seiten-Zoom sperren – auch in Browsern, die user-scalable=no ignorieren (z. B. Samsung Internet).
+   Zwei Finger auf der Seite: Browser-Geste verhindern. Das Brett-Zoomen läuft über Pointer-Events weiter. */
+{const nz=e=>{if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()};
+ document.addEventListener('touchstart',nz,{passive:false,capture:true});
+ document.addEventListener('touchmove',nz,{passive:false,capture:true});
+ ['gesturestart','gesturechange','gestureend'].forEach(n=>document.addEventListener(n,e=>e.preventDefault(),{passive:false}));
+ document.addEventListener('dblclick',e=>{if(!e.target.closest('input,textarea'))e.preventDefault()},{passive:false})}
 /* QR-Code-Erzeugung: QRCode for JavaScript, (c) 2009 Kazuhiko Arase, MIT-Lizenz. "QR Code" ist eine Marke der DENSO WAVE INCORPORATED. */
 const QRLIB=(()=>{const M={};const req=n=>M[n.replace('./','')];
 (()=>{const module={exports:{}};const require=req;module.exports = {

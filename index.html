@@ -710,7 +710,7 @@ a.newb span,a.newb small{text-decoration:none}
 
 /* Schriftgröße (Einstellungen) und Spielfeld-Zoom */
 #app,#sheet,#toast,#pov{zoom:var(--uiz,1)}
-html,body{touch-action:manipulation}
+html,body{touch-action:pan-x pan-y}
 .task .bbox{touch-action:pan-y}
 .task .bbox.zoomed{overflow:hidden;touch-action:none}
 
@@ -728,6 +728,20 @@ html,body{touch-action:manipulation}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .prow.pk.del.on{border-color:var(--bad)}.prow.pk.del .ck.on{background:var(--bad);border-color:var(--bad)}
 
+.btn.trb{flex-direction:column;align-items:flex-start;text-align:left;gap:2px;padding:14px 20px}.btn.trb small{font-weight:500;font-size:14px;line-height:1.35;opacity:.85}
+
+/* Aufgabe: Zurück- und Start-Knopf als klar erkennbare Knöpfe */
+.task .tbar .ib{background:var(--card);box-shadow:0 0 0 1.5px var(--line)}
+.task .tbar .ib.hm{background:var(--pri);color:#fff;box-shadow:none}
+.task .tbar .ib:active{transform:scale(.94)}
+html,body{overflow-x:clip}
+.welcome .wrs{display:block;width:100%;margin-top:8px;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+.hero>span:last-child{min-width:0}
+.hero h2{overflow-wrap:anywhere}
+.hero .go{max-width:100%;white-space:normal;line-height:1.15}
+@media (max-width:520px){html[data-fs="1"] .hero{grid-template-columns:120px minmax(0,1fr);gap:14px}html[data-fs="2"] .hero{grid-template-columns:104px minmax(0,1fr);gap:12px}html[data-fs="2"] .hero h2{font-size:24px}html[data-fs="2"] .hero .go{padding:0 14px 0 10px}}
+.pfmt .seg button{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.1;height:auto;min-height:38px;padding:4px 8px}
+
 </style>
 </head>
 <body>
@@ -737,9 +751,10 @@ html,body{touch-action:manipulation}
 <script>
 const I18N={
 de:{
+ trH:'Was möchtest du zurücksetzen?',trBuild:'Nur neu aufbauen',trBuildP:'Die Stäbe noch einmal Schritt für Schritt legen. Tipps und Sterne bleiben, wie sie sind.',trAll:'Aufgabe ganz zurücksetzen',trAllP:'Aufbau, Tipps und Fehlversuche werden gelöscht. Du startest wieder mit allen Sternen.',
  placedNext:'Liegt, nächster Stab',placedLast:'Liegt, los geht’s',
  rsFullH:'Alle 6 Plätze sind belegt',rsFull1:'Wähle einen Spieler, der dafür gelöscht wird.',rsFullN:'Wähle {n} Spieler, die dafür gelöscht werden.',rsFullOk:'Diese Spieler werden beim Laden gelöscht.',rsDelOn:'Wird gelöscht',fullP:'Alle 6 Plätze sind belegt. Lösche einen Spieler mit ✕, um einen neuen anzulegen.',
- bkWho:'Was soll gesichert werden?',bkSet:'Einstellungen',bkSetP:'Sprache, Aussehen, Stab- und Brettfarben',bkSave:'Als Datei speichern',bkShare:'Teilen …',bkCopy:'Als Text kopieren',bkCopied:'Spielstand als Text kopiert. Füge ihn zum Beispiel in eine Notiz oder Nachricht ein.',bkNone:'Wähle mindestens einen Spieler aus.',bkFail:'Das hat hier nicht geklappt. Versuche „Teilen“ oder „Als Text kopieren“.',bkAllF:'alle',bkPlF:'Spieler',rsP:'Wähle die gesicherte Datei aus oder füge den kopierten Text ein. Danach entscheidest du für jeden Spieler, was übernommen wird.',rsFile:'Datei auswählen',rsPaste:'Text einfügen',rsPasteP:'Füge hier den Text ein, den du mit „Als Text kopieren“ gesichert hast.',rsCheck:'Weiter',rsFrom:'Gesichert am {d}',rsNew:'Neu auf diesem Gerät · {b} gelöst',rsSame:'Gibt es hier schon · hier {a} gelöst, in der Sicherung {b}',rsReplace:'Ersetzen',rsAsNew:'Als zweiten Spieler',rsOlder:'Achtung: In der Sicherung sind weniger Aufgaben gelöst als auf diesem Gerät.',rsSet:'Einstellungen übernehmen',rsGo:'Laden',
+ rsHave:'Ich habe schon einen Spielstand',bkWho:'Was soll gesichert werden?',bkSet:'Einstellungen',bkSetP:'Sprache, Aussehen, Stab- und Brettfarben',bkSave:'Als Datei speichern',bkShare:'Teilen …',bkCopy:'Als Text kopieren',bkCopied:'Spielstand als Text kopiert. Füge ihn zum Beispiel in eine Notiz oder Nachricht ein.',bkNone:'Wähle mindestens einen Spieler aus.',bkFail:'Das hat hier nicht geklappt. Versuche „Teilen“ oder „Als Text kopieren“.',bkAllF:'alle',bkPlF:'Spieler',rsP:'Wähle die gesicherte Datei aus oder füge den kopierten Text ein. Danach entscheidest du für jeden Spieler, was übernommen wird.',rsFile:'Datei auswählen',rsPaste:'Text einfügen',rsPasteP:'Füge hier den Text ein, den du mit „Als Text kopieren“ gesichert hast.',rsCheck:'Weiter',rsFrom:'Gesichert am {d}',rsNew:'Neu auf diesem Gerät · {b} gelöst',rsSame:'Gibt es hier schon · hier {a} gelöst, in der Sicherung {b}',rsReplace:'Ersetzen',rsAsNew:'Als zweiten Spieler',rsOlder:'Achtung: In der Sicherung sind weniger Aufgaben gelöst als auf diesem Gerät.',rsSet:'Einstellungen übernehmen',rsGo:'Laden',
  textSize:'Schriftgröße',
  fmtCards:'Karten',fmtBook:'Heft {f}',
  pfmtL:'Format',bookH:'Heft im Format {f}',bookP:'Anleitung, alle 105 Aufgaben und die Lösungen als Heft. Es passt nicht ins Spielfeld und wird daneben aufbewahrt. A5 ist handlich, A4 am besten lesbar.',
@@ -800,9 +815,10 @@ de:{
  version:'Version {v}',close:'Schließen',back:'Zurück',toHome:'Zur Startseite',stars:'{n} Sterne',updated:'Neue Version geladen'
 },
 en:{
+ trH:'What would you like to reset?',trBuild:'Just rebuild',trBuildP:'Place the sticks step by step again. Hints and stars stay as they are.',trAll:'Reset the whole task',trAllP:'Setup, hints and wrong answers are cleared. You start again with all stars.',
  placedNext:'Done, next stick',placedLast:'Done, let’s go',
  rsFullH:'All 6 places are taken',rsFull1:'Choose one player to delete for it.',rsFullN:'Choose {n} players to delete for it.',rsFullOk:'These players will be deleted when loading.',rsDelOn:'Will be deleted',fullP:'All 6 places are taken. Delete a player with ✕ to add a new one.',
- bkWho:'What should be backed up?',bkSet:'Settings',bkSetP:'Language, appearance, stick and board colours',bkSave:'Save as file',bkShare:'Share …',bkCopy:'Copy as text',bkCopied:'Progress copied as text. Paste it into a note or message, for example.',bkNone:'Choose at least one player.',bkFail:'That didn’t work here. Try “Share” or “Copy as text”.',bkAllF:'all',bkPlF:'players',rsP:'Choose the backup file or paste the copied text. Then decide for each player what to take over.',rsFile:'Choose file',rsPaste:'Paste text',rsPasteP:'Paste the text you saved with “Copy as text” here.',rsCheck:'Next',rsFrom:'Saved on {d}',rsNew:'New on this device · {b} solved',rsSame:'Already here · {a} solved here, {b} in the backup',rsReplace:'Replace',rsAsNew:'As a second player',rsOlder:'Careful: the backup has fewer solved tasks than this device.',rsSet:'Take over settings',rsGo:'Load',
+ rsHave:'I already have a saved game',bkWho:'What should be backed up?',bkSet:'Settings',bkSetP:'Language, appearance, stick and board colours',bkSave:'Save as file',bkShare:'Share …',bkCopy:'Copy as text',bkCopied:'Progress copied as text. Paste it into a note or message, for example.',bkNone:'Choose at least one player.',bkFail:'That didn’t work here. Try “Share” or “Copy as text”.',bkAllF:'all',bkPlF:'players',rsP:'Choose the backup file or paste the copied text. Then decide for each player what to take over.',rsFile:'Choose file',rsPaste:'Paste text',rsPasteP:'Paste the text you saved with “Copy as text” here.',rsCheck:'Next',rsFrom:'Saved on {d}',rsNew:'New on this device · {b} solved',rsSame:'Already here · {a} solved here, {b} in the backup',rsReplace:'Replace',rsAsNew:'As a second player',rsOlder:'Careful: the backup has fewer solved tasks than this device.',rsSet:'Take over settings',rsGo:'Load',
  textSize:'Text size',
  fmtCards:'Cards',fmtBook:'Booklet {f}',
  pfmtL:'Format',bookH:'Booklet in {f}',bookP:'Instructions, all 105 tasks and the solutions as a booklet. It doesn’t fit in the board and is kept next to it. A5 is handy, A4 is easiest to read.',
@@ -863,9 +879,10 @@ en:{
  version:'Version {v}',close:'Close',back:'Back',toHome:'Home',stars:'{n} stars',updated:'New version loaded'
 },
 fr:{
+ trH:'Que veux-tu réinitialiser ?',trBuild:'Juste reconstruire',trBuildP:'Reposer les bâtons étape par étape. Les indices et les étoiles restent tels quels.',trAll:'Réinitialiser tout le défi',trAllP:'Le montage, les indices et les erreurs sont effacés. Tu repars avec toutes les étoiles.',
  placedNext:'Posé, bâton suivant',placedLast:'Posé, c’est parti',
  rsFullH:'Les 6 places sont prises',rsFull1:'Choisis un joueur à supprimer pour cela.',rsFullN:'Choisis {n} joueurs à supprimer pour cela.',rsFullOk:'Ces joueurs seront supprimés au chargement.',rsDelOn:'Sera supprimé',fullP:'Les 6 places sont prises. Supprime un joueur avec ✕ pour en ajouter un nouveau.',
- bkWho:'Que faut-il sauvegarder ?',bkSet:'Réglages',bkSetP:'Langue, apparence, couleurs des bâtons et du plateau',bkSave:'Enregistrer comme fichier',bkShare:'Partager …',bkCopy:'Copier comme texte',bkCopied:'Progression copiée comme texte. Colle-la par exemple dans une note ou un message.',bkNone:'Choisis au moins un joueur.',bkFail:'Ça n’a pas marché ici. Essaie « Partager » ou « Copier comme texte ».',bkAllF:'tous',bkPlF:'joueurs',rsP:'Choisis le fichier de sauvegarde ou colle le texte copié. Ensuite, tu décides pour chaque joueur ce qui est repris.',rsFile:'Choisir un fichier',rsPaste:'Coller le texte',rsPasteP:'Colle ici le texte sauvegardé avec « Copier comme texte ».',rsCheck:'Suivant',rsFrom:'Sauvegardé le {d}',rsNew:'Nouveau sur cet appareil · {b} résolus',rsSame:'Déjà ici · {a} résolus ici, {b} dans la sauvegarde',rsReplace:'Remplacer',rsAsNew:'Comme 2ᵉ joueur',rsOlder:'Attention : la sauvegarde contient moins de défis résolus que cet appareil.',rsSet:'Reprendre les réglages',rsGo:'Charger',
+ rsHave:'J’ai déjà une sauvegarde',bkWho:'Que faut-il sauvegarder ?',bkSet:'Réglages',bkSetP:'Langue, apparence, couleurs des bâtons et du plateau',bkSave:'Enregistrer comme fichier',bkShare:'Partager …',bkCopy:'Copier comme texte',bkCopied:'Progression copiée comme texte. Colle-la par exemple dans une note ou un message.',bkNone:'Choisis au moins un joueur.',bkFail:'Ça n’a pas marché ici. Essaie « Partager » ou « Copier comme texte ».',bkAllF:'tous',bkPlF:'joueurs',rsP:'Choisis le fichier de sauvegarde ou colle le texte copié. Ensuite, tu décides pour chaque joueur ce qui est repris.',rsFile:'Choisir un fichier',rsPaste:'Coller le texte',rsPasteP:'Colle ici le texte sauvegardé avec « Copier comme texte ».',rsCheck:'Suivant',rsFrom:'Sauvegardé le {d}',rsNew:'Nouveau sur cet appareil · {b} résolus',rsSame:'Déjà ici · {a} résolus ici, {b} dans la sauvegarde',rsReplace:'Remplacer',rsAsNew:'Comme 2ᵉ joueur',rsOlder:'Attention : la sauvegarde contient moins de défis résolus que cet appareil.',rsSet:'Reprendre les réglages',rsGo:'Charger',
  textSize:'Taille du texte',
  fmtCards:'Cartes',fmtBook:'Livret {f}',
  pfmtL:'Format',bookH:'Livret au format {f}',bookP:'Règles, les 105 défis et les solutions sous forme de livret. Il ne tient pas dans le plateau et se range à côté. Le A5 est pratique, le A4 le plus lisible.',
@@ -926,9 +943,10 @@ fr:{
  version:'Version {v}',close:'Fermer',back:'Retour',toHome:'Accueil',stars:'{n} étoiles',updated:'Nouvelle version chargée'
 },
 es:{
+ trH:'¿Qué quieres reiniciar?',trBuild:'Solo volver a montar',trBuildP:'Colocar los palitos de nuevo paso a paso. Las pistas y estrellas se quedan como están.',trAll:'Reiniciar todo el reto',trAllP:'Se borran el montaje, las pistas y los fallos. Empiezas de nuevo con todas las estrellas.',
  placedNext:'Hecho, siguiente',placedLast:'Hecho, ¡a jugar!',
  rsFullH:'Los 6 puestos están ocupados',rsFull1:'Elige un jugador que se borrará para ello.',rsFullN:'Elige {n} jugadores que se borrarán para ello.',rsFullOk:'Estos jugadores se borrarán al cargar.',rsDelOn:'Se borrará',fullP:'Los 6 puestos están ocupados. Borra un jugador con ✕ para añadir uno nuevo.',
- bkWho:'¿Qué quieres guardar?',bkSet:'Ajustes',bkSetP:'Idioma, aspecto, colores de palitos y tablero',bkSave:'Guardar como archivo',bkShare:'Compartir …',bkCopy:'Copiar como texto',bkCopied:'Progreso copiado como texto. Pégalo, por ejemplo, en una nota o un mensaje.',bkNone:'Elige al menos un jugador.',bkFail:'Aquí no ha funcionado. Prueba «Compartir» o «Copiar como texto».',bkAllF:'todos',bkPlF:'jugadores',rsP:'Elige el archivo guardado o pega el texto copiado. Después decides para cada jugador qué se carga.',rsFile:'Elegir archivo',rsPaste:'Pegar texto',rsPasteP:'Pega aquí el texto que guardaste con «Copiar como texto».',rsCheck:'Siguiente',rsFrom:'Guardado el {d}',rsNew:'Nuevo en este dispositivo · {b} resueltos',rsSame:'Ya está aquí · {a} resueltos aquí, {b} en la copia',rsReplace:'Reemplazar',rsAsNew:'Como segundo jugador',rsOlder:'Atención: en la copia hay menos retos resueltos que en este dispositivo.',rsSet:'Cargar ajustes',rsGo:'Cargar',
+ rsHave:'Ya tengo una partida guardada',bkWho:'¿Qué quieres guardar?',bkSet:'Ajustes',bkSetP:'Idioma, aspecto, colores de palitos y tablero',bkSave:'Guardar como archivo',bkShare:'Compartir …',bkCopy:'Copiar como texto',bkCopied:'Progreso copiado como texto. Pégalo, por ejemplo, en una nota o un mensaje.',bkNone:'Elige al menos un jugador.',bkFail:'Aquí no ha funcionado. Prueba «Compartir» o «Copiar como texto».',bkAllF:'todos',bkPlF:'jugadores',rsP:'Elige el archivo guardado o pega el texto copiado. Después decides para cada jugador qué se carga.',rsFile:'Elegir archivo',rsPaste:'Pegar texto',rsPasteP:'Pega aquí el texto que guardaste con «Copiar como texto».',rsCheck:'Siguiente',rsFrom:'Guardado el {d}',rsNew:'Nuevo en este dispositivo · {b} resueltos',rsSame:'Ya está aquí · {a} resueltos aquí, {b} en la copia',rsReplace:'Reemplazar',rsAsNew:'Como segundo jugador',rsOlder:'Atención: en la copia hay menos retos resueltos que en este dispositivo.',rsSet:'Cargar ajustes',rsGo:'Cargar',
  textSize:'Tamaño de letra',
  fmtCards:'Tarjetas',fmtBook:'Cuaderno {f}',
  pfmtL:'Formato',bookH:'Cuaderno en {f}',bookP:'Reglas, los 105 retos y las soluciones en un cuaderno. No cabe en el tablero y se guarda al lado. El A5 es práctico, el A4 se lee mejor.',
@@ -990,7 +1008,7 @@ es:{
 }};
 
 'use strict';
-const APP_VERSION='1.1';
+const APP_VERSION='1.2';
 /* Link zum 3D-Druck-Projekt auf MakerWorld. Leer = wird nirgends angezeigt. */
 const MW_URL='';
 const APP_URL='https://remarcable1.github.io/AlignStiX/';
@@ -1040,7 +1058,7 @@ const ink=c=>lum(c)>=150?'#14201B':'#fff';
 const isDark=()=>document.documentElement.classList.contains('dark');
 const heroCol=()=>S.board;
 function applyBoard(){const st=document.documentElement.style,lt=lum(S.board)>=150,hc=heroCol();st.setProperty('--hero',hc||'var(--mat)');st.setProperty('--onhero',hc?(lt?'#14201B':'#fff'):'var(--onmat)');st.setProperty('--board',S.board);st.setProperty('--bi',lt?'14,31,26':'255,255,255');st.setProperty('--boardline',lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)')}
-function applyTheme(){applyBoard();document.documentElement.style.setProperty('--uiz',[1,1.12,1.25][S.fs|0]||1);const d=S.theme==='dark'||(S.theme==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.lang=S.lang;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#09120F':'#EEF2EE'}
+function applyTheme(){applyBoard();document.documentElement.dataset.fs=S.fs|0;document.documentElement.style.setProperty('--uiz',Math.max(1,Math.min([1,1.12,1.25][S.fs|0]||1,(window.innerWidth||400)/320)).toFixed(3));const d=S.theme==='dark'||(S.theme==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.lang=S.lang;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#09120F':'#EEF2EE'}
 const lvStyle=i=>{const L=LV[i],d=isDark();return `--lc:${d?L.dc:L.c};--lci:${d?L.dci:L.ci};--ls:${L.s};--lsi:${L.si}`};
 
 /* ---------- Spiellogik ---------- */
@@ -1286,7 +1304,7 @@ function taskPanel(x){const ph=taskPhase(x),st=ts(x),d=P().done[x.id];
   return `<div class="lrow"><span class="lbl">${t('setupStep',{a:n+1,b:x.order.length})}</span><span class="lnks">${n>0?`<button class="lnk" data-act="resetSetup">${t('rebuildS')}</button>`:''}${x.order.length-n>1?`<button class="lnk" data-act="showAll">${t('showAllS')}</button>`:''}</span></div><div class="slist">${clueRow(s,true)}</div>
   <div class="cta"><button class="btn pri" style="flex:1" data-act="placed">${ic('check')}${t(x.order.length-n>1?'placedNext':'placedLast')}</button></div>`}
  if(ph==='solve'){const hp=st.help||{},rest=x.open.filter(s=>!hp[s.k]).map(s=>s.rod).sort((a,b)=>a-b),n=x.open.filter(s=>!(hp[s.k]>=2)).length;
-  return `<div class="lrow"><span class="lbl">${rest.length?t('left'):''}</span><span class="lnks"><button class="lnk" data-act="askTaskReset">${t('taskResetS')}</button><button class="lnk" data-act="showSetup">${t('showSetup')}</button></span></div>${rest.length?`<div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
+  return `<div class="lrow"><span class="lbl">${rest.length?t('left'):''}</span><button class="lnk" data-act="askTaskReset">${t('taskResetS')}</button></div>${rest.length?`<div class="tray">${rest.map(r=>{const c=colorOf(r);return `<button class="chip" style="background:${c};color:${ink(c)}" data-act="rod" data-n="${r}" aria-label="${esc(t('stick',{n:r}))}">${r}</button>`}).join('')}</div>`:''}
   <div class="cta"><button class="btn ton" data-act="tip">${ic('bulb')}${t('tip')}</button><button class="btn pri" data-act="check">${ic('check')}${t('check')}</button></div>`}
  const nx=nextAfter(x);
  if(ph==='win'){const s=R.win.stars;return `<div class="win"><div class="banner">${s>0?t('winH')[x.n%3]:t('seen')}</div>${s>0?starRow(s,'big'):''}<p style="color:var(--ink2);margin-top:6px">${t(R.win.miss?'winMiss':'win'+s)}</p>
@@ -1357,6 +1375,7 @@ function viewWelcome(){return `<main class="welcome">${logo('logo')}<h1>${t('wel
  <div class="form"><label for="nm">${t('nameQ')}</label><div class="field"><input id="nm" maxlength="14" autocomplete="off" placeholder="${esc(t('namePh'))}"></div>
  <label style="margin-top:18px">${t('pickShape')}</label>${avatarPick(W.av)}
  <button class="btn pri" data-act="start">${t('start')}</button>
+ <button class="btn txt wrs" data-act="restore">${t('rsHave')}</button>
  <div class="langs">${LANGS.map(l=>`<button class="${S.lang===l?'on':''}" data-act="lang" data-l="${l}">${l.toUpperCase()}</button>`).join('')}</div></div></main>`}
 
 function draw(anim){const el=document.getElementById('app');let h;
@@ -1404,18 +1423,26 @@ function boomDrop(b,keepH){const ph=taskPhase(TASKS[R.i]),setup=ph==='setup',was
 /* ---------- Teilen: Bildkarte ---------- */
 let shareImg=null;
 const shareURL=x=>location.origin+location.pathname+'#a'+x.n;
-function cardSVG(x){const hc=heroCol()||'#0F4F41',hi=lum(hc)>=150?'#14201B':'#fff';const W=1080,H=1350,L=LV[x.lv],lt=lum(S.board)>=150,bi=lt?'14,31,26':'255,255,255',bl=lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)',F=getComputedStyle(document.documentElement).getPropertyValue('--font').trim().replace(/"/g,"'")||'sans-serif';
- let bd=boardSVG({sticks:x.clues.map(s=>({s,kind:'given'}))}).replace(/var\(--boardline\)/g,bl).replace(/var\(--board\)/g,S.board).replace('<svg class="board"','<svg x="100" y="380" width="880" height="880"');
- const css=`text{font-family:${F};font-weight:800;text-anchor:middle;dominant-baseline:central}.slot rect{fill:rgba(${bi},.05);stroke:rgba(${bi},.3);stroke-width:2;stroke-dasharray:7 7}.stk .body{stroke:rgba(${bi},.32)}.ix{fill:rgba(${bi},.55);font-size:17px;font-weight:700}.veil,.ring,.stk.H .gv{display:none}`;
- const lg=logo().replace('<svg class=""','<svg x="80" y="62" width="76" height="76"'),lvT=esc(t('lv')[x.lv]),cw=Math.round(lvT.length*21+70),miss=x.open.length;
+function cardSVG(x){/* Teilen-Bild: wie die Aufgabenkarte (echte Draufsicht, übrige Stäbe), im Farbkleid der App */
+ const hc=heroCol()||'#0F4F41',hi=lum(hc)>=150?'#14201B':'#fff',W=1080,H=1350,L=LV[x.lv],F=getComputedStyle(document.documentElement).getPropertyValue('--font').trim().replace(/"/g,"'")||'sans-serif';
+ let bd=boardSVG({sticks:x.clues.map(s=>({s,kind:'given'}))});const c0=bd.indexOf('<g class="stk');bd=(c0>0?bd.slice(0,c0):bd.replace('</svg>',''))+x.clues.filter(s=>s.ax==='V').map(s=>topStick(s,true)).join('')+x.clues.filter(s=>s.ax==='H').map(s=>topStick(s,true)).join('')+'</svg>';
+ const lt=lum(S.board)>=150,bi=lt?'14,31,26':'255,255,255';bd=bd.replace(/var\(--boardline\)/g,lt?'rgba(14,31,26,.1)':'rgba(255,255,255,.08)').replace(/var\(--board\)/g,S.board).replace('<svg class="board"','<svg x="72" y="384" width="760" height="760"');
+ const css=`text{font-family:${F};font-weight:800;text-anchor:middle;dominant-baseline:central}.slot rect{fill:rgba(${bi},.05);stroke:rgba(${bi},.3);stroke-width:2;stroke-dasharray:7 7}.ix{fill:rgba(${bi},.55);font-size:17px;font-weight:700}.stk .ring,.stk .sh,.stk .bev{display:none}`;
+ const lg=logo().replace('<svg class=""','<svg x="72" y="62" width="76" height="76"'),lvT=esc(t('lv')[x.lv]),cw=Math.round(lvT.length*21+70),miss=x.open.length;
+ const rest=x.open.map(s=>s.rod).sort((a,b)=>a-b),ch=Math.min(92,Math.floor(640/Math.max(1,rest.length))-12);
+ const chips=rest.map((r,k)=>{const col=colorOf(r),y=444+k*(ch+12);return `<rect x="${956-ch/2}" y="${y}" width="${ch}" height="${ch}" rx="${ch*.28}" fill="${col}" stroke="rgba(0,0,0,.25)" stroke-width="3"/><text x="956" y="${y+ch/2+2}" font-size="${ch*.5}" fill="${ink(col)}">${r}</text>`}).join('');
+ const qr=qrSVG(APP_URL+'#a'+x.n).replace('<svg class="qr"','<svg x="72" y="1178" width="120" height="120"');
  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><style>${css}.c{font-family:${F};text-anchor:start;dominant-baseline:auto}</style>
- <rect width="${W}" height="${H}" fill="${hc}"/><circle cx="${W+80}" cy="-60" r="420" fill="${hi}" fill-opacity=".05"/><circle cx="-120" cy="${H+40}" r="360" fill="${hi}" fill-opacity=".04"/>
- ${lg}<text class="c" x="174" y="116" font-size="44" font-weight="800" fill="${hi}">AlignStix</text>
- <rect x="${W-80-cw}" y="70" width="${cw}" height="60" rx="30" fill="${L.s}"/><text x="${W-80-cw/2}" y="101" font-size="32" fill="${L.si}">${lvT}</text>
- <text class="c" x="80" y="262" font-size="104" font-weight="800" fill="${hi}" letter-spacing="-3">${esc(t('task',{n:x.n}))}</text>
- <text class="c" x="82" y="330" font-size="40" font-weight="600" fill="${hi}" fill-opacity=".78">${esc(t('shareQ'))}</text>
- <clipPath id="bc"><rect x="100" y="380" width="880" height="880" rx="60"/></clipPath><rect x="100" y="392" width="880" height="880" rx="60" fill="#000" fill-opacity=".22"/><g clip-path="url(#bc)">${bd.replace(/<svg([^>]*)>/,'<svg$1><style>'+css+'</style>')}</g>
- <text x="${W/2}" y="1308" font-size="34" font-weight="700" fill="${hi}" fill-opacity=".72">${esc(t(miss===1?'shareMiss1':'shareMiss',{n:miss}))}</text></svg>`}
+ <rect width="${W}" height="${H}" fill="${hc}"/><circle cx="${W+80}" cy="-60" r="420" fill="${hi}" fill-opacity=".05"/>
+ ${lg}<text class="c" x="166" y="116" font-size="44" font-weight="800" fill="${hi}">AlignStix</text>
+ <rect x="${W-72-cw}" y="70" width="${cw}" height="60" rx="30" fill="${L.s}"/><text x="${W-72-cw/2}" y="101" font-size="32" fill="${L.si}">${lvT}</text>
+ <text class="c" x="72" y="262" font-size="104" font-weight="800" fill="${hi}" letter-spacing="-3">${esc(t('task',{n:x.n}))}</text>
+ <text class="c" x="74" y="330" font-size="40" font-weight="600" fill="${hi}" fill-opacity=".8">${esc(t('shareQ'))}</text>
+ <rect x="72" y="396" width="760" height="760" rx="44" fill="#000" fill-opacity=".22"/><clipPath id="bc"><rect x="72" y="384" width="760" height="760" rx="44"/></clipPath><g clip-path="url(#bc)">${bd.replace(/<svg([^>]*)>/,'<svg$1><style>'+css+'</style>')}</g><rect x="73.5" y="385.5" width="757" height="757" rx="43" fill="none" stroke="${hi}" stroke-opacity=".16" stroke-width="3"/>
+ <text x="956" y="408" font-size="28" fill="${hi}" fill-opacity=".8">${esc((BKS[S.lang]||BKS.en).rest)}</text>${chips}
+ <rect x="64" y="1170" width="136" height="136" rx="18" fill="#fff"/>${qr}
+ <text class="c" x="228" y="1222" font-size="34" font-weight="800" fill="${hi}">${esc(t(miss===1?'shareMiss1':'shareMiss',{n:miss}))}</text>
+ <text class="c" x="228" y="1272" font-size="30" font-weight="600" fill="${hi}" fill-opacity=".75">${esc(APP_URL.replace(/^https:\/\//,'').replace(/\/$/,''))}</text></svg>`}
 function makeCard(x){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{try{const c=document.createElement('canvas');c.width=1080;c.height=1350;c.getContext('2d').drawImage(img,0,0);c.toBlob(b=>b?res(b):rej(),'image/png')}catch(e){rej(e)}};img.onerror=rej;img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(cardSVG(x))})}
 function shareSheet(x){const can=!!navigator.share;
  openSheet(`<h2>${t('share')}</h2><div class="shcard" id="shc"><div class="shph"></div></div><p class="note" style="margin-top:10px">${t('shareNote')}</p><div class="stack"><button class="btn pri wide" data-act="${can?'shareGo':'copyLink'}" id="shgo" disabled>${ic('share')}${t(can?'shareBtn':'copyLink')}</button><button class="btn txt wide" data-act="saveImg" id="shsave" disabled>${t('saveImg')}</button></div>`);
@@ -1690,7 +1717,7 @@ const ACT={
   RS2=null;S=normalize(S);save();applyTheme();closeSheet();go('home',null,true);toast(t('restored'))},
  askLvReplay(d){openSheet(`<h2>${esc(t('lvReplayQ',{lv:t('lv')[+d.l]}))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('lvReplayP',{n:lvStars(+d.l)}))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn pri" style="flex:1" data-act="lvReplay" data-l="${d.l}">${t('lvReplayGo')}</button></div>`)},
  lvReplay(d){const l=+d.l,p=P();p.lvBest=p.lvBest||{};p.lvBest[l]=Math.max(p.lvBest[l]||0,lvStars(l));byLv[l].forEach(x=>{delete p.done[x.id];delete p.task[x.id]});save();closeSheet(true);sfx.tap();render(true)},
- askTaskReset(){openSheet(`<h2>${esc(t('taskResetQ'))}</h2><p class="note" style="margin-top:8px;font-size:16px">${esc(t('taskResetP'))}</p><div class="cta"><button class="btn ton" data-act="closeSheet">${t('cancel')}</button><button class="btn bad" style="flex:1" data-act="taskReset">${t('taskReset')}</button></div>`)},
+ askTaskReset(){openSheet(`<h2>${esc(t('trH'))}</h2><div class="stack" style="margin-top:14px"><button class="btn ton wide trb" data-act="resetSetup"><b>${t('trBuild')}</b><small>${t('trBuildP')}</small></button><button class="btn ton wide trb" data-act="taskReset"><b>${t('trAll')}</b><small>${t('trAllP')}</small></button><button class="btn txt wide" data-act="closeSheet">${t('cancel')}</button></div>`)},
  taskReset(){const x=TASKS[R.i];delete P().task[x.id];save();T.hl=null;T.check=null;T.animKey=null;closeSheet(true);sfx.tap();render(true)},
  resetSetup(){const x=TASKS[R.i];ts(x).setup=0;save();T.hl=null;T.animKey='step';closeSheet();sfx.tap();redrawTask()},
  setColor(d){setColorFor(d.n==='b'?'b':+d.n,d.c);closeSheet();render(false)},
@@ -3239,6 +3266,8 @@ function printBook(std,fmt){let el=document.getElementById('print');if(el)el.rem
  ps.textContent=fmt==='A5'?'@page{size:A5;margin:0}#print.a5 .page{zoom:.70711}':'';el.classList.toggle('a5',fmt==='A5');document.body.classList.add('printing');return el}
 /* ---------- Start ---------- */
 applyTheme();
+/* große Schrift auf schmalen Handys nur so weit, wie der Platz reicht */
+{let rzT=0;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>document.documentElement.style.setProperty('--uiz',Math.max(1,Math.min([1,1.12,1.25][S.fs|0]||1,(window.innerWidth||400)/320)).toFixed(3)),150)})}
 try{history.replaceState({view:'home'},'')}catch(e){}
 let sharedN=0;{const m=/^#a(\d{1,3})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=TASKS.length)sharedN=+m[1];if(location.hash)try{history.replaceState({view:'home'},'',location.pathname+location.search)}catch(e){}}
 function openShared(){if(!sharedN||!S.players.length)return false;const n=sharedN;sharedN=0;R={view:'task',i:n-1,from:'home'};try{history.pushState({view:'task',i:n-1,from:'home'},'')}catch(e){}render(true);setTimeout(()=>toast(t('shared',{n})),500);return true}
